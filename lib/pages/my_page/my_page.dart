@@ -20,7 +20,7 @@ class MyPage extends StatelessWidget {
           children: [
             SwitchContext(),
             Obx(() => controller.selectPage.value == 0
-                ? Inseng4Cut() : PhotoAlbum(),
+                ? Expanded(child: Inseng4Cut()) : PhotoAlbum(),
             )
           ],
         ),
