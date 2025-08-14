@@ -1,0 +1,51 @@
+name: conever
+description: "A new Flutter project."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.7.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  kakao_flutter_sdk: ^1.5.0
+  flutter_secure_storage: ^9.0.0
+  kakao_flutter_sdk_user: ^1.4.3
+  expandable: ^5.0.1
+  table_calendar: ^3.2.0
+  cupertino_icons: ^1.0.8
+  get: ^4.6.6
+  flutter_dotenv: ^5.1.0
+  web_socket_channel: ^3.0.2
+  dio: ^5.8.0+1
+  intl: ^0.20.2
+  dropdown_search: ^5.0.6
+  image_gallery_saver: ^2.0.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  assets:
+    - .env
+
+    - assets/buttons/kakao_login_button.png
+
+    - assets/icons/icon.png
+    - assets/icons/ask_add_page_icon.png
+    - assets/icons/final_add_page_icon.png
+
+    - assets/images/loading2_1.png
+    - assets/images/loading2_2.png
+    - assets/images/loading2_3.png
+    - assets/images/seoul_image.jpg
+
+    - assets/dummy/dummy_image1.png
+    - assets/dummy/dummy_image2.png
+    - assets/dummy/dummy_image3.png
+    - assets/dummy/dummy_image4.png
