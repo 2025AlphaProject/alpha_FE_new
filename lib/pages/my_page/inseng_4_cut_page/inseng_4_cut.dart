@@ -18,22 +18,25 @@ class Inseng4Cut extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              const Text(
-                '동언님의 아카이브',
-                style: TextStyle(fontWeight: FontWeight.w900, fontSize: 20),
-              ),
-              const SizedBox(width: 6),
-              Text(
-                '${imagePaths.length}장',
-                style: TextStyle(
-                  fontWeight: FontWeight.w900,
-                  fontSize: 15,
-                  color: Colors.grey[500],
+          Padding(
+            padding: const EdgeInsets.only(left: 25.0),
+            child: Row(
+              children: [
+                const Text(
+                  '동언님의 아카이브',
+                  style: TextStyle(fontWeight: FontWeight.w900, fontSize: 20),
                 ),
-              ),
-            ],
+                const SizedBox(width: 6),
+                Text(
+                  '${imagePaths.length}장',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w900,
+                    fontSize: 15,
+                    color: Colors.grey[500],
+                  ),
+                ),
+              ],
+            ),
           ),
           SizedBox(height: 38),
           Expanded(
