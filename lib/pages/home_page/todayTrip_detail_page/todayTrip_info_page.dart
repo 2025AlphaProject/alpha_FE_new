@@ -1,3 +1,4 @@
+import 'package:conever/controllers/home_page_controller.dart';
 import 'package:conever/pages/home_page/todayTrip_detail_page/todayTrip_place_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,8 +12,13 @@ class TodayTripInfoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    // 더미 데이터 목록
-    final items = List.generate(8, (i) => '장소 이름 ${i + 1}');
+    final c =
+        Get.isRegistered<HomePageController>()
+            ? Get.find<HomePageController>()
+            : Get.put<HomePageController>(
+              HomePageController(),
+              permanent: true,
+            );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,44 +38,68 @@ class TodayTripInfoPage extends StatelessWidget {
         // 카테고리 칩 영역 (가로 스크롤)
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              buildTag(context, '전체', selected: true),
-              SizedBox(width: size.width * 0.02),
-              buildTag(context, '음식점'),
-              SizedBox(width: size.width * 0.02),
-              buildTag(context, '스포츠'),
-              SizedBox(width: size.width * 0.02),
-              buildTag(context, '숙박'),
-            ],
-          ),
+          child: Obx(() {
+            final cats = c.categories;
+            return Row(
+              children: [
+                for (int i = 0; i < cats.length; i++) ...[
+                  buildTag(
+                    context,
+                    _chipLabel(cats[i]),
+                    selected: c.selectedCategory.value == cats[i],
+                    onSelected: (_) => c.setCategory(cats[i]),
+                  ),
+                  if (i != cats.length - 1) SizedBox(width: size.width * 0.02),
+                ],
+              ],
+            );
+          }),
         ),
 
         // 칩과 그리드 사이 여백
         SizedBox(height: size.height * 0.015),
 
-        // 장소 카드 그리드
         Expanded(
-          child: GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: _gridCount(size.width),
-              crossAxisSpacing: size.width * 0.02,
-              mainAxisSpacing: size.width * 0.02,
-              childAspectRatio: 3 / 2.6,
-            ),
-            itemCount: items.length,
-            itemBuilder: (context, index) {
-              return PlaceCard(
-                title: items[index],
-                onTap: () {
-                  Get.to(
-                    TodayTripPlaceDetailPage(),
-                    arguments: {'title': items[index]},
-                  );
-                },
-              );
-            },
-          ),
+          child: Obx(() {
+            if (c.isLoading.value) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (c.errorMessage.value.isNotEmpty) {
+              return Center(child: Text(c.errorMessage.value));
+            }
+            final data = c.filteredPlaces;
+            if (data.isEmpty) {
+              return const Center(child: Text('해당 카테고리 장소가 없습니다'));
+            }
+            return GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: _gridCount(size.width),
+                crossAxisSpacing: size.width * 0.02,
+                mainAxisSpacing: size.width * 0.02,
+                childAspectRatio: 3 / 2.6,
+              ),
+              itemCount: data.length,
+              itemBuilder: (context, index) {
+                final p = data[index];
+                return PlaceCard(
+                  title: p.name,
+                  onTap: () {
+                    Get.to(
+                      () => const TodayTripPlaceDetailPage(),
+                      arguments: {
+                        'title': p.name,
+                        'category': p.categoryName,
+                        'region': _regionFromPlace(p),
+                        'jibun': p.address,
+                        'road': p.roadAddress,
+                        'imageUrl': p.imageUrl,
+                      },
+                    );
+                  },
+                );
+              },
+            );
+          }),
         ),
       ],
     );
@@ -81,5 +111,19 @@ class TodayTripInfoPage extends StatelessWidget {
     if (width >= 1200) return 4;
     if (width >= 900) return 3;
     return 2;
+  }
+
+  String _regionFromPlace(TourPlace p) {
+    final src = p.address.isNotEmpty ? p.address : p.roadAddress;
+    if (src.isEmpty) return '지역 정보 없음';
+    final parts = src.split(' ');
+    return parts.length >= 2 ? '${parts[0]} ${parts[1]}' : src;
+  }
+
+  String _chipLabel(String category) {
+    if (category == '전체') {
+      return '전체';
+    }
+    return '$category';
   }
 }

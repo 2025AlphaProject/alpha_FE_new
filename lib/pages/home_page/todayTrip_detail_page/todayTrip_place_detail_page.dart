@@ -105,7 +105,7 @@ class TodayTripPlaceDetailPage extends StatelessWidget {
                   SizedBox(height: size.height * 0.015),
 
                   // 카테고리 뱃지
-                  _CategoryBadge(label: category),
+                  CategoryBadge(context, category),
 
                   // 뱃지와 제목 사이 여백
                   SizedBox(height: size.height * 0.008),
@@ -147,9 +147,9 @@ class TodayTripPlaceDetailPage extends StatelessWidget {
                   SizedBox(height: size.height * 0.012),
 
                   // 지번/도로명 주소
-                  _AddressLine(label: '지번', value: jibun),
+                  AddressLine(context, '지번', jibun),
                   SizedBox(height: size.height * 0.006),
-                  _AddressLine(label: '도로명', value: road),
+                  AddressLine(context, '도로명', road),
                 ],
               ),
             ),
@@ -191,73 +191,57 @@ class TodayTripPlaceDetailPage extends StatelessWidget {
 
 /// 카테고리 배지 뷰
 
-class _CategoryBadge extends StatelessWidget {
-  final String label;
+Widget CategoryBadge(BuildContext context, String label) {
+  final size = MediaQuery.of(context).size;
 
-  const _CategoryBadge({required this.label});
-
-  @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: size.width * 0.025,
-        vertical: size.height * 0.005,
+  return Container(
+    padding: EdgeInsets.symmetric(
+      horizontal: size.width * 0.025,
+      vertical: size.height * 0.005,
+    ),
+    decoration: BoxDecoration(
+      color: Colors.redAccent,
+      borderRadius: BorderRadius.circular(size.width * 0.02),
+    ),
+    child: Text(
+      label,
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: size.width * 0.03,
+        fontWeight: FontWeight.w600,
       ),
-      decoration: BoxDecoration(
-        color: Colors.redAccent,
-        borderRadius: BorderRadius.circular(size.width * 0.02),
-      ),
-      child: Text(
-        label,
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: size.width * 0.03,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-    );
-  }
+    ),
+  );
 }
 
 /// 주소 한 줄 표시 뷰
+Widget AddressLine(BuildContext context, String label, String value) {
+  final size = MediaQuery.of(context).size;
 
-class _AddressLine extends StatelessWidget {
-  final String label;
-  final String value;
-
-  const _AddressLine({required this.label, required this.value});
-
-  @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(
-          width: size.width * 0.12,
-          child: Text(
-            label,
-            style: TextStyle(
-              fontSize: size.width * 0.034,
-              color: Colors.grey.shade600,
-              fontWeight: FontWeight.w600,
-            ),
+  return Row(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      SizedBox(
+        width: size.width * 0.12,
+        child: Text(
+          label,
+          style: TextStyle(
+            fontSize: size.width * 0.034,
+            color: Colors.grey.shade600,
+            fontWeight: FontWeight.w600,
           ),
         ),
-        SizedBox(width: size.width * 0.01),
-        Expanded(
-          child: Text(
-            value,
-            style: TextStyle(
-              fontSize: size.width * 0.034,
-              color: Colors.grey.shade700,
-            ),
+      ),
+      SizedBox(width: size.width * 0.01),
+      Expanded(
+        child: Text(
+          value,
+          style: TextStyle(
+            fontSize: size.width * 0.034,
+            color: Colors.grey.shade700,
           ),
         ),
-      ],
-    );
-  }
+      ),
+    ],
+  );
 }
