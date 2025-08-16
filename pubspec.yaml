@@ -25,6 +25,10 @@ dependencies:
   dropdown_search: ^5.0.6
   image_gallery_saver: ^2.0.3
 
+dependency_overrides:
+  image_gallery_saver:
+    path: lib_external/image_gallery_saver
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
