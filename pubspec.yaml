@@ -38,7 +38,7 @@ flutter:
   assets:
     - .env
 
-    - assets/
+    - assets/buttons/kakao_login_button.png
 
     - assets/icons/icon.png
     - assets/icons/ask_add_page_icon.png

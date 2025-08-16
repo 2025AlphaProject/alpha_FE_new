@@ -2,9 +2,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../components/bottom_navigation_bar/app_shell.dart';
 import '../../../controllers/login_page_controller.dart';
 import '../../../services/access_token/login_and_get_id_token.dart';
-import '../../add_page/add_page_1/add_page_1_view.dart';
 
 class LoginPage3 extends StatelessWidget {
   const LoginPage3({super.key});
@@ -90,7 +90,7 @@ class LoginPage3 extends StatelessWidget {
                           jsKey: controller.kakaoJavaScriptAppKey.value
                       );
                         if (success) {
-                          Get.offAll(() => AddPage1());
+                          Get.offAll(() => AppShell());
                         } else {
                           Get.snackbar('오류 발생', '오류가 발생했습니다!');
                         }
