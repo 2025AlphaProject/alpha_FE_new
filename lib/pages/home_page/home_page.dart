@@ -1,7 +1,9 @@
 import 'package:conever/controllers/home_page_controller.dart';
-// import 'package:conever/components/home/today_trip_card.dart';
+import 'package:conever/pages/home_page/components/todayTrip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import 'todayTrip_detail_page/todayTrip_detail_page.dart';
 
 class HomePage extends GetView<HomePageController> {
   const HomePage({super.key});
@@ -29,7 +31,7 @@ class HomePage extends GetView<HomePageController> {
                   children: [
                     _buildTitleSection(context),
                     const SizedBox(height: 16),
-                    // const TodayTripCard(), // 커스텀 위젯
+                    const TodayTripCard(),
                   ],
                 ),
               ),
@@ -41,18 +43,21 @@ class HomePage extends GetView<HomePageController> {
   }
 
   Widget _buildTitleSection(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          '오늘의 여행은?',
-          style: TextStyle(
-            fontSize: MediaQuery.of(context).size.width * 0.045,
-            fontWeight: FontWeight.bold,
+    return GestureDetector(
+      onTap: () => Get.to(TodayTripDetail()),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            '오늘의 여행은?',
+            style: TextStyle(
+              fontSize: MediaQuery.of(context).size.width * 0.045,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
-        const Icon(Icons.chevron_right),
-      ],
+          const Icon(Icons.chevron_right),
+        ],
+      ),
     );
   }
 }
