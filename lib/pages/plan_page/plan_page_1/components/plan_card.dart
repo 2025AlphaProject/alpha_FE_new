@@ -1,3 +1,4 @@
+import 'package:conever/pages/plan_page/plan_page_2/plan_page_2_view.dart';
 import 'package:flutter/material.dart';
 
 import 'package:conever/pages/my_page/my_page.dart'; //페이지 연결 test용
@@ -42,7 +43,7 @@ class PlanCard extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context)=> MyPage()
+                  builder: (context)=> PlanPage2()
               ),
             );
           },
@@ -81,8 +82,8 @@ class PlanCard extends StatelessWidget {
                 Divider(
                   thickness: 1,
                   color: Color(0xFFD3351E),
-                  indent: 90,
-                  endIndent: 90,
+                  indent: 60,
+                  endIndent: 60,
                 ),
                 Row(
                   mainAxisSize: MainAxisSize.min,
