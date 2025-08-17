@@ -24,6 +24,7 @@ dependencies:
   intl: ^0.20.2
   dropdown_search: ^5.0.6
   image_gallery_saver: ^2.0.3
+  flutter_svg: ^2.2.0
 
 dependency_overrides:
   image_gallery_saver:
@@ -43,6 +44,10 @@ flutter:
     - assets/icons/icon.png
     - assets/icons/ask_add_page_icon.png
     - assets/icons/final_add_page_icon.png
+    - assets/icons/image_icon.png
+    - assets/icons/pose1_icon.png
+    - assets/icons/pose2_icon.png
+    - assets/icons/pose3_icon.png
 
     - assets/images/loading2_1.png
     - assets/images/loading2_2.png
