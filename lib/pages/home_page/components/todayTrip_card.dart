@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:conever/controllers/home_page_controller.dart';
-import 'category_build_tag.dart';
+import '../components/trip_progress_bar.dart';
 
 class TodayTripCard extends StatelessWidget {
   const TodayTripCard({super.key});
@@ -45,7 +45,7 @@ class TodayTripCard extends StatelessWidget {
         final String participantText = '${c.userCount.value}명';
         final String regionText = _regionFromPlaces(c.places);
         final int total = c.places.length;
-        final int done = 0; // TODO: 업로드 완료 개수와 연동
+        final int done = 5; // TODO: 업로드 완료 개수와 연동
         final double progress = total > 0 ? (done / total) : 0.0;
         final int percent = (progress * 100).round();
 
@@ -56,11 +56,11 @@ class TodayTripCard extends StatelessWidget {
             // 태그 리스트(현재는 더미로 유지)
             Wrap(
               spacing: 8,
-              children: [
-                buildTag(context, '음식점'),
-                buildTag(context, '스포츠'),
-                buildTag(context, '숙박'),
-              ],
+              children:
+                  c.categories
+                      .skip(1)
+                      .map((cat) => TagChip(cat, context))
+                      .toList(),
             ),
 
             // 태그와 제목 사이 여백
@@ -125,42 +125,37 @@ class TodayTripCard extends StatelessWidget {
             ),
 
             // 메타정보와 진행도 사이 여백
-            SizedBox(height: size.height * 0.02),
+            SizedBox(height: size.height * 0.035),
 
             // 진행도 표시
-            Row(
-              children: [
-                Expanded(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: LinearProgressIndicator(
-                      value: progress,
-                      minHeight: 8,
-                      backgroundColor: Colors.grey.shade300,
-                      valueColor: const AlwaysStoppedAnimation<Color>(
-                        Colors.redAccent,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  '$percent%',
-                  style: TextStyle(
-                    fontSize: size.width * 0.035,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  '$done / $total',
-                  style: TextStyle(fontSize: size.width * 0.035),
-                ),
-              ],
-            ),
+            buildProgressBar(context, progress, done, total),
           ],
         );
       }),
+    );
+  }
+
+  // TagChip: 태그 표시용 칩
+  Widget TagChip(String label, BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: size.width * 0.032,
+        vertical: size.height * 0.006,
+      ),
+      margin: EdgeInsets.only(bottom: size.height * 0.003),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: const Color(0xFFEF3F26),
+      ),
+      child: Text(
+        label,
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+          fontSize: size.width * 0.032,
+        ),
+      ),
     );
   }
 

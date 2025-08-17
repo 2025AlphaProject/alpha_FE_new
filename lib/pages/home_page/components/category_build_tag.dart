@@ -10,19 +10,17 @@ Widget buildTag(
   final size = MediaQuery.of(context).size;
 
   return ChoiceChip(
-    label: Text(
-      label,
-      style: TextStyle(
-        fontSize: size.width * 0.032,
-        fontWeight: FontWeight.w500,
-        color:
-            selected ? Colors.white : Theme.of(context).colorScheme.onSurface,
-      ),
+    label: Text(label),
+    labelStyle: TextStyle(
+      fontSize: size.width * 0.032,
+      fontWeight: FontWeight.bold,
+      color: Colors.white,
     ),
     selected: selected,
     onSelected: onSelected,
-    selectedColor: Theme.of(context).colorScheme.primary,
-    backgroundColor: Colors.grey.shade200,
+    showCheckmark: false,
+    selectedColor: const Color(0xFFEF3F26),
+    backgroundColor: const Color(0xAAEF3F26),
     shape: const StadiumBorder(),
   );
 }

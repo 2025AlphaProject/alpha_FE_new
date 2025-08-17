@@ -7,9 +7,13 @@ class TodayTripPhotosPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    // 더미 사진 목록 (비어 있으면 빈 상태 표시)
-    final photos = <String>[];
-
+    // 더미 사진 목록
+    final List<String> photos = const [
+      'assets/dummy/dummy_image1.png',
+      'assets/dummy/dummy_image2.png',
+      'assets/dummy/dummy_image3.png',
+      'assets/dummy/dummy_image4.png',
+    ];
     // 빈 상태 표시
 
     if (photos.isEmpty) {
@@ -26,28 +30,18 @@ class TodayTripPhotosPage extends StatelessWidget {
 
     // 사진 그리드 표시
 
-    return Padding(
-      padding: EdgeInsets.all(size.width * 0.02),
+    return Container(
+      color: Color(0xFFF4F4F4),
       child: GridView.builder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: _gridCount(size.width),
-          crossAxisSpacing: size.width * 0.02,
-          mainAxisSpacing: size.width * 0.02,
+          crossAxisCount: 3, //_gridCount(size.width),
+          // crossAxisSpacing: size.width * 0.02,
+          // mainAxisSpacing: size.width * 0.02,
           childAspectRatio: 1,
         ),
         itemCount: photos.length,
         itemBuilder: (context, index) {
-          return ClipRRect(
-            borderRadius: BorderRadius.circular(size.width * 0.02),
-            child: Container(
-              color: Colors.grey.shade300,
-              child: Icon(
-                Icons.photo,
-                size: size.width * 0.08,
-                color: Colors.white,
-              ),
-            ),
-          );
+          return Image.asset(photos[index], fit: BoxFit.cover);
         },
       ),
     );

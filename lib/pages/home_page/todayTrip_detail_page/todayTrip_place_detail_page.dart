@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../dummy/get_dummy_pose_list.dart';
 
 /// 장소 상세 페이지 View
 ///
@@ -30,9 +31,25 @@ class TodayTripPlaceDetailPage extends StatelessWidget {
     final jibun = (args['jibun'] ?? '지번 주소가 없습니다') as String;
     final road = (args['road'] ?? '도로명 주소가 없습니다') as String;
     final imageUrl = args['imageUrl'] as String?;
+    final id = args['id'] as num?;
+
+    // 추천 포즈 더미 데이터 로딩
+    final List<String> poseList =
+        (getDummyPoseList()['poses'] as List<dynamic>? ?? const [])
+            .map((e) => e.toString())
+            .toList();
+
+    // 각 포즈 이미지 경로는 추후 assets 경로로 교체 예정
+    final List<String> poseImages = [
+      'assets/icons/pose1_icon.png',
+      'assets/icons/pose2_icon.png',
+      'assets/icons/pose3_icon.png',
+    ];
 
     return Scaffold(
+      backgroundColor: Color(0xFFF4F4F4),
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Text(
           title,
           style: TextStyle(
@@ -40,7 +57,10 @@ class TodayTripPlaceDetailPage extends StatelessWidget {
             fontWeight: FontWeight.w700,
           ),
         ),
-        leading: const BackButton(),
+        leading: IconButton(
+          icon: const Icon(Icons.chevron_left),
+          onPressed: () => Get.back(),
+        ),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -174,13 +194,34 @@ class TodayTripPlaceDetailPage extends StatelessWidget {
             // 추천 포즈 컨텐츠 박스
             Container(
               width: double.infinity,
-              height: size.height * 0.25,
+              padding: EdgeInsets.all(size.width * 0.04),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(size.width * 0.02),
                 border: Border.all(color: Colors.grey.shade300),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.04),
+                    blurRadius: 6,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
               ),
-              child: const SizedBox.shrink(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  for (int i = 0; i < poseList.length; i++) ...[
+                    PoseItem(
+                      context,
+                      index: i,
+                      desc: poseList[i],
+                      assetPath: poseImages[i], // 빈 문자열: 이후 assets 경로로 교체
+                    ),
+                    if (i != poseList.length - 1)
+                      SizedBox(height: size.height * 0.04),
+                  ],
+                ],
+              ),
             ),
           ],
         ),
@@ -240,6 +281,71 @@ Widget AddressLine(BuildContext context, String label, String value) {
             fontSize: size.width * 0.034,
             color: Colors.grey.shade700,
           ),
+        ),
+      ),
+    ],
+  );
+}
+
+/// 포즈 아이템 뷰
+Widget PoseItem(
+  BuildContext context, {
+  required int index,
+  required String desc,
+  required String assetPath,
+}) {
+  final size = MediaQuery.of(context).size;
+
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: [
+      // 포즈 이미지 영역
+      ClipRRect(
+        borderRadius: BorderRadius.circular(size.width * 0.02),
+        child:
+            assetPath.isEmpty
+                ? Container(
+                  height: size.height * 0.24,
+                  color: Colors.grey.shade200,
+                  alignment: Alignment.center,
+                  child: Icon(
+                    Icons.image,
+                    size: size.width * 0.18,
+                    color: Colors.black26,
+                  ),
+                )
+                : Image.asset(
+                  assetPath,
+                  height: size.height * 0.24,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
+      ),
+
+      // 이미지와 텍스트 사이 여백
+      SizedBox(height: size.height * 0.02),
+
+      // 포즈 제목
+      Text(
+        '포즈 ${index + 1}.',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: size.width * 0.06,
+          fontWeight: FontWeight.w800,
+        ),
+      ),
+
+      // 제목과 설명 사이 여백
+      SizedBox(height: size.height * 0.008),
+
+      // 포즈 설명
+      Text(
+        desc,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: size.width * 0.035,
+          color: Colors.grey.shade800,
+          fontWeight: FontWeight.w500,
         ),
       ),
     ],
