@@ -55,7 +55,7 @@ class RegionBottomSheet extends StatelessWidget {
                     },
                     child: RegionCard(
                       name: regionName,
-                      imagePath: 'assets/images/placeholder.jpg',
+                      imagePath: 'http://tong.visitkorea.or.kr/cms/resource/58/3402758_image2_1.jpg',
                     ),
                   );
                 },
