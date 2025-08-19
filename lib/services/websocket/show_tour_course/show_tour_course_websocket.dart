@@ -9,14 +9,15 @@ class ShowTourCourseWebsocket {
 
   void connect({
     required int userId,
+    required int areaCode,
     required String areaName,
-    required int days,
+    required int categoryNumber,
     required Function(dynamic data) onData,
     required Function onError,
   }) {
     final uniqueCode = Random().nextInt(1 << 31);
     final wsUrl =
-        'ws://3.34.125.36:80/tour/recommend/?user_id=$userId&areaCode=1&sigunguName=$areaName&unique_code=$uniqueCode&days=$days';
+        'ws://3.34.125.36:80/tour/recommend/?user_id=$userId&areaCode=$areaCode&sigunguName=$areaName&unique_code=$uniqueCode&categoryName=12,14';
 
     _channel = WebSocketChannel.connect(Uri.parse(wsUrl));
 

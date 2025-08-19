@@ -4,21 +4,16 @@ import 'package:get/get.dart';
 import '../../../../../controllers/add_page_controller.dart';
 
 class RegionBottomSheet extends StatelessWidget {
-  final List<Map<String, String>> regions = [
-    {'name': '서울', 'image': 'assets/seoul.jpg'},
-    {'name': '부산', 'image': 'assets/busan.jpg'},
-    {'name': '대전', 'image': 'assets/daejeon.jpg'},
-    {'name': '울산', 'image': 'assets/ulsan.jpg'},
-  ];
-
-  RegionBottomSheet({super.key});
+  const RegionBottomSheet({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<AddPageController>();
+
     return DraggableScrollableSheet(
       expand: false,
       initialChildSize: 0.8,
-      builder: (_, controller) => Container(
+      builder: (_, scrollController) => Container(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,27 +34,33 @@ class RegionBottomSheet extends StatelessWidget {
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 12),
-            Expanded(
-              child: GridView.count(
-                controller: controller,
-                crossAxisCount: 2,
-                crossAxisSpacing: 12,
-                mainAxisSpacing: 12,
-                children: regions.map((region) {
+            Obx(() => Expanded(
+              child: GridView.builder(
+                controller: scrollController,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 12,
+                ),
+                itemCount: controller.sidoListName.value.length,
+                itemBuilder: (context, index) {
+                  final regionName = controller.sidoListName.value[index];
+                  // final regionImage = controller.sidoListImage.value[index];
+
                   return GestureDetector(
                     onTap: () {
-                      final controller = Get.find<AddPageController>();
-                      controller.selectedBigPlace.value = region['name']!;
+                      controller.selectedBigPlace.value = regionName;
+                      controller.fetchAreaList();
                       Get.back();
                     },
                     child: RegionCard(
-                      name: region['name']!,
-                      imagePath: region['image']!,
+                      name: regionName,
+                      imagePath: 'assets/images/placeholder.jpg',
                     ),
                   );
-                }).toList(),
+                },
               ),
-            ),
+            )),
           ],
         ),
       ),
@@ -78,7 +79,7 @@ class RegionCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage(imagePath),
+          image: NetworkImage(imagePath),
           fit: BoxFit.cover,
         ),
         borderRadius: BorderRadius.circular(12),

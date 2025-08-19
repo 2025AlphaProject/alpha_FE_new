@@ -9,7 +9,28 @@ class DropdownPlaces extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownSearch<String>(
+    final controller = Get.find<AddPageController>();
+    return Obx(() => controller.isAreaCodeLoading.value
+        ? Container(
+      margin: EdgeInsets.only(bottom: 5),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(5),
+          border: Border.all(
+            color: Colors.black,
+            width: 1,
+          )
+      ),
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 7.5),
+            child: Text('로딩중...'),
+          ),
+        ],
+      ),
+    )
+        : DropdownSearch<String>(
       popupProps: PopupProps.menu(
         menuProps: MenuProps(
           backgroundColor: Colors.white,
@@ -45,11 +66,11 @@ class DropdownPlaces extends StatelessWidget {
           thumbVisibility: true,
         ),
       ),
-      items: ['선택 X', '강남구', '송파구', '아산이 충남이엇노?', '천안도 충남이엇노?'],
-      selectedItem: '선택 X',
+      items: controller.areaListName,
+      selectedItem: controller.areaListName[0],
       onChanged: (value) {
         final controller = Get.find<AddPageController>();
-          controller.selectedSmallPlace.value = value!;
+        controller.selectedSmallPlace.value = value!;
       },
       dropdownDecoratorProps: DropDownDecoratorProps(
         dropdownSearchDecoration: InputDecoration(
@@ -64,7 +85,6 @@ class DropdownPlaces extends StatelessWidget {
           ),
         ),
       ),
-    );
+    ));
   }
-
 }
