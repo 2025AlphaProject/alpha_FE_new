@@ -18,9 +18,6 @@ class AddPage1BottomButton extends StatelessWidget {
         child: Obx(() =>
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                  // backgroundColor: controller.isButtonReady.value
-                  //     ? Color(0xFFD3351E)
-                  //     : Color(0xFFDBDBDB),
                 backgroundColor: Color(0xFFD3351E),
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
