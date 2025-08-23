@@ -1,7 +1,6 @@
 import 'package:conever/pages/plan_page/plan_page_2/plan_page_2_view.dart';
 import 'package:flutter/material.dart';
 
-import 'package:conever/pages/my_page/my_page.dart'; //페이지 연결 test용
 import 'package:conever/pages/plan_page/plan_page_1/components/d_day.dart';
 
 
@@ -68,16 +67,16 @@ class PlanCard extends StatelessWidget {
                 //     alignment: Alignment.topRight,
                 //     child: Dday(date: date),
                 // ),
-                SizedBox(height: 40),
+                SizedBox(height: height *0.042),
                 Icon( //지도 아이콘
                   Icons.map_outlined,
-                  size: 170,
+                  size: width *0.39,
                   color: Color(0xCCD3351E),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: height *0.03),
                 Text( // 여행 제목
                   title,
-                  style: const TextStyle(fontSize: 25, fontWeight: FontWeight.w900),
+                  style: TextStyle(fontSize: width *0.048, fontWeight: FontWeight.w900),
                 ),
                 Divider(
                   thickness: 1,
@@ -89,11 +88,11 @@ class PlanCard extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(Icons.calendar_today, size: 20, color: Colors.grey),
+                    Icon(Icons.calendar_today, size: width* 0.045, color: Colors.grey),
                     SizedBox(width: width * 0.013),
                     Text(
                       date,
-                      style: const TextStyle(fontSize: 10, color: Colors.grey),
+                      style: TextStyle(fontSize: width * 0.024, color: Colors.grey),
                     ),
                   ],
                 ),

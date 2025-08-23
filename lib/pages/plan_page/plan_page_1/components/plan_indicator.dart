@@ -12,8 +12,8 @@ class PlanIndicator extends StatefulWidget {
     Key? key,
     required this.controller,
     required this.count,
-    this.dotSize = 8.0,
-    this.dotActiveWidth = 24.0,
+    required this.dotSize,
+    required this.dotActiveWidth,
   }) : super(key: key);
 
   @override
@@ -55,7 +55,7 @@ class _PlanIndicatorState extends State<PlanIndicator> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final width = MediaQuery.of(context).size.width;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(widget.count, (index) {
@@ -66,7 +66,7 @@ class _PlanIndicatorState extends State<PlanIndicator> {
             : widget.dotSize;
         return AnimatedContainer(
           duration: const Duration(milliseconds: 200),
-          margin: const EdgeInsets.symmetric(horizontal: 4.0),
+          margin:  EdgeInsets.symmetric(horizontal: width * 0.4),
           width: width,
           height: widget.dotSize,
           decoration: BoxDecoration(

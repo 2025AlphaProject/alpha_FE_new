@@ -138,13 +138,16 @@ class _PlanPage2State extends State<PlanPage2> {
   };
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
     final String title = _trip['tour_name'] as String;
     final String date = (_trip['tour_date'] as String).replaceAll('-', '.');
     final List<dynamic> places = _trip['places'] as List<dynamic>;
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
-        padding: const EdgeInsets.all(0),
+        padding: EdgeInsets.all(0),
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
           child: Column(
@@ -152,13 +155,13 @@ class _PlanPage2State extends State<PlanPage2> {
             children: [
               TravelInfo(date: date, title: title, travelers:_trip['user'] as List<dynamic>),
               Container(
-                padding: EdgeInsets.fromLTRB(15,10,0,0,),
+                padding: EdgeInsets.fromLTRB(width * 0.034,height*0.01,0,0,),
                 child: Row(
                   children: [
                     Text('나의 여행지',
-                      style: TextStyle(fontSize: 25,fontWeight: FontWeight.w900),
+                      style: TextStyle(fontSize: width * 0.058, fontWeight: FontWeight.w900),
                     ),
-                    SizedBox(width: 200,),
+                    SizedBox(width: width * 0.55),
                     IconButton(
                       onPressed: () {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -169,7 +172,7 @@ class _PlanPage2State extends State<PlanPage2> {
                   ],
                 ),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: height * 0.012),
               ...places.map((e) {
                 final p = e['place'] as Map<String, dynamic>;
                 return PlaceInfo(
