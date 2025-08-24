@@ -21,6 +21,7 @@ class _FinalLoadingPageState extends State<FinalLoadingPage> {
   }
 
   Future<void> _navigateAfterDelay() async {
+    controller.postTours();
     await Future.delayed(const Duration(seconds: 1));
     Get.to(() => FinalAddPage());
   }

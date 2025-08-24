@@ -1,5 +1,7 @@
+import 'package:conever/helper/tour/filter_ai_tour_id.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../helper/tour/category/category_name_to_id.dart';
 import '../helper/tour/get_sido_list/filter_area_name.dart';
@@ -8,6 +10,7 @@ import '../helper/tour/get_sido_list/sido_code_match.dart';
 import '../helper/user/me/filter_sub.dart';
 import '../services/http/tour/get_area_list.dart';
 import '../services/http/tour/get_sido_list.dart';
+import '../services/http/tour/tour.dart';
 import '../services/http/user/me.dart';
 import '../services/websocket/show_tour_course/show_tour_course_websocket.dart';
 
@@ -23,6 +26,7 @@ class AddPageController extends GetxController {
   RxList<String> selectedCategory = <String>[].obs;
   RxSet<String> selectedIds = <String>{}.obs;
   RxList<Map<String, dynamic>> userTour = <Map<String, dynamic>>[].obs;
+  RxList<Map<String, dynamic>> userSelectedTours = <Map<String, dynamic>>[].obs;
   int get tourLength => selectedIds.length;
 
   ///API 연동 값
@@ -40,6 +44,7 @@ class AddPageController extends GetxController {
 
   final textController = TextEditingController();
   RxBool isButtonAvailable = false.obs;
+  RxList<int> userTourAIIds = <int>[].obs;
 
   @override
   void onInit() {
@@ -115,8 +120,18 @@ class AddPageController extends GetxController {
       }
     });
     userTour.assignAll(picked);
-    print(userTour);
     selectedIds.clear();
+  }
+
+  void postTours() async {
+    final filteredIds = filterAiTourId(userTour);
+    String filteredDate = DateFormat('yyyy-MM-dd').format(selectedDay.value);
+    tour(
+        tourName: selectedName.value,
+        tourDate: filteredDate,
+        aiTourPlaceIds: filteredIds,
+        userTourPlaces: userSelectedTours
+    );
   }
 
   Future<void> fetchSidoList() async {
