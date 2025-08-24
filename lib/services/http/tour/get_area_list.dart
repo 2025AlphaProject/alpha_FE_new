@@ -1,6 +1,6 @@
 import '../../dio/unauthorized_dio.dart';
 
-Future<Map<String, dynamic>> getAreaList() async {
+Future<Map<String, dynamic>> tourGetAreaList() async {
   final dio = await getUnauthorizedDio();
   try {
     final response = await dio.get('http://3.34.125.36/tour/get_area_list/');

@@ -1,6 +1,6 @@
 import '../../dio/unauthorized_dio.dart';
 
-Future<List<dynamic>> getSidoList() async {
+Future<List<dynamic>> tourGetSidoList() async {
   final dio = await getUnauthorizedDio();
   try {
     final response = await dio.get('http://3.34.125.36/tour/get_sido_list/');

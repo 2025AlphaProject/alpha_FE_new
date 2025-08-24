@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../components/bottom_navigation_bar/app_shell.dart';
-import '../../../../controllers/bottom_navigation_controller.dart';
+import '../../final_add_page/final_add_page.dart';
+import '../../final_add_page/final_loading_page.dart';
 import '../../user_add_page/user_add_page.dart';
 
 class AskAddPageBottomButton extends StatelessWidget {
@@ -15,9 +15,7 @@ class AskAddPageBottomButton extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         ElevatedButton(onPressed: () {
-          final controller = Get.find<NavigationController>();
-          controller.tabIndex.value = 0;  // 홈 페이지 이동
-          Get.offAll(() => AppShell());
+          Get.to(() => FinalLoadingPage());
         },
             style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.white,
