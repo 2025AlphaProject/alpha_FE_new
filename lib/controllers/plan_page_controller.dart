@@ -1,9 +1,13 @@
 import 'package:conever/services/http/tour/fetch_all_tours.dart';
+import 'package:conever/services/http/tour/fetch_tour_courses.dart';
+import 'package:conever/services/http/user/fetch_all_users.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class PlanPageController extends GetxController{
   var cards = <Map<String,dynamic>>[].obs; //여행 카드 정보 저장
+  var course = <String,dynamic>{}.obs; // 선택된 여행의 장소 코스 정보
+  var user = <Map<String,dynamic>>[].obs; //전체 유저 정보 가져오기
   final sortCriteria = '날짜순'.obs;
   late final PageController pageController;
 
@@ -12,16 +16,39 @@ class PlanPageController extends GetxController{
     super.onInit();
     pageController = PageController(viewportFraction: 0.85);
     _loadTours();
+    _userList();
   }
 
+  //내 여행 전부 가져오기
   Future<void> _loadTours() async {
     try{
       final data = await fetchAllTours();
       cards.assignAll(data.cast<Map<String,dynamic>>());
-      print('여기서 : $cards');
       _sortCards();
     } catch (e){
-      print(e);
+      print('내 여행 가져오기 에러 : $e');
+    }
+  }
+
+  // 특정 여행 정보 가져오기
+  Future<void> tourCourse(int tourId) async {
+    try {
+      final data = await fetchTourCourses(tourId);
+      final parsed = Map<String, dynamic>.from(data);
+      course.assignAll(parsed);
+      print('test: $parsed');;
+    } catch (e) {
+      print('특정 여행정보 에러 : $e');
+    }
+  }
+
+  //전체 유저 정보 가져오기
+  Future<void> _userList() async{
+    try{
+      final data = await fetchAllUsers();
+      user.assignAll(data.cast<Map<String,dynamic>>());
+    }catch(e){
+      print('유저리스트 에러 : $e');
     }
   }
 

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:conever/controllers/plan_page_controller.dart';
 
 import '../../plan_page_1/components/d_day.dart';
+import '../../add_user_page/add_user_page_view.dart';
 
 class TravelInfo extends StatelessWidget {
   final String date;
@@ -100,6 +102,7 @@ class Travelers extends StatelessWidget {
                 }),
                 GestureDetector(
                   onTap: () {
+                    Get.to(() => addUser());
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('초대버튼 누름')),
                     );},

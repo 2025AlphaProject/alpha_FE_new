@@ -1,7 +1,8 @@
 import 'package:conever/pages/plan_page/plan_page_2/plan_page_2_view.dart';
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
 import 'package:conever/pages/plan_page/plan_page_1/components/d_day.dart';
+import 'package:conever/controllers/plan_page_controller.dart';
 
 
 class PlanCard extends StatelessWidget {
@@ -38,13 +39,10 @@ class PlanCard extends StatelessWidget {
           ),
         ),
         child: InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context)=> PlanPage2()
-              ),
-            );
+          onTap: () async {
+            final controller = Get.find<PlanPageController>();
+            await controller.tourCourse(tour_id);
+            Get.to(() => PlanPage2(tour_id: tour_id)); //계획페이지 2로 넘어가는 부분
           },
           child: Padding(
             padding: EdgeInsets.fromLTRB(
@@ -57,16 +55,12 @@ class PlanCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Row(
+                Row( //디데이
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Dday(date: date)
                   ],
                 ),
-                // Align( //디데이
-                //     alignment: Alignment.topRight,
-                //     child: Dday(date: date),
-                // ),
                 SizedBox(height: height *0.042),
                 Icon( //지도 아이콘
                   Icons.map_outlined,
