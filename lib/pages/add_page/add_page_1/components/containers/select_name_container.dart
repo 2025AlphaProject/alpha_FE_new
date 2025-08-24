@@ -42,7 +42,7 @@ class SelectNameContainer extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '여행 제목 (선택)',
+                      '여행 제목',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 23,

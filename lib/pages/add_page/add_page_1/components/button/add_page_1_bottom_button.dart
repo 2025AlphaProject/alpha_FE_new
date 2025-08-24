@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../../controllers/add_page_controller.dart';
-import '../../../ai_add_page/ai_add_page.dart';
+import '../../../ai_add_page/ai_loading_page.dart';
+import '../../../user_add_page/user_add_page.dart';
 
 class AddPage1BottomButton extends StatelessWidget {
   const AddPage1BottomButton({super.key});
@@ -18,17 +19,18 @@ class AddPage1BottomButton extends StatelessWidget {
         child: Obx(() =>
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                  // backgroundColor: controller.isButtonReady.value
-                  //     ? Color(0xFFD3351E)
-                  //     : Color(0xFFDBDBDB),
-                backgroundColor: Color(0xFFD3351E),
+                backgroundColor: controller.isButtonAvailable.value ? Color(0xFFD3351E) : Color(0xFFDBDBDB),
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
                   )
               ),
               onPressed: () {
-                Get.to(() => AiAddPage());
+                if (controller.isButtonAvailable.value) {
+                  controller.isAiToggled.value
+                      ? Get.to(() => AiLoadingPage())
+                      : Get.to(() => UserAddPage());
+                }
               },
               child: Text( controller.isAiToggled.value
                   ? 'AI 추천 사용하기'
