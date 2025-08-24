@@ -45,7 +45,7 @@ class RegionBottomSheet extends StatelessWidget {
                 itemCount: controller.sidoListName.value.length,
                 itemBuilder: (context, index) {
                   final regionName = controller.sidoListName.value[index];
-                  // final regionImage = controller.sidoListImage.value[index];
+                  // final regionImage = controller.sidoListAndImage.value[index];
 
                   return GestureDetector(
                     onTap: () {

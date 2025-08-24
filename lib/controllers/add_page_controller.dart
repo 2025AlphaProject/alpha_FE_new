@@ -31,7 +31,7 @@ class AddPageController extends GetxController {
 
   ///API 연동 값
   RxMap<String, dynamic> fetchedTour = <String, dynamic>{}.obs;
-  // RxMap<String, dynamic> sidoListAndImage = <String, dynamic>{}.obs;
+  RxMap<String, dynamic> sidoListAndImage = <String, dynamic>{}.obs;
   RxList<String> sidoListName = <String>[].obs;
   RxList<String> areaListName = <String>[].obs;
   RxBool isAreaCodeLoading = false.obs;
@@ -150,10 +150,33 @@ class AddPageController extends GetxController {
 
   bool isSelected(String category) => selectedCategory.contains(category);
 
+  void resetState() {
+    Future.microtask(() {
+      isAiToggled.value = false;
+      selectedDay.value = DateTime.now();
+      focusedDay.value = DateTime.now();
+      selectedName.value = "";
+      selectedBigPlace.value = "서울";
+      selectedSmallPlace.value = "선택 X";
+      selectedCategory.clear();
+      selectedIds.clear();
+      userTour.clear();
+      userSelectedTours.clear();
 
-  @override
-  void onClose() {
-    disconnect();
-    super.onClose();
+      fetchedTour.clear();
+      sidoListAndImage.clear();
+      sidoListName.clear();
+      areaListName.clear();
+      isAreaCodeLoading.value = false;
+      areaCode.value = '';
+
+      hasError.value = false;
+      isLoading.value = false;
+      disconnect();
+
+      textController.clear();
+      isButtonAvailable.value = false;
+      userTourAIIds.clear();
+    });
   }
 }
