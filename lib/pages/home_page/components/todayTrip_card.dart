@@ -44,8 +44,8 @@ class TodayTripCard extends StatelessWidget {
         final String dateText = c.tourDate.value ?? '';
         final String participantText = '${c.userCount.value}명';
         final String regionText = _regionFromPlaces(c.places);
-        final int total = c.places.length;
-        final int done = 5; // TODO: 업로드 완료 개수와 연동
+        final int total = c.placeCount.value;
+        final int done = c.imageCount.value;
         final double progress = total > 0 ? (done / total) : 0.0;
         final int percent = (progress * 100).round();
 

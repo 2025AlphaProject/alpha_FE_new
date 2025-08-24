@@ -1,51 +1,12 @@
+import 'package:conever/services/http/tour/fetch_today_tour.dart';
+import 'package:conever/services/http/tour/fetch_tour_courses.dart';
+
+import '../helper/tour/get_today_tour_course.dart';
 import '../helper/tour/category/category_match.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import '../dummy/get_dummy_tour_list.dart';
 
-/// 장소 모델
-class TourPlace {
-  final int id;
-  final int tdpId;
-  final String name;
-  final double mapX;
-  final double mapY;
-  final String roadAddress;
-  final String address;
-  final String contentid;
-  final String imageUrl;
-  final String categoryName;
-
-  const TourPlace({
-    required this.id,
-    required this.tdpId,
-    required this.name,
-    required this.mapX,
-    required this.mapY,
-    required this.roadAddress,
-    required this.address,
-    required this.contentid,
-    required this.imageUrl,
-    required this.categoryName,
-  });
-
-  factory TourPlace.fromMap(Map<String, dynamic> map, {required int tdpId}) {
-    final contentIdStr = (map['contentid'] as String? ?? '').trim();
-    final resolvedCategoryName = getCategoryName(contentIdStr);
-    return TourPlace(
-      id: (map['id'] as num?)?.toInt() ?? 0,
-      tdpId: tdpId,
-      name: map['name'] as String? ?? '',
-      mapX: (map['mapX'] as num?)?.toDouble() ?? 0.0,
-      mapY: (map['mapY'] as num?)?.toDouble() ?? 0.0,
-      roadAddress: map['road_address'] as String? ?? '',
-      address: map['address'] as String? ?? '',
-      contentid: map['contentid'] as String? ?? '',
-      imageUrl: map['imageUrl'] as String? ?? '',
-      categoryName: resolvedCategoryName,
-    );
-  }
-}
+import '../helper/tour/tour_place.dart';
 
 /// 홈 페이지 전역 상태
 class HomePageController extends GetxController {
@@ -54,8 +15,17 @@ class HomePageController extends GetxController {
   final RxString tourName = ''.obs;
   final RxString tourDate = ''.obs; // 서버 문자열 그대로 저장
 
-  // 사용자: 개수만 관리
+  // 사용자 수
   final RxInt userCount = 0.obs;
+
+  // 업로드 한 이미지 수
+  final RxInt imageCount = 0.obs;
+
+  // 총 장소 개수
+  final RxInt placeCount = 0.obs;
+
+  // 여행 지역
+  final RxString region = ''.obs;
 
   // 장소 목록
   final RxList<TourPlace> places = <TourPlace>[].obs;
@@ -83,59 +53,43 @@ class HomePageController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    // 더미 데이터 로딩
-    loadDummyTour();
-    debugPrint('HomePageController: 더미데이터 로딩 완료');
+    // 오늘에 해당하는 여행 정보 가져오기
+    loadTodayTour();
+    debugPrint('HomePageController: 컨트롤러 등록 완료');
   }
 
-  /// 더미 데이터 → 전역 상태로 적재
-  void loadDummyTour() {
+  void loadTodayTour() async {
+    debugPrint('loadTodayTour: 실행 시작');
     try {
       isLoading.value = true;
       errorMessage.value = '';
 
-      final data = getDummyTourList();
+      final tourData = await fetchTodayTour();
 
-      // 투어 정보
-      tourId.value = (data['id'] as num?)?.toInt() ?? 0;
-      tourName.value = data['tour_name'] as String? ?? '';
-      tourDate.value = data['tour_date'] as String? ?? '';
-      debugPrint(
-        'tour: id=' +
-            tourId.value.toString() +
-            ', name=' +
-            tourName.value +
-            ', date=' +
-            tourDate.value,
-      );
-
-      // 사용자 수
-      final rawUsers = data['user'] as List<dynamic>? ?? const [];
-      userCount.value = rawUsers.length;
-      debugPrint('users: count=' + userCount.value.toString());
-
-      // 장소 목록
-      final rawPlaces = data['places'] as List<dynamic>? ?? const [];
-      places.assignAll(
-        rawPlaces.map((e) {
-          final row = e as Map<String, dynamic>;
-          final tdpId = (row['tdp_id'] as num?)?.toInt() ?? 0;
-          final placeMap = row['place'] as Map<String, dynamic>? ?? const {};
-          return TourPlace.fromMap(placeMap, tdpId: tdpId);
-        }),
-      );
-      // 카테고리 목록/카운트 생성
-      final counts = <String, int>{};
-      for (final p in places) {
-        counts[p.categoryName] = (counts[p.categoryName] ?? 0) + 1;
+      // 카테고리 id와 일치하는 카테고리명 삽입
+      final list = <String>[];
+      for (final pid in tourData['category_list']) {
+        list.add(getCategoryName(pid));
       }
-      final list = counts.keys.toList();
       categories.assignAll(['전체', ...list]);
-      debugPrint('places: count=' + places.length.toString());
-    } catch (e) {
-      errorMessage.value = '데이터 로딩 중 오류가 발생했습니다.';
-    } finally {
-      isLoading.value = false;
+
+      tourId.value = tourData['tour_id'] as int? ?? 0;
+      tourName.value = tourData['tour_name'] as String? ?? '';
+      tourDate.value = tourData['tour_date'] as String? ?? '';
+      userCount.value = tourData['people_cnt'] as int? ?? 0;
+      imageCount.value = tourData['image_cnt'] as int? ?? 0;
+      placeCount.value = tourData['place_cnt'] as int? ?? 0;
+      region.value = tourData['tour_area_info'].isNotEmpty ? tourData['tour_area_info'][0] as String : '';
+
     }
+    catch (e) {
+      debugPrint('HomePageController: 오늘의 여행 정보 가져오기 실패: $e');
+      errorMessage.value = '데이터 로딩 중 오류가 발생했습니다.';
+    }
+
+  }
+
+  void loadTodayCourses() async {
+    getTodayTourCourse(tourId.value);
   }
 }
