@@ -1,20 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../controllers/home_page_controller.dart';
 import '../../../dummy/get_dummy_pose_list.dart';
 
-/// 장소 상세 페이지 View
-///
-/// 라우팅 시 arguments 예시:
-/// {
-///   'title': '천안 호두과자',
-///   'category': '음식점',
-///   'region': '충남 아산(대분류만)',
-///   'jibun': '충남 아산 어쩌구저쩌구 지번 상세주소',
-///   'road': '충남 아산 어쩌구저쩌구 도로명 상세주소',
-///   'imageUrl': null,
-/// }
-///
-/// 현재는 View 전용 구조이며, 이후 ViewModel과 바인딩 예정
 
 class TodayTripPlaceDetailPage extends StatelessWidget {
   const TodayTripPlaceDetailPage({super.key});
@@ -22,6 +10,14 @@ class TodayTripPlaceDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+
+    final c =
+    Get.isRegistered<HomePageController>()
+        ? Get.find<HomePageController>()
+        : Get.put<HomePageController>(
+      HomePageController(),
+      permanent: true,
+    );
 
     // 라우트 인자 수신
     final args = (Get.arguments ?? {}) as Map;
@@ -33,18 +29,7 @@ class TodayTripPlaceDetailPage extends StatelessWidget {
     final imageUrl = args['imageUrl'] as String?;
     final id = args['id'] as num?;
 
-    // 추천 포즈 더미 데이터 로딩
-    final List<String> poseList =
-        (getDummyPoseList()['poses'] as List<dynamic>? ?? const [])
-            .map((e) => e.toString())
-            .toList();
 
-    // 각 포즈 이미지 경로는 추후 assets 경로로 교체 예정
-    final List<String> poseImages = [
-      'assets/icons/pose1_icon.png',
-      'assets/icons/pose2_icon.png',
-      'assets/icons/pose3_icon.png',
-    ];
 
     return Scaffold(
       backgroundColor: Color(0xFFF4F4F4),
@@ -210,14 +195,14 @@ class TodayTripPlaceDetailPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  for (int i = 0; i < poseList.length; i++) ...[
+                  for (int i = 0; i < c.poses.length; i++) ...[
                     PoseItem(
                       context,
                       index: i,
-                      desc: poseList[i],
-                      assetPath: poseImages[i], // 빈 문자열: 이후 assets 경로로 교체
+                      desc: c.poses[i],
+                      assetPath: c.poseImages[i], // 빈 문자열: 이후 assets 경로로 교체
                     ),
-                    if (i != poseList.length - 1)
+                    if (i != c.poses.length - 1)
                       SizedBox(height: size.height * 0.04),
                   ],
                 ],

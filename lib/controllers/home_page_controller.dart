@@ -1,5 +1,6 @@
 import 'package:conever/services/http/tour/fetch_today_tour.dart';
 import 'package:conever/services/http/tour/fetch_tour_courses.dart';
+import 'package:conever/services/http/tour/fetch_tour_pose.dart';
 
 import '../helper/tour/get_today_tour_course.dart';
 import '../helper/tour/category/category_match.dart';
@@ -50,6 +51,10 @@ class HomePageController extends GetxController {
     selectedCategory.value = category;
   }
 
+  // 포즈 추천 리스트
+  final RxList<String> poses = <String>[].obs;
+  final RxList<String> poseImages = <String>[].obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -81,6 +86,7 @@ class HomePageController extends GetxController {
       placeCount.value = tourData['place_cnt'] as int? ?? 0;
       region.value = tourData['tour_area_info'].isNotEmpty ? tourData['tour_area_info'][0] as String : '';
 
+      isLoading.value = false;
     }
     catch (e) {
       debugPrint('HomePageController: 오늘의 여행 정보 가져오기 실패: $e');
@@ -90,6 +96,19 @@ class HomePageController extends GetxController {
   }
 
   void loadTodayCourses() async {
+    isLoading.value = true;
     getTodayTourCourse(tourId.value);
+
+    isLoading.value = false;
+  }
+  
+  void loadTourPoses(int place_id) async {
+    isLoading.value = true;
+
+    final data = await fetchTourPose(place_id);
+    poses.value = data['poses'];
+    poseImages.value = data['pose_images'];
+
+    isLoading.value = false;
   }
 }
