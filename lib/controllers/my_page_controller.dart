@@ -6,11 +6,14 @@ import '../components/images/pick_image.dart';
 import '../helper/tour/get_tour/filter_image_path.dart';
 import '../helper/tour/get_tour/map_image_to_id.dart';
 import '../services/http/tour/delete_image.dart';
+import '../services/http/tour/get_snapshot.dart';
 import '../services/http/tour/get_tour.dart';
 import '../services/http/tour/get_image.dart';
 import '../services/http/tour/post_image.dart';
 
 class MyPageController extends GetxController {
+  RxList<String> userFourCutImage = <String>[].obs;
+
   RxList<dynamic> userTour = <dynamic>[].obs;
 
   RxInt selectedTourId = 0.obs;
@@ -59,6 +62,7 @@ class MyPageController extends GetxController {
     final File? image = await pickImage();
     if (image != null) {
       await postImage(image, selectedTourId.value);
+      await getUserTours();
       await getUserDetailTours();
     }
   }
@@ -66,6 +70,13 @@ class MyPageController extends GetxController {
   Future<void> deleteImage() async {
     final imageId = tourImageWithId[selectedImagePath.value];
     await deleteTourImage(imageId!);
+    await getUserTours();
     await getUserDetailTours();
+  }
+
+  Future<void> getFourCutImages() async {
+    final rawData = await getSnapshot();
+    userFourCutImage.value = filterImagePath(rawData);
+    print(userFourCutImage);
   }
 }
