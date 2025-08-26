@@ -10,7 +10,7 @@ import '../helper/tour/get_sido_list/sido_code_match.dart';
 import '../helper/user/me/filter_sub.dart';
 import '../services/http/tour/get_area_list.dart';
 import '../services/http/tour/get_sido_list.dart';
-import '../services/http/tour/tour.dart';
+import '../services/http/tour/post_tour.dart';
 import '../services/http/user/me.dart';
 import '../services/websocket/show_tour_course/show_tour_course_websocket.dart';
 
@@ -126,7 +126,7 @@ class AddPageController extends GetxController {
   void postTours() async {
     final filteredIds = filterAiTourId(userTour);
     String filteredDate = DateFormat('yyyy-MM-dd').format(selectedDay.value);
-    tour(
+    postTour(
         tourName: selectedName.value,
         tourDate: filteredDate,
         aiTourPlaceIds: filteredIds,

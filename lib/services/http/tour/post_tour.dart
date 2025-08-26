@@ -1,6 +1,6 @@
 import '../../dio/authorized_dio.dart';
 
-Future<void> tour({
+Future<void> postTour({
   required String tourName,
   required String tourDate,
   required List<int> aiTourPlaceIds,
