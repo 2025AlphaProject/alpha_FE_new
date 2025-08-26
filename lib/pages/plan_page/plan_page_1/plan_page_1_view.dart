@@ -38,11 +38,7 @@ class PlanPage1 extends GetView<PlanPageController>{
                 ],
               ),
               SizedBox(height: height * 0.05),
-              SortByButton(
-                onOptionSelected: (value) {
-                  controller.changeSortCriteria(value);
-                },
-              ),
+              SortByButton(),
               SizedBox(height: height * 0.03),
               SizedBox(
                 height: height * 0.45,
@@ -52,15 +48,14 @@ class PlanPage1 extends GetView<PlanPageController>{
                   controller: controller.pageController,
                   itemCount: controller.cards.length,
                   itemBuilder: (context, index) {
-                    final item = controller.cards[index];
                     return Padding(
                       padding: EdgeInsets.symmetric(horizontal: width * 0.02),
                       child: PlanCard(
-                        title: item['tour_name'] ?? '',
-                        date: item['tour_date'] ?? '',
+                        title: controller.cards[index]['tour_name'] ?? '',
+                        date: controller.cards[index]['tour_date'] ?? '',
                         size_h: height * 0.21,
                         size_w: width * 0.34,
-                        tour_id: item['id'],
+                        tour_id: controller.cards[index]['id'],
                       ),
                     );
                   },

@@ -44,6 +44,7 @@ class UserPofile extends StatelessWidget {
               onPressed: () {
                 Get.dialog(
                   AlertDialog(
+                    backgroundColor: Colors.white,
                     title: Text("동행자 추가"),
                     content: Text("이 여행에 '${username}'을 추가하시겠습니까?"),
                     actions: [

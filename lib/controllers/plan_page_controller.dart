@@ -1,29 +1,34 @@
-import 'package:conever/services/http/tour/fetch_all_tours.dart';
-import 'package:conever/services/http/tour/fetch_tour_courses.dart';
-import 'package:conever/services/http/user/add_user_to_tour.dart';
-import 'package:conever/services/http/user/fetch_all_users.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'package:conever/services/http/tour/fetch_all_tours.dart';
+import 'package:conever/services/http/tour/fetch_tour_courses.dart';
+import 'package:conever/services/http/tour/edit_tour_name.dart';
+
+import 'package:conever/services/http/user/add_user_to_tour.dart';
+import 'package:conever/services/http/user/fetch_all_users.dart';
+
 class PlanPageController extends GetxController{
-  RxList<Map<String, dynamic>> cards = <Map<String, dynamic>>[].obs; //여행 카드 정보 저장
-  RxMap<String, dynamic> course = <String, dynamic>{}.obs; // 선택된 여행의 장소 코스 정보
-  RxList<Map<String, dynamic>> user = <Map<String, dynamic>>[].obs; // 전체 유저 정보 가져오기
-  final sortCriteria = '날짜순'.obs;
+  RxList<Map<String, dynamic>> cards = <Map<String, dynamic>>[].obs; //내 여행 정보 저장
+  RxMap<String, dynamic> course = <String, dynamic>{}.obs; // 특정 여행 정보 저장
+  RxList<Map<String, dynamic>> user = <Map<String, dynamic>>[].obs; // 전체 유저 정보 저장
+  RxBool isEditMode = false.obs; //특정 여행 편집 모드 여부
+  late var sortCriteria = '날짜순'.obs;
   late final PageController pageController;
 
   @override
   void onInit(){
     super.onInit();
     pageController = PageController(viewportFraction: 0.85);
-    _loadTours();
-    _sortCards();
+    loadTours();
   }
 
   //내 여행 전부 가져오기
-  Future<void> _loadTours() async {
+  Future<void> loadTours() async {
     final data = await fetchAllTours() ;
-    cards.value = data.cast<Map<String, dynamic>>();
+    cards.assignAll(data.cast<Map<String, dynamic>>());
+    sortCriteria.value = '날짜순';
+    sortCards();
   }
 
   // 특정 여행 정보 가져오기
@@ -43,7 +48,7 @@ class PlanPageController extends GetxController{
     try {
       final data = await fetchAllUsers();
 
-      // course['user']에 있는 sub 리스트 추출
+      // 특정 여행에 있는 유저의 sub 리스트 추출
       final existingSubs = (course['user'] as List)
           .map((u) => u['sub'].toString())
           .toSet();
@@ -59,6 +64,7 @@ class PlanPageController extends GetxController{
     }
   }
 
+  //여행 동행자 추가(유저 추가)
   Future<bool> addUser(int sub, int tourId) async {
     try {
       final success = await addUserToTour(sub: sub, tourId: tourId);
@@ -69,15 +75,21 @@ class PlanPageController extends GetxController{
     }
   }
 
+  //여행 제목 수정
+  Future<bool> editName(int tourId, String tourName) async {
+    try{
+      final success = await editTourName(tourId, tourName);
+      loadTours();
+      await Future.delayed(Duration(milliseconds: 40));
+      return success;
+    }catch(e){
+      return false;
+    }
+  }
+
   //날짜 형식 수정
   DateTime _parseDate(String dateStr) {
     return DateTime.parse(dateStr.replaceAll('.', '-')); // '2025.08.16' → '2025-08-16'
-  }
-
-  //새롭게 기준 정렬해야 할때 사용
-  void changeSortCriteria(String crtiteria){
-    sortCriteria.value = crtiteria;
-    _sortCards();
   }
 
   // 오늘 날짜와 가장 가까운 날짜의 인덱스를 찾는 헬퍼 함수
@@ -85,9 +97,10 @@ class PlanPageController extends GetxController{
     if (cardList.isEmpty) return 0;
     final now = DateTime.now();
     int closestIdx = 0;
-    int minDiff = (_parseDate(cardList[0]['date']).difference(now)).abs().inDays;
+    int minDiff = (_parseDate(cardList[0]['tour_date']).difference(now)).abs().inDays;
+    int diff = (_parseDate(cardList[0]['tour_date']).difference(now)).abs().inDays;
     for (int i = 1; i < cardList.length; i++) {
-      final diff = (_parseDate(cardList[i]['date']).difference(now)).abs().inDays;
+      diff = (_parseDate(cardList[i]['tour_date']).difference(now)).abs().inDays;
       if (diff < minDiff) {
         minDiff = diff;
         closestIdx = i;
@@ -97,20 +110,17 @@ class PlanPageController extends GetxController{
   }
 
   //여행을 기준대로 정렬
-  void _sortCards() {
-    final sorted = cards;
-    if (sortCriteria.value == '이름순') {
-      // 여행 이름을 기준으로 오름차순 정렬
-      sorted.sort((a, b) => (a['title'] as String).compareTo(b['title'] as String));
-    } else {
-      // 날짜를 기준으로 오름차순 정렬
-      sorted.sort((a, b) => _parseDate(a['date']).compareTo(_parseDate(b['date'])));
+  Future<void> sortCards() async {
+    final criteria = sortCriteria.value;
+    final sorted = [...cards];
+    if (criteria == '이름순' || criteria.toLowerCase().contains('tour_name')) {
+      sorted.sort((a, b) => ((a['tour_name'] as String)?? '').compareTo((b['tour_name'] as String)?? ''));
+    } else if (criteria == '날짜순' || criteria.toLowerCase().contains('tour_date')) {
+      sorted.sort((a, b) => _parseDate((a['tour_date'] as String)?? '').compareTo(_parseDate((b['tour_date'] as String)?? '')));
     }
     cards.assignAll(sorted);
-    if (pageController.hasClients) {
-      int jumpIdx = 0;
-      jumpIdx = _findClosestDateIndex(sorted);
-      pageController.jumpToPage(jumpIdx);
-    }
+    int now = _findClosestDateIndex(cards);
+    pageController.jumpToPage(now);
+    print(now);
   }
 }
