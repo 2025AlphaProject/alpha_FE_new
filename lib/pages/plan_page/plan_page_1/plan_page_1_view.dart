@@ -69,11 +69,12 @@ class PlanPage1 extends GetView<PlanPageController>{
               ),
               SizedBox(height: height * 0.01,),
               // 페이지 인디케이터
-              PlanIndicator(
+              Obx(() => PlanIndicator(
                 controller: controller.pageController,
                 count: controller.cards.length,
                 dotSize: width * 0.02,
-                dotActiveWidth: width * 0.03,)
+                dotActiveWidth: width * 0.03,
+              )),
             ],
           ),
         )

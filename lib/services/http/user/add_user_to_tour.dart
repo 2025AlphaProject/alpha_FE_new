@@ -1,7 +1,7 @@
 import '../../dio/authorized_dio.dart';
 
 Future<bool> addUserToTour({
-  required String sub,
+  required int sub,
   required int tourId,
 }) async {
   try {

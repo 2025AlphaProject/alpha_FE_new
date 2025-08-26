@@ -1,13 +1,14 @@
 import 'package:conever/services/http/tour/fetch_all_tours.dart';
 import 'package:conever/services/http/tour/fetch_tour_courses.dart';
+import 'package:conever/services/http/user/add_user_to_tour.dart';
 import 'package:conever/services/http/user/fetch_all_users.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class PlanPageController extends GetxController{
-  var cards = <Map<String,dynamic>>[].obs; //여행 카드 정보 저장
-  var course = <String,dynamic>{}.obs; // 선택된 여행의 장소 코스 정보
-  var user = <Map<String,dynamic>>[].obs; //전체 유저 정보 가져오기
+  RxList<Map<String, dynamic>> cards = <Map<String, dynamic>>[].obs; //여행 카드 정보 저장
+  RxMap<String, dynamic> course = <String, dynamic>{}.obs; // 선택된 여행의 장소 코스 정보
+  RxList<Map<String, dynamic>> user = <Map<String, dynamic>>[].obs; // 전체 유저 정보 가져오기
   final sortCriteria = '날짜순'.obs;
   late final PageController pageController;
 
@@ -16,18 +17,13 @@ class PlanPageController extends GetxController{
     super.onInit();
     pageController = PageController(viewportFraction: 0.85);
     _loadTours();
-    _userList();
+    _sortCards();
   }
 
   //내 여행 전부 가져오기
   Future<void> _loadTours() async {
-    try{
-      final data = await fetchAllTours();
-      cards.assignAll(data.cast<Map<String,dynamic>>());
-      _sortCards();
-    } catch (e){
-      print('내 여행 가져오기 에러 : $e');
-    }
+    final data = await fetchAllTours() ;
+    cards.value = data.cast<Map<String, dynamic>>();
   }
 
   // 특정 여행 정보 가져오기
@@ -36,19 +32,40 @@ class PlanPageController extends GetxController{
       final data = await fetchTourCourses(tourId);
       final parsed = Map<String, dynamic>.from(data);
       course.assignAll(parsed);
-      print('test: $parsed');;
+      _userList();
     } catch (e) {
       print('특정 여행정보 에러 : $e');
     }
   }
 
   //전체 유저 정보 가져오기
-  Future<void> _userList() async{
-    try{
+  Future<void> _userList() async {
+    try {
       final data = await fetchAllUsers();
-      user.assignAll(data.cast<Map<String,dynamic>>());
-    }catch(e){
+
+      // course['user']에 있는 sub 리스트 추출
+      final existingSubs = (course['user'] as List)
+          .map((u) => u['sub'].toString())
+          .toSet();
+
+      // 이미 포함된 사용자 제외하고 필터링
+      final filtered = data
+          .where((user) => !existingSubs.contains(user['sub'].toString()))
+          .toList();
+
+      user.assignAll(filtered.cast<Map<String, dynamic>>());
+    } catch (e) {
       print('유저리스트 에러 : $e');
+    }
+  }
+
+  Future<bool> addUser(int sub, int tourId) async {
+    try {
+      final success = await addUserToTour(sub: sub, tourId: tourId);
+      return success;
+    } catch (e) {
+      print("동행자 추가 에러: $e");
+      return false; // ← 이게 없으면 오류 발생
     }
   }
 
@@ -81,7 +98,7 @@ class PlanPageController extends GetxController{
 
   //여행을 기준대로 정렬
   void _sortCards() {
-    final sorted = [...cards];
+    final sorted = cards;
     if (sortCriteria.value == '이름순') {
       // 여행 이름을 기준으로 오름차순 정렬
       sorted.sort((a, b) => (a['title'] as String).compareTo(b['title'] as String));
