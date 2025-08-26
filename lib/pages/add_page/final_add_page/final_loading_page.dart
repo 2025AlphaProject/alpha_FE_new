@@ -24,7 +24,7 @@ class _FinalLoadingPageState extends State<FinalLoadingPage> {
     controller.postTours();
     controller.resetState();
     await Future.delayed(const Duration(seconds: 1));
-    Get.to(() => FinalAddPage());
+    Get.off(() => FinalAddPage());
   }
 
   @override

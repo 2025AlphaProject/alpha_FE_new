@@ -20,7 +20,7 @@ class _AiLoadingPageState extends State<AiLoadingPage> {
     controller.fetchAITour();
     ever(controller.isLoading, (bool isLoading) {
       if (!isLoading) {
-        Get.to(() => AiAddPage());
+        Get.off(() => AiAddPage());
       }
     });
   }
