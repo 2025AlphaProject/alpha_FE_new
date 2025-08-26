@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../../../controllers/my_page_controller.dart';
-import 'photo_album_detail_page.dart';
+import 'photo_display_loading_page.dart';
 
 class PhotoAlbum extends StatelessWidget {
   const PhotoAlbum({super.key});
@@ -13,7 +14,7 @@ class PhotoAlbum extends StatelessWidget {
 
     final Map<String, List<Map<String, dynamic>>> groupedTours = {};
     for (var tour in controller.userTour) {
-      final year = tour['tour_date']?.substring(0, 4) ?? 'Unknown';
+      final year = tour['tour_date']?.substring(0, 4) ?? '알 수 없음';
       groupedTours.putIfAbsent(year, () => []).add(tour);
     }
 
@@ -46,9 +47,12 @@ class PhotoAlbum extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 20.0),
                 child: GestureDetector(
                   onTap: () {
-                    Get.to(() => PhotoAlbumDetailPage());
+                    controller.selectedTourId.value = tour['id'];
+                    controller.selectedTourName.value = tour['tour_name'];
+                    controller.selectedTourDate.value = tour['tour_date'];
+                    controller.selectedTourArea.value = tour['area_info'];
+                    Get.to(() => PhotoDisplayLoadingPage());
                   },
-                  // TODO: 대칭 맞추기
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

@@ -26,7 +26,7 @@ class PhotoAlbumDetailPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                      '8월의 충남 아산 여행',
+                      controller.selectedTourName.value,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
@@ -35,7 +35,7 @@ class PhotoAlbumDetailPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 10.0),
                     child: Text(
-                      '충청남도 아산시',
+                      controller.selectedTourArea.value,
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
@@ -44,7 +44,7 @@ class PhotoAlbumDetailPage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '2025년 1월 1일',
+                    controller.selectedTourDate.value,
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
@@ -150,7 +150,33 @@ class PhotoAlbumDetailPage extends StatelessWidget {
           ))
         ),
       )
-      : SizedBox.shrink())
+      : Padding(
+        padding: const EdgeInsets.all(25.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Material(
+              elevation: 5,
+              shape: const CircleBorder(),
+              shadowColor: Colors.grey,
+              child: GestureDetector(
+                onTap: () {
+                  controller.pickAndUploadImage();
+                },
+                child: CircleAvatar(
+                  backgroundColor: Color(0xFFFF6C57),
+                  radius: 40,
+                  child: Icon(
+                    Icons.add,
+                    color: Colors.white,
+                    size: 50,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ))
     );
   }
 }

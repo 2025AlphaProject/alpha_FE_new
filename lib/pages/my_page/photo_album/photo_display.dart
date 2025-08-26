@@ -4,29 +4,27 @@ import 'package:get/get.dart';
 import '../../../controllers/my_page_controller.dart';
 import 'image_detail.dart';
 
-class PhotoDisplay extends StatelessWidget {
+class PhotoDisplay extends StatefulWidget {
   const PhotoDisplay({super.key});
 
-  final List<String> imagePaths = const [
-    'assets/dummy/dummy_image1.png',
-    'assets/dummy/dummy_image2.png',
-    'assets/dummy/dummy_image3.png',
-    'assets/dummy/dummy_image4.png',
-  ];
+  @override
+  State<PhotoDisplay> createState() => _PhotoDisplayState();
+}
 
+class _PhotoDisplayState extends State<PhotoDisplay> {
+  final controller = Get.find<MyPageController>();
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<MyPageController>();
 
-    return Expanded(
+    return Obx(() => Expanded(
       child: GridView.builder(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
           childAspectRatio: 1,
         ),
-        itemCount: imagePaths.length,
+        itemCount: controller.userDetailTourImage.length,
         itemBuilder: (context, index) {
-          final path = imagePaths[index];
+          final path = controller.userDetailTourImage[index];
 
           return Obx(() {
             final selecting = controller.isSelectingFrame.value;
@@ -37,7 +35,7 @@ class PhotoDisplay extends StatelessWidget {
                 if (selecting) {
                   controller.toggleSelect(path);
                 } else {
-                  showImageDetail(context, imagePaths, index);
+                  showImageDetail(context, controller.userDetailTourImage, index);
                 }
               },
               child: Stack(
@@ -47,7 +45,7 @@ class PhotoDisplay extends StatelessWidget {
                     child: ClipRRect(
                       child: AspectRatio(
                         aspectRatio: 1,
-                        child: Image.asset(path, fit: BoxFit.cover),
+                        child: Image.network(path, fit: BoxFit.cover),
                       ),
                     ),
                   ),
@@ -63,7 +61,7 @@ class PhotoDisplay extends StatelessWidget {
           });
         },
       ),
-    );
+    ));
   }
 }
 

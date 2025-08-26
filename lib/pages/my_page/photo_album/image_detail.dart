@@ -35,7 +35,7 @@ void showImageDetail(
                   maxScale: 4.0,
                   child: Hero(
                     tag: 'gallery-$index-$path',
-                    child: Image.asset(
+                    child: Image.network(
                       path,
                       width: MediaQuery.of(context).size.width,
                       fit: BoxFit.fitWidth,
