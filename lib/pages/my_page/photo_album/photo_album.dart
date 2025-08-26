@@ -18,11 +18,11 @@ class PhotoAlbum extends StatelessWidget {
       groupedTours.putIfAbsent(year, () => []).add(tour);
     }
 
-    return Padding(
+    return Obx(() => Padding(
       padding: const EdgeInsets.fromLTRB(29, 63, 28, 0),
       child: controller.userTour.isEmpty
           ? const Center(child: Text(
-          "추가된 여행이 없습니다!\n여행을 추가해주세요!",
+        "추가된 여행이 없습니다!\n여행을 추가해주세요!",
         style: TextStyle(
           fontSize: 24,
           fontWeight: FontWeight.bold,
@@ -59,11 +59,11 @@ class PhotoAlbum extends StatelessWidget {
                       Row(
                         children: [
                           tour['thumbnail'] != null
-                           ? CircleAvatar(
+                              ? CircleAvatar(
                             radius: 40,
                             backgroundImage: NetworkImage(tour['thumbnail']!) as ImageProvider,
                           ) : Image.asset(
-                              'assets/icons/missing_image_icon.png',
+                            'assets/icons/missing_image_icon.png',
                             width: 80,
                           ),
                           Padding(
@@ -103,6 +103,6 @@ class PhotoAlbum extends StatelessWidget {
           );
         }).toList(),
       ),
-    );
+    ));
   }
 }

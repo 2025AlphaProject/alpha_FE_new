@@ -4,12 +4,13 @@ import 'package:get/get.dart';
 
 import '../components/images/pick_image.dart';
 import '../helper/tour/get_tour/filter_image_path.dart';
+import '../helper/tour/get_tour/map_image_to_id.dart';
+import '../services/http/tour/delete_image.dart';
 import '../services/http/tour/get_tour.dart';
 import '../services/http/tour/get_image.dart';
 import '../services/http/tour/post_image.dart';
 
 class MyPageController extends GetxController {
-  RxBool isLoading = false.obs;
   RxList<dynamic> userTour = <dynamic>[].obs;
 
   RxInt selectedTourId = 0.obs;
@@ -17,6 +18,9 @@ class MyPageController extends GetxController {
   RxString selectedTourDate = ''.obs;
   RxString selectedTourArea = ''.obs;
   RxList<String> userDetailTourImage = <String>[].obs;
+  RxMap<String, int> tourImageWithId = <String, int>{}.obs;
+
+  RxString selectedImagePath = ''.obs;
 
   RxInt selectPage = 0.obs;
   RxBool isSelectingFrame = false.obs;
@@ -46,17 +50,22 @@ class MyPageController extends GetxController {
   }
 
   Future<void> getUserDetailTours() async {
-    isLoading.value = true;
     final rawData = await getTourImage(selectedTourId.value);
     userDetailTourImage.value = filterImagePath(rawData);
-    isLoading.value = false;
+    tourImageWithId.value = mapImageToId(rawData);
   }
 
   void pickAndUploadImage() async {
     final File? image = await pickImage();
     if (image != null) {
       await postImage(image, selectedTourId.value);
-      getUserDetailTours();
+      await getUserDetailTours();
     }
+  }
+
+  Future<void> deleteImage() async {
+    final imageId = tourImageWithId[selectedImagePath.value];
+    await deleteTourImage(imageId!);
+    await getUserDetailTours();
   }
 }

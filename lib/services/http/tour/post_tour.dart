@@ -20,7 +20,7 @@ Future<void> postTour({
       }
       );
   } catch (e) {
-    throw Exception("tour Error: $e");
+    throw Exception("postTour Error: $e");
     // TODO: 네트워크 오류 발생 및 서버 오류 발생 시 예외 처리
   }
 }

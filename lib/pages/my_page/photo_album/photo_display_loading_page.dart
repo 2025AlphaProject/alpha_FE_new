@@ -43,7 +43,7 @@ class _PhotoDisplayLoadingPageState extends State<PhotoDisplayLoadingPage> {
             Padding(
               padding: const EdgeInsets.only(top: 20.0),
               child: Text(
-                "정보를\n불러오고 있습니다...",
+                "정보를 불러오고\n있습니다...",
                 style: TextStyle(
                   fontWeight: FontWeight.w900,
                   fontSize: width * 0.076,
