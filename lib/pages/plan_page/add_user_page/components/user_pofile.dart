@@ -45,8 +45,8 @@ class UserPofile extends StatelessWidget {
                 Get.dialog(
                   AlertDialog(
                     backgroundColor: Colors.white,
-                    title: Text("동행자 추가"),
-                    content: Text("이 여행에 '${username}'을 추가하시겠습니까?"),
+                    title: Text("동행자 추가",style: TextStyle(fontSize: width*0.05,color: Color(0xccD3351E))),
+                    content: Text("이 여행에 '${username}'을 추가하시겠습니까?",style: TextStyle(fontSize: width*0.04)),
                     actions: [
                       TextButton( //취소버튼
                           onPressed: (){Get.back();},
@@ -60,7 +60,7 @@ class UserPofile extends StatelessWidget {
                             final response = controller.addUser(sub, controller.course['id']); // 유저 추가
                             if(response == true){
                               final naviController = Get.find<NavigationController>();
-                              naviController.tabIndex.value = 1;  // 계획 페이지 이동
+                              naviController.tabIndex.value = 0;  // 계획 페이지 이동
                               Get.offAll(() => AppShell());
                             }
                           },

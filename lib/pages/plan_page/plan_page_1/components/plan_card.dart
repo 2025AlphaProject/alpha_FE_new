@@ -61,13 +61,17 @@ class PlanCard extends StatelessWidget {
                     Dday(date: date)
                   ],
                 ),
-                SizedBox(height: height *0.042),
-                Icon( //지도 아이콘
-                  Icons.map_outlined,
-                  size: width *0.39,
-                  color: Color(0xCCD3351E),
+                // SizedBox(height: height *0.0),
+                // Icon( //지도 아이콘
+                //   Icons.map_outlined,
+                //   size: width *0.39,
+                //   color: Color(0xCCD3351E),
+                // ),
+                Image.asset(
+                  'assets/icons/plan_card_icon.png',
+                  width: width*0.6,
                 ),
-                SizedBox(height: height *0.03),
+                // SizedBox(height: height *0.011),
                 Text( // 여행 제목
                   title,
                   style: TextStyle(fontSize: width *0.048, fontWeight: FontWeight.w900),

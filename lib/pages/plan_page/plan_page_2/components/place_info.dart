@@ -1,13 +1,20 @@
 import 'package:conever/pages/plan_page/plan_page_2/components/place_event.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import 'package:conever/controllers/plan_page_controller.dart';
+
+import 'edit_menu/edit_function.dart';
 
 class PlaceInfo extends StatelessWidget {
+  final int place_id;
   final String name;
   final String road_address;
   final String address ;
   final String imageURL;
   const PlaceInfo({
     Key? key,
+    required this.place_id,
     required this.name,
     required this.road_address,
     required this.address,
@@ -18,6 +25,7 @@ class PlaceInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+    final controller = Get.find<PlanPageController>();
     return Container(
       padding: EdgeInsets.fromLTRB(width * 0.023,height * 0.005,width * 0.011,height *0.005),
       child: Column(
@@ -47,18 +55,35 @@ class PlaceInfo extends StatelessWidget {
                   children: [
                     Row( //장소명
                       children: [
-                        Icon(Icons.place,size: width * 0.052, color: Color(0xFFD3351E),),
-                        SizedBox(width: width * 0.004),
-                        Wrap(
-                          crossAxisAlignment: WrapCrossAlignment.center,
-                          children: [
-                            Text(
-                              name.replaceAll(RegExp(r'[<>]'), ''),
-                              style: TextStyle(fontSize: width * 0.038, fontWeight: FontWeight.bold),
-
-                            )
-                          ],
-                        )
+                        Container(
+                          child: Row(
+                            children: [
+                              Icon(Icons.place,size: width * 0.052, color: Color(0xFFD3351E),),
+                              SizedBox(width: width * 0.004),
+                              Container(
+                                width: width*0.45,
+                                child: Wrap(
+                                  crossAxisAlignment: WrapCrossAlignment.center,
+                                  children: [
+                                    Text(
+                                      name.replaceAll(RegExp(r'[<>]'), ''),
+                                      style: TextStyle(fontSize: width * 0.038, fontWeight: FontWeight.bold),
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        Obx(() => Visibility(
+                          visible: controller.isEditMode.value,
+                          child: IconButton(
+                            icon: Icon(Icons.delete, color: Color(0xccD3351E)),
+                            onPressed: () {
+                              EditFunction().deletePlace(context, name,place_id);
+                            },
+                          ),
+                        )),
                       ],
                     ),
                     SizedBox(height: height * 0.005),

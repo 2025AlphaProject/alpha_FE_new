@@ -25,6 +25,8 @@ dependencies:
   dropdown_search: ^5.0.6
   image_gallery_saver: ^2.0.3
   flutter_svg: ^2.2.0
+  fluttertoast: ^8.2.4
+  permission_handler: ^11.0.1
 
 dependency_overrides:
   image_gallery_saver:
@@ -44,6 +46,9 @@ flutter:
     - assets/icons/icon.png
     - assets/icons/ask_add_page_icon.png
     - assets/icons/final_add_page_icon.png
+    - assets/icons/plan_page_1_icon.png
+    - assets/icons/delete_tour_page_icon.png
+    - assets/icons/plan_card_icon.png
     - assets/icons/image_icon.png
     - assets/icons/pose1_icon.png
     - assets/icons/pose2_icon.png

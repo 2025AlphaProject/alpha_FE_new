@@ -78,10 +78,11 @@ class PlanPage2 extends GetView<PlanPageController> {
                 ...places.map((e) { //여행 장소들 나타내기
                   final p = e['place'] as Map<String, dynamic>;
                   return PlaceInfo(
+                    place_id: p['id'],
                     name: p['name']?.toString() ?? '',
                     road_address: p['road_address']?.toString() ?? '',
                     address: p['address']?.toString() ?? '',
-                    imageURL: '',
+                    imageURL: p['place_image'],
                   );
                 }).toList(),
               ],

@@ -19,22 +19,22 @@ class EditMenuSheet extends StatelessWidget {
           children: [
             Text('편집', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
             SizedBox(height: 16),
-            _editItem('여행장소 삭제',()=>EditFunction().deletePlace()),
-            _editItem('여행제목 수정',()=>EditFunction().renameTour()),
-            _editItem('여행날짜 수정',()=>EditFunction().changeDate(context)),
-            _editItem('여행 삭제',()=>EditFunction().deleteTour()),
+            _editItem('여행 장소 삭제',()=>EditFunction().deletePlaces(),0xFF000000),
+            _editItem('여행 제목 수정',()=>EditFunction().renameTour(context),0xFF000000),
+            _editItem('여행 날짜 수정',()=>EditFunction().changeDate(context),0xFF000000),
+            _editItem('여행 삭제',()=>EditFunction().deleteTour(context),0xFFD3351E),
           ],
         ),
       ),
     );
   }
 
-  Widget _editItem(String text,VoidCallback edit) {
+  Widget _editItem(String text,VoidCallback edit, int color) {
     return GestureDetector(
       onTap: edit,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 12.0),
-        child: Text(text, style: TextStyle(fontSize: 16)),
+        child: Text(text, style: TextStyle(fontSize: 16,color:Color(color) ),),
       ),
     );
   }

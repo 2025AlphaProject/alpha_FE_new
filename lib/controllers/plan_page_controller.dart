@@ -1,3 +1,6 @@
+import 'package:conever/services/http/tour/delete_tour_by_id.dart';
+import 'package:conever/services/http/tour/delete_tour_place.dart';
+import 'package:conever/services/http/tour/edit_tour_date.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,8 +16,10 @@ class PlanPageController extends GetxController{
   RxMap<String, dynamic> course = <String, dynamic>{}.obs; // 특정 여행 정보 저장
   RxList<Map<String, dynamic>> user = <Map<String, dynamic>>[].obs; // 전체 유저 정보 저장
   RxBool isEditMode = false.obs; //특정 여행 편집 모드 여부
+  Rx<DateTime> selectedDay = DateTime.now().obs;
   late var sortCriteria = '날짜순'.obs;
   late final PageController pageController;
+
 
   @override
   void onInit(){
@@ -38,6 +43,7 @@ class PlanPageController extends GetxController{
       final parsed = Map<String, dynamic>.from(data);
       course.assignAll(parsed);
       _userList();
+      selectedDay.value = _parseDate(course['tour_date']);
     } catch (e) {
       print('특정 여행정보 에러 : $e');
     }
@@ -80,7 +86,44 @@ class PlanPageController extends GetxController{
     try{
       final success = await editTourName(tourId, tourName);
       loadTours();
-      await Future.delayed(Duration(milliseconds: 40));
+      await Future.delayed(Duration(milliseconds: 1));
+      return success;
+    }catch(e){
+      return false;
+    }
+  }
+
+  //여행 날짜 수정
+  Future<bool> editDate(int tourId,String tourDate) async{
+    try{
+      final success = await editTourDate(tourId, tourDate);
+      loadTours();
+      await Future.delayed(Duration(milliseconds: 1));
+      return success;
+    }catch(e){
+      return false;
+    }
+  }
+
+  //특정 여행의 특정 장소 삭제
+  Future<bool> deletePlace(int tourId, int placeId) async {
+    try{
+      final success = await deleteTourPlace(tourId, placeId);
+      loadTours();
+      isEditMode.value = false;
+      await Future.delayed(Duration(milliseconds: 1));
+      return success;
+    }catch(e){
+      return false;
+    }
+  }
+
+  //여행 삭제
+  Future<bool> deleteTour(int tourId) async {
+    try{
+      final success = await deleteTourById(tourId);
+      loadTours();
+      await Future.delayed(Duration(milliseconds: 1));
       return success;
     }catch(e){
       return false;

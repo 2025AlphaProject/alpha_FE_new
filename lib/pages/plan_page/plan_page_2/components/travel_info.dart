@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:conever/controllers/plan_page_controller.dart';
 
+
 import '../../plan_page_1/components/d_day.dart';
 import '../../add_user_page/add_user_page_view.dart';
 
@@ -21,6 +22,7 @@ class TravelInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+    final controller = Get.find<PlanPageController>();
 
     return Container(
       padding: EdgeInsets.fromLTRB(width * 0.05, height * 0.06, width *0.0125, height * 0.025),
@@ -41,6 +43,7 @@ class TravelInfo extends StatelessWidget {
               SizedBox(width: width * 0.47),
               IconButton(
                 onPressed: () {
+                  controller.isEditMode.value = false;
                   Get.back();
                 },
                 icon: Icon(Icons.close, color: Color(0xFFFFFFFF),),
