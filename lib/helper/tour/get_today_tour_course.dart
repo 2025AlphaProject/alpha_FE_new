@@ -34,7 +34,7 @@ void getTodayTourCourse(int id) async {
 
 
   } catch (e) {
-    debugPrint('HomePageController: 오늘의 여행 정보 가져오기 실패: $e');
+    debugPrint('getTodayTourCourse: 오늘의 여행 정보 가져오기 실패: $e');
     controller.errorMessage.value = '데이터 로딩 중 오류가 발생했습니다.';
   } finally {
     controller.isLoading.value = false;

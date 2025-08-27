@@ -200,7 +200,7 @@ class TodayTripPlaceDetailPage extends StatelessWidget {
                       context,
                       index: i,
                       desc: c.poses[i],
-                      assetPath: c.poseImages[i], // 빈 문자열: 이후 assets 경로로 교체
+                      imgPath: c.poseImages[i],
                     ),
                     if (i != c.poses.length - 1)
                       SizedBox(height: size.height * 0.04),
@@ -277,7 +277,7 @@ Widget PoseItem(
   BuildContext context, {
   required int index,
   required String desc,
-  required String assetPath,
+  required String imgPath,
 }) {
   final size = MediaQuery.of(context).size;
 
@@ -288,7 +288,7 @@ Widget PoseItem(
       ClipRRect(
         borderRadius: BorderRadius.circular(size.width * 0.02),
         child:
-            assetPath.isEmpty
+            imgPath.isEmpty
                 ? Container(
                   height: size.height * 0.24,
                   color: Colors.grey.shade200,
@@ -299,8 +299,8 @@ Widget PoseItem(
                     color: Colors.black26,
                   ),
                 )
-                : Image.asset(
-                  assetPath,
+                : Image.network(
+                  imgPath,
                   height: size.height * 0.24,
                   width: double.infinity,
                   fit: BoxFit.cover,

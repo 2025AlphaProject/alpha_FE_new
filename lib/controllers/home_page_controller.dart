@@ -74,7 +74,7 @@ class HomePageController extends GetxController {
       // 카테고리 id와 일치하는 카테고리명 삽입
       final list = <String>[];
       for (final pid in tourData['category_list']) {
-        list.add(getCategoryName(pid));
+        list.add(getCategoryName(pid.toString()));
       }
       categories.assignAll(['전체', ...list]);
 
@@ -102,12 +102,13 @@ class HomePageController extends GetxController {
     isLoading.value = false;
   }
   
-  void loadTourPoses(int place_id) async {
+  Future loadTourPoses(int place_id) async {
+    debugPrint('loadTourPoses: 실행 시작');
     isLoading.value = true;
 
     final data = await fetchTourPose(place_id);
-    poses.value = data['poses'];
-    poseImages.value = data['pose_images'];
+    poses.value = List<String>.from(data['poses'] ?? []);
+    poseImages.value = List<String>.from(data['images'] ?? []);
 
     isLoading.value = false;
   }

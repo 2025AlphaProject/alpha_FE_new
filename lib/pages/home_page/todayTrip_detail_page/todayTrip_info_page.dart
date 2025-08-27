@@ -116,9 +116,14 @@ class TodayTripInfoPage extends StatelessWidget {
                             final p = data[index];
                             return PlaceCard(
                               title: p.name,
-                              onTap: () {
+                              onTap: () async {
+                                debugPrint('id value: ${p.id}');
+                                await c.loadTourPoses(p.id);
                                 Get.to(
-                                  () => const TodayTripPlaceDetailPage(),
+                                  () =>
+
+                                    const TodayTripPlaceDetailPage()
+                                  ,
                                   arguments: {
                                     'title': p.name,
                                     'category': p.categoryName,
