@@ -22,6 +22,9 @@ class MyPageController extends GetxController {
   RxString selectedTourName = ''.obs;
   RxString selectedTourDate = ''.obs;
   RxString selectedTourArea = ''.obs;
+
+  // RxMap<String, List<Map<String, dynamic>>> groupedTours = <String, List<Map<String, dynamic>>>{}.obs;
+
   RxList<String> userDetailTourImage = <String>[].obs;
   RxMap<String, int> tourImageWithId = <String, int>{}.obs;
 

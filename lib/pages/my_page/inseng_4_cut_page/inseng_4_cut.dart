@@ -21,7 +21,7 @@ class _Inseng4CutState extends State<Inseng4Cut> {
   }
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Obx(() => Padding(
       padding: const EdgeInsets.symmetric(vertical: 43.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,6 +80,6 @@ class _Inseng4CutState extends State<Inseng4Cut> {
           ),
         ],
       ),
-    );
+    ));
   }
 }

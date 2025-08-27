@@ -19,6 +19,7 @@ class _MyPageState extends State<MyPage> {
   void initState() {
     super.initState();
     controller.getUserTours();
+    controller.getFourCutImages();
   }
   @override
   Widget build(BuildContext context) {

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../components/bottom_navigation_bar/app_shell.dart';
-import '../../../../controllers/bottom_navigation_controller.dart';
 import '../../../../controllers/my_page_controller.dart';
 import 'save_four_cut_as_image.dart';
 
@@ -21,7 +20,6 @@ class _FourCutFrameState extends State<FourCutFrame> {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<MyPageController>();
-    final naviController = Get.find<NavigationController>();
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
@@ -141,7 +139,6 @@ class _FourCutFrameState extends State<FourCutFrame> {
               onPressed: () {
                 controller.isSelectingFrame.value = false;
                 controller.selectedPaths.clear();
-                naviController.tabIndex.value = 0;
                 Get.offAll(() => AppShell());
               },
               style: ElevatedButton.styleFrom(

@@ -1,5 +1,3 @@
-// TODO: 이미지 삭제 시 인생네컷인지 아닌지 알 수 있는 단자 추가 필요
-
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
