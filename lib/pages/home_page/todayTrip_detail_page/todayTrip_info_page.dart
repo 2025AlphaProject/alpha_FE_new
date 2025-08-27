@@ -131,7 +131,7 @@ class TodayTripInfoPage extends StatelessWidget {
                                     'jibun': p.address,
                                     'road': p.roadAddress,
                                     'imageUrl': p.place_image,
-                                    'id': p.id,
+                                    'id': p.id
                                   },
                                 );
                               },

@@ -3,19 +3,19 @@ import 'package:flutter/cupertino.dart';
 
 import '../../dio/authorized_dio.dart';
 
-Future<Response> missionImageUpload(String imagePath, int tdpId) async {
+Future<Response> TourImageUpload(String imagePath, int id) async {
   final dio = await getAuthorizedDio();
 
   debugPrint('imagePath: $imagePath');
-  debugPrint('tdpId: $tdpId');
+  debugPrint('tdpId: $id');
   final formData = FormData.fromMap({
-    'travel_days_id': tdpId.toString(),
+    'tour_id': id.toString(),
     'image': await MultipartFile.fromFile(imagePath),
   });
 
   try {
     final response = await dio.post(
-      'http://3.34.125.36:80/mission/image_upload/',
+      'http://3.34.125.36:80/tour/image/',
       data: formData,
     );
     return response;
