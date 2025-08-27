@@ -35,7 +35,7 @@ class _PhotoDisplayState extends State<PhotoDisplay> {
                 if (selecting) {
                   controller.toggleSelect(path);
                 } else {
-                  showImageDetail(context, controller.userDetailTourImage, index);
+                  showImageDetail(context, controller.userDetailTourImage, index, false);
                 }
               },
               child: Stack(

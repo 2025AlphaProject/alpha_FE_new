@@ -59,7 +59,7 @@ class _Inseng4CutState extends State<Inseng4Cut> {
                 final path = controller.userFourCutImage[index];
                 return GestureDetector(
                   onTap: () {
-                    showImageDetail(context, controller.userFourCutImage, index);
+                    showImageDetail(context, controller.userFourCutImage, index, true);
                   },
                   child: Hero(
                     tag: path,

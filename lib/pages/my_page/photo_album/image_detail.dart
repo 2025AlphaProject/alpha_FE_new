@@ -1,3 +1,5 @@
+// TODO: 이미지 삭제 시 인생네컷인지 아닌지 알 수 있는 단자 추가 필요
+
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,6 +10,7 @@ void showImageDetail(
     BuildContext context,
     List<String> paths,
     int initialIndex,
+    bool isFourCut,
     ) {
   final pageController = PageController(initialPage: initialIndex);
   final controller = Get.find<MyPageController>();
@@ -94,7 +97,7 @@ void showImageDetail(
                         ), onPressed: () async {
                           Get.back();
                           Get.back();
-                          await controller.deleteImage();
+                          isFourCut ? await controller.deleteFourCut() : controller.deleteImage();
                     }, child: Text('확인')),
                   ],
                 )

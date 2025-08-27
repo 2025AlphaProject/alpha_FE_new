@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:conever/services/http/tour/delete_snapshot.dart';
 import 'package:get/get.dart';
 
 import '../components/images/pick_image.dart';
@@ -13,6 +14,7 @@ import '../services/http/tour/post_image.dart';
 
 class MyPageController extends GetxController {
   RxList<String> userFourCutImage = <String>[].obs;
+  RxMap<String, int> fourCutImageWithId = <String, int>{}.obs;
 
   RxList<dynamic> userTour = <dynamic>[].obs;
 
@@ -77,6 +79,12 @@ class MyPageController extends GetxController {
   Future<void> getFourCutImages() async {
     final rawData = await getSnapshot();
     userFourCutImage.value = filterImagePath(rawData);
-    print(userFourCutImage);
+    fourCutImageWithId.value = mapImageToId(rawData);
+  }
+
+  Future<void> deleteFourCut() async {
+    final imageId = fourCutImageWithId[selectedImagePath.value];
+    await deleteSnapshot(imageId!);
+    await getFourCutImages();
   }
 }
