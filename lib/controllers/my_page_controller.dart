@@ -1,12 +1,12 @@
 import 'dart:io';
 
-import 'package:conever/services/http/tour/delete_snapshot.dart';
 import 'package:get/get.dart';
 
 import '../components/images/pick_image.dart';
 import '../helper/tour/get_tour/filter_image_path.dart';
 import '../helper/tour/get_tour/map_image_to_id.dart';
 import '../services/http/tour/delete_image.dart';
+import '../services/http/tour/delete_snapshot.dart';
 import '../services/http/tour/get_snapshot.dart';
 import '../services/http/tour/get_tour.dart';
 import '../services/http/tour/get_image.dart';
