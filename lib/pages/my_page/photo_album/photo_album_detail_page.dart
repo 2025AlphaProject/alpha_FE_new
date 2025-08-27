@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../components/DefaultAppBar/default_app_bar.dart';
 import '../../../controllers/my_page_controller.dart';
 import '../create_inseng_4_cut/create_inseng_4_cut_loading.dart';
 import 'photo_display.dart';
@@ -17,11 +18,7 @@ class PhotoAlbumDetailPage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-      ),
+      appBar: DefaultAppBar(),
         body: Column(
           children: [
             Padding(
