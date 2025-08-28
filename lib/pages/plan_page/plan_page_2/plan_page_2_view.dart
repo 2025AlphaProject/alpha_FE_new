@@ -82,7 +82,7 @@ class PlanPage2 extends GetView<PlanPageController> {
                     name: p['name']?.toString() ?? '',
                     road_address: p['road_address']?.toString() ?? '',
                     address: p['address']?.toString() ?? '',
-                    imageURL: p['place_image'],
+                    imageURL: p['place_image'] ??'',
                   );
                 }).toList(),
               ],

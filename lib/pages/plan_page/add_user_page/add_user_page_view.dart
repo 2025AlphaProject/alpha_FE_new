@@ -30,7 +30,9 @@ class _addUserState extends State<addUser> {
     final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      backgroundColor: Color(0xFFFFFFFF),
       appBar: AppBar(
+        backgroundColor: Color(0xFFFFFFFF),
         leading: IconButton(
             onPressed: (){Get.back();},
             icon: Icon(Icons.arrow_back_ios_outlined,color: Color(0xCCD3351E),)

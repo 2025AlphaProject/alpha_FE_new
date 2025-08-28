@@ -106,9 +106,7 @@ class Travelers extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     Get.to(() => addUser());
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('초대버튼 누름')),
-                    );},
+                    },
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
