@@ -19,19 +19,35 @@ class AddPage1BottomButton extends StatelessWidget {
         child: Obx(() =>
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: controller.isButtonAvailable.value ? Color(0xFFD3351E) : Color(0xFFDBDBDB),
+                backgroundColor: Color(0xFFD3351E),
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
                   )
               ),
               onPressed: () {
-                if (controller.isButtonAvailable.value) {
-                  controller.isAiToggled.value
-                      ? Get.to(() => AiLoadingPage())
-                      : Get.to(() => UserAddPage());
+                if (controller.isAiToggled.value) {
+                  if (controller.selectedName.value.trim().isNotEmpty && controller.selectedCategory.isNotEmpty) {
+                    Get.to(() => AiLoadingPage());
+                  } else {
+                    Get.snackbar(
+                      '여행 추가 실패',
+                      '여행 이름과 카테고리 선택은 필수입니다!',
+                      backgroundColor: Colors.white,
+                    );
+                  }
+                } else {
+                  if (controller.selectedName.value.trim().isNotEmpty) {
+                    Get.to(() => UserAddPage());
+                  } else {
+                    Get.snackbar(
+                      '여행 추가 실패',
+                      '여행 이름은 필수입니다!',
+                      backgroundColor: Colors.white,
+                    );
+                  }
                 }
-              },
+                },
               child: Text( controller.isAiToggled.value
                   ? 'AI 추천 사용하기'
                   : "여행 장소 추가하기",

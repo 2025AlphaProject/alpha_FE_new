@@ -1,10 +1,12 @@
-import 'package:conever/helper/tour/filter_ai_tour_id.dart';
+import 'package:conever/helper/tour/get_sido_list/map_sido_to_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../helper/tour/category/category_name_to_id.dart';
+import '../helper/tour/filter_ai_tour_id.dart';
 import '../helper/tour/get_sido_list/filter_area_name.dart';
+import '../helper/tour/get_sido_list/filter_sido_image.dart';
 import '../helper/tour/get_sido_list/filter_sido_name.dart';
 import '../helper/tour/get_sido_list/sido_code_match.dart';
 import '../helper/user/me/filter_sub.dart';
@@ -31,8 +33,8 @@ class AddPageController extends GetxController {
 
   ///API 연동 값
   RxMap<String, dynamic> fetchedTour = <String, dynamic>{}.obs;
-  RxMap<String, dynamic> sidoListAndImage = <String, dynamic>{}.obs;
   RxList<String> sidoListName = <String>[].obs;
+  RxMap<String, String> sidoListAndImage = <String, String>{}.obs;
   RxList<String> areaListName = <String>[].obs;
   RxBool isAreaCodeLoading = false.obs;
   RxString areaCode = ''.obs;
@@ -52,12 +54,17 @@ class AddPageController extends GetxController {
     fetchSidoList();
     fetchAreaList();
 
-    ever(selectedName, (String value) {
-      isButtonAvailable.value = value.trim().isNotEmpty;
-    });
+    if (isAiToggled.value) {
+      ever(selectedName, (String value) {
+        isButtonAvailable.value =
+            value.trim().isNotEmpty && selectedCategory.isNotEmpty;
+      });
+    } else {
+      ever(selectedName, (String value) {
+        isButtonAvailable.value = value.trim().isNotEmpty;
+      });
+    }
   }
-
-  //TODO: 뒤로가기 시 데이터 초기화
 
   void toggleSelect(String id) {
     if (selectedIds.contains(id)) {
@@ -135,9 +142,10 @@ class AddPageController extends GetxController {
   }
 
   Future<void> fetchSidoList() async {
-    // TODO: 이미지 받아오기 및 데이터 매핑 필요
     final rawData = await tourGetSidoList();
     sidoListName.value = filterSidoName(rawData);
+    final sidoImage = filterSidoImage(rawData);
+    sidoListAndImage.value = mapSidoToImage(sidoListName, sidoImage);
   }
 
   Future<void> fetchAreaList() async {
@@ -164,19 +172,7 @@ class AddPageController extends GetxController {
       userSelectedTours.clear();
 
       fetchedTour.clear();
-      sidoListAndImage.clear();
-      sidoListName.clear();
-      areaListName.clear();
-      isAreaCodeLoading.value = false;
-      areaCode.value = '';
-
-      hasError.value = false;
-      isLoading.value = false;
-      disconnect();
-
       textController.clear();
-      isButtonAvailable.value = false;
-      userTourAIIds.clear();
     });
   }
 }

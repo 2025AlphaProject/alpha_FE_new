@@ -44,8 +44,8 @@ class RegionBottomSheet extends StatelessWidget {
                 ),
                 itemCount: controller.sidoListName.value.length,
                 itemBuilder: (context, index) {
-                  final regionName = controller.sidoListName.value[index];
-                  // final regionImage = controller.sidoListAndImage.value[index];
+                  final regionName = controller.sidoListName[index];
+                  final regionImage = controller.sidoListAndImage[regionName];
 
                   return GestureDetector(
                     onTap: () {
@@ -55,7 +55,7 @@ class RegionBottomSheet extends StatelessWidget {
                     },
                     child: RegionCard(
                       name: regionName,
-                      imagePath: 'http://tong.visitkorea.or.kr/cms/resource/58/3402758_image2_1.jpg',
+                      imagePath: regionImage ?? '',
                     ),
                   );
                 },

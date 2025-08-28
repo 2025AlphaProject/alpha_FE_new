@@ -29,7 +29,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
                     fontWeight: FontWeight.w900,
                   ),
                 ),
-                content: Text('여행을 삭제하시겠습니까?'),
+                content: Text('여행을 삭제하시겠습니까?\n여행을 삭제 할 경우, 인생네컷도 앨범에서\n삭제됩니다!'),
                 actions: [
                   ElevatedButton(
                       style: ElevatedButton.styleFrom(

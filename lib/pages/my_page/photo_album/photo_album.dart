@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,11 +14,22 @@ class PhotoAlbum extends StatelessWidget {
     final controller = Get.find<MyPageController>();
     final width = MediaQuery.of(context).size.width;
 
-    final Map<String, List<Map<String, dynamic>>> groupedTours = {};
+    final Map<String, List<Map<String, dynamic>>> rawGroupedTours = {};
+
     for (var tour in controller.userTour) {
       final year = tour['tour_date']?.substring(0, 4) ?? '알 수 없음';
-      groupedTours.putIfAbsent(year, () => []).add(tour);
+      rawGroupedTours.putIfAbsent(year, () => []).add(tour);
     }
+
+    final groupedTours = LinkedHashMap<String, List<Map<String, dynamic>>>.fromEntries(
+        rawGroupedTours.entries.toList()
+          ..sort((a, b) {
+            // '알 수 없음'은 마지막에 오게 처리
+            if (a.key == '알 수 없음') return 1;
+            if (b.key == '알 수 없음') return -1;
+            return int.parse(b.key).compareTo(int.parse(a.key));
+          })
+    );
 
     return Obx(() => Padding(
       padding: const EdgeInsets.fromLTRB(29, 63, 28, 0),
