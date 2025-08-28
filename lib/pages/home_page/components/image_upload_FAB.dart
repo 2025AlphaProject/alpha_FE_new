@@ -32,7 +32,6 @@ Widget buildImageUploadFAB(BuildContext context) {
                 leading: const Icon(Icons.camera_alt),
                 title: const Text("카메라로 촬영"),
                 onTap: () async {
-
                   Navigator.of(context).pop();
                   pickAndUploadImage(ImageSource.camera, c.tourId.value);
 
@@ -44,7 +43,7 @@ Widget buildImageUploadFAB(BuildContext context) {
                 onTap: () async {
                   Navigator.of(context).pop();
                   pickAndUploadImage(ImageSource.gallery, c.tourId.value);
-                  // 결과 처리 코드 추가
+
                 },
               ),
             ],

@@ -1,5 +1,5 @@
+import 'package:conever/helper/tour/get_tour_images.dart';
 import 'package:conever/services/http/tour/fetch_today_tour.dart';
-import 'package:conever/services/http/tour/fetch_tour_courses.dart';
 import 'package:conever/services/http/tour/fetch_tour_pose.dart';
 
 import '../helper/tour/get_today_tour_course.dart';
@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import '../helper/tour/tour_place.dart';
+import '../services/http/tour/fetch_tour_image.dart';
 
 /// 홈 페이지 전역 상태
 class HomePageController extends GetxController {
@@ -55,15 +56,23 @@ class HomePageController extends GetxController {
   final RxList<String> poses = <String>[].obs;
   final RxList<String> poseImages = <String>[].obs;
 
+  // 업로드된 여행 사진 url
+  final RxList<String> tourImages = <String>[].obs;
+
   @override
   void onInit() {
     super.onInit();
-    // 오늘에 해당하는 여행 정보 가져오기
-    loadTodayTour();
+    _loadInitialData();
     debugPrint('HomePageController: 컨트롤러 등록 완료');
   }
 
-  void loadTodayTour() async {
+  Future<void> _loadInitialData() async {
+    await loadTodayTour();
+    await loadTodayCourses();
+    await loadTourImages(tourId.value);
+  }
+
+  Future<void> loadTodayTour() async {
     debugPrint('loadTodayTour: 실행 시작');
     try {
       isLoading.value = true;
@@ -90,25 +99,36 @@ class HomePageController extends GetxController {
     }
     catch (e) {
       debugPrint('HomePageController: 오늘의 여행 정보 가져오기 실패: $e');
+      isLoading.value = false;
       errorMessage.value = '데이터 로딩 중 오류가 발생했습니다.';
     }
 
   }
 
-  void loadTodayCourses() async {
+  Future<void> loadTodayCourses() async {
     isLoading.value = true;
     getTodayTourCourse(tourId.value);
 
     isLoading.value = false;
   }
   
-  Future loadTourPoses(int place_id) async {
+  Future<void> loadTourPoses(int place_id) async {
     debugPrint('loadTourPoses: 실행 시작');
     isLoading.value = true;
 
     final data = await fetchTourPose(place_id);
     poses.value = List<String>.from(data['poses'] ?? []);
     poseImages.value = List<String>.from(data['images'] ?? []);
+
+    isLoading.value = false;
+  }
+
+  Future<void> loadTourImages(int tour_id) async {
+    debugPrint('loadTourImages: 실행 시작');
+    isLoading.value = true;
+
+    final data = await fetchTourImages(tour_id);
+    tourImages.value = getTourImage(data);
 
     isLoading.value = false;
   }

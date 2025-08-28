@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 import '../../dio/authorized_dio.dart';
 
-Future<Response> TourImageUpload(String imagePath, int id) async {
+Future<Map<String, dynamic>> TourImageUpload(String imagePath, int id) async {
   final dio = await getAuthorizedDio();
 
   debugPrint('imagePath: $imagePath');
@@ -18,7 +18,7 @@ Future<Response> TourImageUpload(String imagePath, int id) async {
       'http://3.34.125.36:80/tour/image/',
       data: formData,
     );
-    return response;
+    return response.data;
   } catch (e) {
     throw Exception("MissionImageUpload Error: $e");
   }

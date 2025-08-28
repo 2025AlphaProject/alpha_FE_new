@@ -8,8 +8,14 @@ import 'todayTrip_detail_page/todayTrip_detail_page.dart';
 class HomePage extends GetView<HomePageController> {
   const HomePage({super.key});
 
+
+
   @override
   Widget build(BuildContext context) {
+    Future.microtask((){
+      Get.find<HomePageController>().loadTodayTour();
+    });
+
     final size = MediaQuery.of(context).size;
 
     return Scaffold(

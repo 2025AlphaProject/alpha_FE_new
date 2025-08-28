@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../controllers/home_page_controller.dart';
-import '../../../dummy/get_dummy_pose_list.dart';
 import '../../../helper/image_upload_from_device.dart';
 
 

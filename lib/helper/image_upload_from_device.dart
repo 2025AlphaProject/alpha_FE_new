@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import '../controllers/home_page_controller.dart';
 import '../services/http/tour/upload_tour_image.dart';
 
 Future<void> pickAndUploadImage(ImageSource source, int tourId) async {
@@ -12,6 +13,7 @@ Future<void> pickAndUploadImage(ImageSource source, int tourId) async {
       final response = await TourImageUpload(imagePath, tourId);
       // 업로드 성공 시 사용자에게 알림
       Get.snackbar("성공", "이미지 업로드 완료");
+      Get.find<HomePageController>().loadTourImages(tourId);
     } catch (e) {
       Get.snackbar("실패", "이미지 업로드 실패: $e");
     }

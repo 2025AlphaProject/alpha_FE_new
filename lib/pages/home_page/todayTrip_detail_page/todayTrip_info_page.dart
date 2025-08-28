@@ -2,6 +2,7 @@ import 'package:conever/controllers/home_page_controller.dart';
 import 'package:conever/pages/home_page/todayTrip_detail_page/todayTrip_place_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import '../../../helper/tour/tour_place.dart';
 import '../components/category_build_tag.dart';
 import '../components/todayTrip_place_card.dart';
@@ -23,7 +24,10 @@ class TodayTripInfoPage extends StatelessWidget {
       permanent: true,
     );
 
-    c.loadTodayCourses();
+    Future.microtask(() {
+      c.loadTodayCourses();
+    });
+
 
 
     return Container(
@@ -103,40 +107,44 @@ class TodayTripInfoPage extends StatelessWidget {
                         if (data.isEmpty) {
                           return const Center(child: Text('해당 카테고리 장소가 없습니다'));
                         }
-                        return GridView.builder(
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: _gridCount(size.width),
-                                crossAxisSpacing: size.width * 0.04,
-                                mainAxisSpacing: size.width * 0.08,
-                                childAspectRatio: 1,
-                              ),
-                          itemCount: data.length,
-                          itemBuilder: (context, index) {
-                            final p = data[index];
-                            return PlaceCard(
-                              title: p.name,
-                              onTap: () async {
-                                debugPrint('id value: ${p.id}');
-                                await c.loadTourPoses(p.id);
-                                Get.to(
-                                  () =>
+                        return Skeletonizer(
+                          enabled: c.isLoading.value,
+                          child: GridView.builder(
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: _gridCount(size.width),
+                                  crossAxisSpacing: size.width * 0.04,
+                                  mainAxisSpacing: size.width * 0.08,
+                                  childAspectRatio: 0.81,
+                                ),
+                            itemCount: data.length,
+                            itemBuilder: (context, index) {
+                              final p = data[index];
+                              return PlaceCard(
+                                title: p.name,
+                                onTap: () async {
+                                  debugPrint('id value: ${p.id}');
+                                  await c.loadTourPoses(p.id);
+                                  Get.to(
+                                    () =>
 
-                                    const TodayTripPlaceDetailPage()
-                                  ,
-                                  arguments: {
-                                    'title': p.name,
-                                    'category': p.categoryName,
-                                    'region': _regionFromPlace(p),
-                                    'jibun': p.address,
-                                    'road': p.roadAddress,
-                                    'imageUrl': p.place_image,
-                                    'id': p.id
-                                  },
-                                );
-                              },
-                            );
-                          },
+                                      const TodayTripPlaceDetailPage()
+                                    ,
+                                    arguments: {
+                                      'title': p.name,
+                                      'category': p.categoryName,
+                                      'region': _regionFromPlace(p),
+                                      'jibun': p.address,
+                                      'road': p.roadAddress,
+                                      'imageUrl': p.place_image,
+                                      'id': p.id
+                                    },
+                                  );
+                                },
+                                imageUrl: p.place_image,
+                              );
+                            },
+                          ),
                         );
                       }),
                     ),
