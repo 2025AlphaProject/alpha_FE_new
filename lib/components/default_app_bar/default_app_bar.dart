@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/my_page_controller.dart';
-import '../bottom_navigation_bar/app_shell.dart';
 
 class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   const DefaultAppBar({super.key});
@@ -14,7 +13,10 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Colors.white,
       elevation: 0,
       leading: IconButton(
-          onPressed: () => Get.back(),
+          onPressed: () {
+            controller.getUserTours();
+            Get.back();
+          },
           icon: const Icon(Icons.arrow_back, color: Colors.black)
       ),
       actions: [

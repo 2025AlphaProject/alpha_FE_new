@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import '../components/images/pick_image.dart';
 import '../helper/tour/get_tour/filter_image_path.dart';
 import '../helper/tour/get_tour/map_image_to_id.dart';
+import '../helper/tour/group_user_tour/regroup_user_tour.dart';
 import '../services/http/tour/delete_image.dart';
 import '../services/http/tour/delete_snapshot.dart';
 import '../services/http/tour/delete_tour.dart';
@@ -17,14 +18,12 @@ class MyPageController extends GetxController {
   RxList<String> userFourCutImage = <String>[].obs;
   RxMap<String, int> fourCutImageWithId = <String, int>{}.obs;
 
-  RxList<dynamic> userTour = <dynamic>[].obs;
+  RxMap<String, List<Map<String, dynamic>>> groupedUserTour = <String, List<Map<String, dynamic>>>{}.obs;
 
   RxInt selectedTourId = 0.obs;
   RxString selectedTourName = ''.obs;
   RxString selectedTourDate = ''.obs;
   RxString selectedTourArea = ''.obs;
-
-  // RxMap<String, List<Map<String, dynamic>>> groupedTours = <String, List<Map<String, dynamic>>>{}.obs;
 
   RxList<String> userDetailTourImage = <String>[].obs;
   RxMap<String, int> tourImageWithId = <String, int>{}.obs;
@@ -55,7 +54,9 @@ class MyPageController extends GetxController {
   }
 
   Future<void> getUserTours() async {
-    userTour.value = await getTour();
+    final userTour = await getTour();
+    groupedUserTour.value = regroupUserTour(userTour);
+    print(groupedUserTour);
   }
 
   Future<void> getUserDetailTours() async {

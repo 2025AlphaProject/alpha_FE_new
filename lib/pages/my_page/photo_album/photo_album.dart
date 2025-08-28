@@ -14,26 +14,9 @@ class PhotoAlbum extends StatelessWidget {
     final controller = Get.find<MyPageController>();
     final width = MediaQuery.of(context).size.width;
 
-    final Map<String, List<Map<String, dynamic>>> rawGroupedTours = {};
-
-    for (var tour in controller.userTour) {
-      final year = tour['tour_date']?.substring(0, 4) ?? '알 수 없음';
-      rawGroupedTours.putIfAbsent(year, () => []).add(tour);
-    }
-
-    final groupedTours = LinkedHashMap<String, List<Map<String, dynamic>>>.fromEntries(
-        rawGroupedTours.entries.toList()
-          ..sort((a, b) {
-            // '알 수 없음'은 마지막에 오게 처리
-            if (a.key == '알 수 없음') return 1;
-            if (b.key == '알 수 없음') return -1;
-            return int.parse(b.key).compareTo(int.parse(a.key));
-          })
-    );
-
     return Obx(() => Padding(
       padding: const EdgeInsets.fromLTRB(29, 63, 28, 0),
-      child: controller.userTour.isEmpty
+      child: controller.groupedUserTour.isEmpty
           ? const Center(child: Text(
         "추가된 여행이 없습니다!\n여행을 추가해주세요!",
         style: TextStyle(
@@ -42,7 +25,7 @@ class PhotoAlbum extends StatelessWidget {
         ),
       ))
           : ListView(
-        children: groupedTours.entries.map((entry) {
+        children: controller.groupedUserTour.entries.map((entry) {
           final year = entry.key;
           final tours = entry.value;
           return Column(

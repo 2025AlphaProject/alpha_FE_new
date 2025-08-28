@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../components/DefaultAppBar/default_app_bar.dart';
+import '../../../components/default_app_bar/default_app_bar.dart';
 import '../../../controllers/my_page_controller.dart';
 import '../create_inseng_4_cut/create_inseng_4_cut_loading.dart';
 import 'photo_display.dart';
