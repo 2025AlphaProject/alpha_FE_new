@@ -2,23 +2,33 @@ import 'package:conever/controllers/home_page_controller.dart';
 import 'package:conever/pages/home_page/todayTrip_detail_page/todayTrip_place_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:skeletonizer/skeletonizer.dart';
+import '../../../helper/tour/tour_place.dart';
 import '../components/category_build_tag.dart';
 import '../components/todayTrip_place_card.dart';
 
 class TodayTripInfoPage extends StatelessWidget {
   const TodayTripInfoPage({super.key});
 
+
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
     final c =
-        Get.isRegistered<HomePageController>()
-            ? Get.find<HomePageController>()
-            : Get.put<HomePageController>(
-              HomePageController(),
-              permanent: true,
-            );
+    Get.isRegistered<HomePageController>()
+        ? Get.find<HomePageController>()
+        : Get.put<HomePageController>(
+      HomePageController(),
+      permanent: true,
+    );
+
+    Future.microtask(() {
+      c.loadTodayCourses();
+    });
+
+
 
     return Container(
       color: Color(0xFFF4F4F4),
@@ -97,35 +107,44 @@ class TodayTripInfoPage extends StatelessWidget {
                         if (data.isEmpty) {
                           return const Center(child: Text('해당 카테고리 장소가 없습니다'));
                         }
-                        return GridView.builder(
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: _gridCount(size.width),
-                                crossAxisSpacing: size.width * 0.04,
-                                mainAxisSpacing: size.width * 0.08,
-                                childAspectRatio: 1,
-                              ),
-                          itemCount: data.length,
-                          itemBuilder: (context, index) {
-                            final p = data[index];
-                            return PlaceCard(
-                              title: p.name,
-                              onTap: () {
-                                Get.to(
-                                  () => const TodayTripPlaceDetailPage(),
-                                  arguments: {
-                                    'title': p.name,
-                                    'category': p.categoryName,
-                                    'region': _regionFromPlace(p),
-                                    'jibun': p.address,
-                                    'road': p.roadAddress,
-                                    'imageUrl': p.imageUrl,
-                                    'id': p.id,
-                                  },
-                                );
-                              },
-                            );
-                          },
+                        return Skeletonizer(
+                          enabled: c.isLoading.value,
+                          child: GridView.builder(
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: _gridCount(size.width),
+                                  crossAxisSpacing: size.width * 0.04,
+                                  mainAxisSpacing: size.width * 0.08,
+                                  childAspectRatio: 0.81,
+                                ),
+                            itemCount: data.length,
+                            itemBuilder: (context, index) {
+                              final p = data[index];
+                              return PlaceCard(
+                                title: p.name,
+                                onTap: () async {
+                                  debugPrint('id value: ${p.id}');
+                                  await c.loadTourPoses(p.id);
+                                  Get.to(
+                                    () =>
+
+                                      const TodayTripPlaceDetailPage()
+                                    ,
+                                    arguments: {
+                                      'title': p.name,
+                                      'category': p.categoryName,
+                                      'region': _regionFromPlace(p),
+                                      'jibun': p.address,
+                                      'road': p.roadAddress,
+                                      'imageUrl': p.place_image,
+                                      'id': p.id
+                                    },
+                                  );
+                                },
+                                imageUrl: p.place_image,
+                              );
+                            },
+                          ),
                         );
                       }),
                     ),
@@ -140,13 +159,13 @@ class TodayTripInfoPage extends StatelessWidget {
   }
 
   // 화면 너비에 따른 그리드 열 개수 결정
-
   int _gridCount(double width) {
     if (width >= 1200) return 4;
     if (width >= 900) return 3;
     return 2;
   }
 
+  // 장소 정보에서 지역명 추출
   String _regionFromPlace(TourPlace p) {
     final src = p.address.isNotEmpty ? p.address : p.roadAddress;
     if (src.isEmpty) return '지역 정보 없음';

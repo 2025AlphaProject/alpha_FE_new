@@ -1,8 +1,8 @@
-import 'package:conever/controllers/bottom_navigation_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../components/bottom_navigation_bar/app_shell.dart';
+import '../../../controllers/bottom_navigation_controller.dart';
 
 class FinalAddPage extends StatelessWidget {
   const FinalAddPage({super.key});

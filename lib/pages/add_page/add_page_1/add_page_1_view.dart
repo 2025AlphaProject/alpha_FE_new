@@ -81,7 +81,7 @@ class _AddPage1State extends State<AddPage1> {
           ),
         ),
       ),
-      bottomNavigationBar: SafeArea(child: AddPage1BottomButton()),
+      bottomNavigationBar: AddPage1BottomButton(),
     );
   }
 }
