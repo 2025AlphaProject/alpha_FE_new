@@ -1,5 +1,7 @@
+import 'package:conever/pages/home_page/todayTrip_detail_page/todayTrip_photo_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'dart:ui';
 
 import '../../../controllers/home_page_controller.dart';
 
@@ -18,9 +20,9 @@ class TodayTripPhotosPage extends StatelessWidget {
       permanent: true,
     );
 
-    final List<String> photos = c.tourImages;
+    final List<Map<String, dynamic>> photos = c.tourImages;
 
-    return Obx((){
+    return Obx(() {
       if (c.isLoading.value) {
         return Center(
           child: CircularProgressIndicator(),
@@ -39,7 +41,6 @@ class TodayTripPhotosPage extends StatelessWidget {
       }
 
       // 사진 그리드 표시
-
       return Container(
         color: Color(0xFFF4F4F4),
         child: GridView.builder(
@@ -51,7 +52,29 @@ class TodayTripPhotosPage extends StatelessWidget {
           ),
           itemCount: photos.length,
           itemBuilder: (context, index) {
-            return Image.network(photos[index], fit: BoxFit.cover);
+            return GestureDetector(
+              onTap: () {
+                Get.dialog(
+                  todayTripPhotoDetailPage(
+                    imageUrl: photos[index]['image'],
+                    imageId: photos[index]['id'],
+                  ),
+                  barrierDismissible: true,
+                );
+              },
+              child: Image.network(
+                photos[index]['image'],
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) => Container(
+                  color: Colors.grey,
+                  alignment: Alignment.center,
+                  child: Text(
+                    '이미지 로딩 오류',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+            );
           },
         ),
       );

@@ -24,12 +24,6 @@ class TodayTripInfoPage extends StatelessWidget {
       permanent: true,
     );
 
-    Future.microtask(() {
-      c.loadTodayCourses();
-    });
-
-
-
     return Container(
       color: Color(0xFFF4F4F4),
       child: Padding(

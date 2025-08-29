@@ -27,7 +27,7 @@ class TodayTripPlaceDetailPage extends StatelessWidget {
     final region = (args['region'] ?? '충남 아산(대분류만)') as String;
     final jibun = (args['jibun'] ?? '지번 주소가 없습니다') as String;
     final road = (args['road'] ?? '도로명 주소가 없습니다') as String;
-    final imageUrl = args['imageUrl'] as String?;
+    final imageUrl = args['imageUrl'] as String;
     final id = args['id'] as int;
 
 
@@ -94,17 +94,20 @@ class TodayTripPlaceDetailPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(size.width * 0.02),
                       child: AspectRatio(
                         aspectRatio: 16 / 9,
-                        child:
-                            imageUrl == null
-                                ? Container(
-                                  color: Colors.grey.shade300,
-                                  child: Icon(
-                                    Icons.image,
-                                    size: size.width * 0.12,
-                                    color: Colors.white,
-                                  ),
-                                )
-                                : Image.network(imageUrl, fit: BoxFit.cover),
+                        child: Image.network(
+                                imageUrl,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Container(
+                                    color: Colors.grey.shade300,
+                                    child: Icon(
+                                      Icons.image,
+                                      size: size.width * 0.12,
+                                      color: Colors.white,
+                                    ),
+                                  );
+                                },
+                              ),
                       ),
                     ),
 

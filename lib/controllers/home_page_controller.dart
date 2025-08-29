@@ -1,6 +1,7 @@
 import 'package:conever/helper/tour/get_tour_images.dart';
 import 'package:conever/services/http/tour/fetch_today_tour.dart';
 import 'package:conever/services/http/tour/fetch_tour_pose.dart';
+import 'package:dio/dio.dart';
 
 import '../helper/tour/get_today_tour_course.dart';
 import '../helper/tour/category/category_match.dart';
@@ -35,6 +36,7 @@ class HomePageController extends GetxController {
   // 로딩/에러 상태
   final RxBool isLoading = false.obs;
   final RxString errorMessage = ''.obs;
+  final RxBool todayTourNotFound = false.obs;
 
   // 카테고리 전역 상태
   final RxList<String> categories = <String>[].obs; // ['전체', '관광지', '숙박', ...]
@@ -57,7 +59,7 @@ class HomePageController extends GetxController {
   final RxList<String> poseImages = <String>[].obs;
 
   // 업로드된 여행 사진 url
-  final RxList<String> tourImages = <String>[].obs;
+  final RxList<Map<String, dynamic>> tourImages = <Map<String, dynamic>>[].obs;
 
   @override
   void onInit() {
@@ -75,9 +77,12 @@ class HomePageController extends GetxController {
   Future<void> loadTodayTour() async {
     debugPrint('loadTodayTour: 실행 시작');
     try {
+      debugPrint('loadTodayTour: try 구문 진입');
+
       isLoading.value = true;
       errorMessage.value = '';
 
+      debugPrint('loadTodayTour: fetchTodayTour 진입');
       final tourData = await fetchTodayTour();
 
       // 카테고리 id와 일치하는 카테고리명 삽입
@@ -95,7 +100,15 @@ class HomePageController extends GetxController {
       placeCount.value = tourData['place_cnt'] as int? ?? 0;
       region.value = tourData['tour_area_info'].isNotEmpty ? tourData['tour_area_info'][0] as String : '';
 
+      debugPrint('loadTodayTour: 실행 완료, imageCount: ${imageCount.value}');
+
+
       isLoading.value = false;
+    } on DioException catch(e) {
+      isLoading.value = false;
+      if (e.response?.statusCode == 404) {
+        todayTourNotFound.value = true;
+      }
     }
     catch (e) {
       debugPrint('HomePageController: 오늘의 여행 정보 가져오기 실패: $e');
@@ -111,7 +124,7 @@ class HomePageController extends GetxController {
 
     isLoading.value = false;
   }
-  
+
   Future<void> loadTourPoses(int place_id) async {
     debugPrint('loadTourPoses: 실행 시작');
     isLoading.value = true;
@@ -128,7 +141,8 @@ class HomePageController extends GetxController {
     isLoading.value = true;
 
     final data = await fetchTourImages(tour_id);
-    tourImages.value = getTourImage(data);
+    debugPrint('loadTourImages: 실행 완료, data: $data');
+    tourImages.value = data;
 
     isLoading.value = false;
   }
