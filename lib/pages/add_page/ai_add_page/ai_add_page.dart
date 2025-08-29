@@ -14,6 +14,12 @@ class AiAddPage extends StatefulWidget {
 
 class _AiAddPageState extends State<AiAddPage> {
   final controller = Get.find<AddPageController>();
+
+  @override
+  void initState() {
+    super.initState();
+    controller.fetchAITour();
+  }
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
