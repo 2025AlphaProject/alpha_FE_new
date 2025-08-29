@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:conever/controllers/home_page_controller.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import '../components/trip_progress_bar.dart';
 
 class TodayTripCard extends StatelessWidget {
@@ -44,94 +45,98 @@ class TodayTripCard extends StatelessWidget {
         final String dateText = c.tourDate.value ?? '';
         final String participantText = '${c.userCount.value}명';
         final String regionText = _regionFromPlaces(c.places);
-        final int total = c.places.length;
-        final int done = 5; // TODO: 업로드 완료 개수와 연동
+        final int total = c.placeCount.value;
+        final int done = c.imageCount.value;
         final double progress = total > 0 ? (done / total) : 0.0;
         final int percent = (progress * 100).round();
 
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // 태그 리스트(현재는 더미로 유지)
-            Wrap(
-              spacing: 8,
-              children:
+          return Skeletonizer(
+            enabled: c.isLoading.value,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // 태그 리스트(현재는 더미로 유지)
+                Wrap(
+                  spacing: 8,
+                  children:
                   c.categories
                       .skip(1)
                       .map((cat) => TagChip(cat, context))
                       .toList(),
-            ),
-
-            // 태그와 제목 사이 여백
-            SizedBox(height: size.height * 0.012),
-
-            // 여행 제목
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: size.width * 0.055,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-
-            // 제목과 메타정보 사이 여백
-            SizedBox(height: size.height * 0.025),
-
-            // 지역/날짜/인원 정보
-            Row(
-              children: [
-                const Icon(
-                  Icons.location_on,
-                  size: 16,
-                  color: Color(0xFF9A9A9A),
                 ),
-                const SizedBox(width: 4),
+
+                // 태그와 제목 사이 여백
+                SizedBox(height: size.height * 0.012),
+
+                // 여행 제목
                 Text(
-                  regionText,
+                  title,
                   style: TextStyle(
-                    fontSize: size.width * 0.03,
-                    color: const Color(0xFF707070),
+                    fontSize: size.width * 0.055,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(width: 10),
-                const Icon(
-                  Icons.calendar_today,
-                  size: 16,
-                  color: Color(0xFF9A9A9A),
+
+                // 제목과 메타정보 사이 여백
+                SizedBox(height: size.height * 0.025),
+
+                // 지역/날짜/인원 정보
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.location_on,
+                      size: 16,
+                      color: Color(0xFF9A9A9A),
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      regionText,
+                      style: TextStyle(
+                        fontSize: size.width * 0.03,
+                        color: const Color(0xFF707070),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    const Icon(
+                      Icons.calendar_today,
+                      size: 16,
+                      color: Color(0xFF9A9A9A),
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      dateText,
+                      style: TextStyle(
+                        fontSize: size.width * 0.03,
+                        color: const Color(0xFF707070),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    const Icon(Icons.person, size: 16, color: Color(0xFF9A9A9A)),
+                    const SizedBox(width: 4),
+                    Text(
+                      participantText,
+                      style: TextStyle(
+                        fontSize: size.width * 0.03,
+                        color: const Color(0xFF707070),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(width: 4),
-                Text(
-                  dateText,
-                  style: TextStyle(
-                    fontSize: size.width * 0.03,
-                    color: const Color(0xFF707070),
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(width: 10),
-                const Icon(Icons.person, size: 16, color: Color(0xFF9A9A9A)),
-                const SizedBox(width: 4),
-                Text(
-                  participantText,
-                  style: TextStyle(
-                    fontSize: size.width * 0.03,
-                    color: const Color(0xFF707070),
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+
+                // 메타정보와 진행도 사이 여백
+                SizedBox(height: size.height * 0.035),
+
+                // 진행도 표시
+                buildProgressBar(context, progress, done, total),
               ],
             ),
-
-            // 메타정보와 진행도 사이 여백
-            SizedBox(height: size.height * 0.035),
-
-            // 진행도 표시
-            buildProgressBar(context, progress, done, total),
-          ],
-        );
-      }),
+          );
+        }
+      ),
     );
   }
 

@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import '../../../controllers/home_page_controller.dart';
 import 'package:flutter/material.dart';
 
+import '../components/image_upload_FAB.dart';
 import 'todayTrip_info_page.dart';
 import 'todayTrip_photos_page.dart';
 
@@ -45,44 +46,14 @@ class TodayTripDetail extends StatelessWidget {
         body: Stack(
           children: [
             TabBarView(
-              children: const [TodayTripInfoPage(), TodayTripPhotosPage()],
-            ),
+            children: const [TodayTripInfoPage(), TodayTripPhotosPage()],
+          ),
             Positioned(
               bottom: size.height * 0.03,
               right: size.width * 0.05,
-              child: FloatingActionButton(
-                shape: const CircleBorder(),
-                backgroundColor: const Color(0xFFFF6C57),
-                onPressed: () {
-                  showModalBottomSheet(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          ListTile(
-                            leading: const Icon(Icons.photo_library),
-                            title: const Text('사진 업로드'),
-                            onTap: () {
-                              // TODO: handle photo upload
-                            },
-                          ),
-                          ListTile(
-                            leading: const Icon(Icons.camera_alt),
-                            title: const Text('촬영 후 업로드'),
-                            onTap: () {
-                              // TODO: handle capture and upload
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                },
-                child: const Icon(Icons.add, color: Colors.white),
-              ),
-            ),
-          ],
+              child: buildImageUploadFAB(context),
+            )
+          ]
         ),
       ),
     );
