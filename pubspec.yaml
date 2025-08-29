@@ -25,6 +25,8 @@ dependencies:
   dropdown_search: ^5.0.6
   image_gallery_saver: ^2.0.3
   flutter_svg: ^2.2.0
+  logger: ^2.6.1
+  flutter_naver_map: ^1.4.1+1
 
 dependency_overrides:
   image_gallery_saver:
