@@ -12,8 +12,8 @@ class PlanIndicator extends StatefulWidget {
     Key? key,
     required this.controller,
     required this.count,
-    this.dotSize = 8.0,
-    this.dotActiveWidth = 24.0,
+    required this.dotSize,
+    required this.dotActiveWidth,
   }) : super(key: key);
 
   @override
@@ -29,12 +29,16 @@ class _PlanIndicatorState extends State<PlanIndicator> {
     super.initState();
     _listener = () {
       if (!mounted) return;
-      setState(() {
-        _currentPage = widget.controller.hasClients ? widget.controller.page ?? widget.controller.initialPage.toDouble() : 0.0;
-      });
+      if (widget.controller.hasClients && widget.controller.positions.length == 1) {
+        setState(() {
+          _currentPage = widget.controller.page ?? widget.controller.initialPage.toDouble();
+        });
+      }
     };
     widget.controller.addListener(_listener);
-    _currentPage = widget.controller.hasClients ? widget.controller.page ?? widget.controller.initialPage.toDouble() : 0.0;
+    if (widget.controller.hasClients && widget.controller.positions.length == 1) {
+      _currentPage = widget.controller.page ?? widget.controller.initialPage.toDouble();
+    }
   }
 
   @override
@@ -43,7 +47,9 @@ class _PlanIndicatorState extends State<PlanIndicator> {
     if (oldWidget.controller != widget.controller) {
       oldWidget.controller.removeListener(_listener);
       widget.controller.addListener(_listener);
-      _currentPage = widget.controller.hasClients ? widget.controller.page ?? widget.controller.initialPage.toDouble() : 0.0;
+      if (widget.controller.hasClients && widget.controller.positions.length == 1) {
+        _currentPage = widget.controller.page ?? widget.controller.initialPage.toDouble();
+      }
     }
   }
 
@@ -55,19 +61,20 @@ class _PlanIndicatorState extends State<PlanIndicator> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final screenWidth = MediaQuery.of(context).size.width;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(widget.count, (index) {
         final selected = (_currentPage.round() == index);
         final progress = (_currentPage - index).abs().clamp(0.0, 1.0);
-        final width = selected
+        final dotWidth = selected
             ? ui.lerpDouble(widget.dotActiveWidth, widget.dotSize, progress)!
             : widget.dotSize;
+
         return AnimatedContainer(
           duration: const Duration(milliseconds: 200),
-          margin: const EdgeInsets.symmetric(horizontal: 4.0),
-          width: width,
+          margin: EdgeInsets.symmetric(horizontal:screenWidth*0.01 ),
+          width: dotWidth,
           height: widget.dotSize,
           decoration: BoxDecoration(
             color: selected

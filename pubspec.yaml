@@ -27,6 +27,8 @@ dependencies:
   flutter_svg: ^2.2.0
   logger: ^2.6.1
   flutter_naver_map: ^1.4.1+1
+  image_picker: ^1.2.0
+  skeletonizer: ^2.1.0+1
 
 dependency_overrides:
   image_gallery_saver:
