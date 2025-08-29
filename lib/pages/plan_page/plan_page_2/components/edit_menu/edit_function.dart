@@ -58,6 +58,7 @@ class EditFunction{
           backgroundColor: Colors.white,
           title: Text('여행 제목 수정',style: TextStyle(fontSize: width*0.05,color: Color(0xccD3351E)),),
           content: TextField(
+            maxLength: 10,
             controller: _titleEditController,
             decoration: InputDecoration(
               hintText: '${controller.course['tour_name']}',

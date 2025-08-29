@@ -69,7 +69,7 @@ void showDateEditBottomSheet(BuildContext context) {
                           Icon(Icons.calendar_today,color: Color(0xccD3351E),),
                           SizedBox(width: width * 0.02,),
                           Container(
-                            width: width *0.63,
+                            width: width *0.6,
                             child: Text(DateFormat('yyyy.MM.dd').format(_selectedDay!),
                               style: TextStyle(
                                 fontSize: width *0.046,

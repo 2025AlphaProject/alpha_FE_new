@@ -34,7 +34,7 @@ class UserPofile extends StatelessWidget {
             ),
             SizedBox(width: width * 0.05),
             Container( // 유저 이름
-              width: width * 0.6,
+              width: width * 0.57,
               child: Text(
                 username,
                 style: TextStyle(fontSize: width * 0.04, color: Colors.black),

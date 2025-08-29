@@ -110,7 +110,10 @@ class PlaceInfo extends StatelessWidget {
                           ),
                           child: Text(
                             "도로명",
-                            style: TextStyle(fontSize: width * 0.025),
+                            style: TextStyle(
+                              fontSize: width * 0.02,
+
+                            ),
                           ),
                         ),
                         SizedBox(width: width * 0.016),
@@ -143,7 +146,7 @@ class PlaceInfo extends StatelessWidget {
                           ),
                           child: Text(
                             "지번",
-                            style: TextStyle(fontSize: width * 0.025),
+                            style: TextStyle(fontSize: width * 0.02),
                           ),
                         ),
                         SizedBox(width: width * 0.016),
@@ -170,17 +173,18 @@ class PlaceInfo extends StatelessWidget {
                                   Get.to(NearPlacePageView());
                                 }
                               },
-                              child: Text("함께 가기 좋은 곳 →", style: TextStyle(color: Color(0xCCD3351E)),)
+                              child: Text("함께 가기 좋은 곳 →", style: TextStyle(color: Color(0xCCD3351E),fontSize: width * 0.03),)
                           ),
                         ),
                         ),
                         Obx(() => Visibility(
                           visible: controller.isEditMode.value,
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              SizedBox(width: width*0.41),
+                              SizedBox(width: width*0.37,),
                               TextButton(
-                                child: Text("삭제", style: TextStyle(color: Color(0xCCD3351E)),),
+                                child: Text("삭제", style: TextStyle(color: Color(0xCCD3351E),fontSize: width * 0.03),),
                                 onPressed: () {
                                   EditFunction().deletePlace(
                                     context,
