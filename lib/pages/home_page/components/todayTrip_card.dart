@@ -51,7 +51,7 @@ class TodayTripCard extends StatelessWidget {
       ),
       child: Obx((){
         return c.todayTourNotFound.value
-            ? Center(child: Text('오늘의 일정이 없어요', style: TextStyle(color: const Color(0xFF707070)),),)
+            ? SizedBox(height: size.height * 0.2,child: Center(child: Text('새 여행을 추가해 보세요!', style: TextStyle(color: const Color(0xFF707070)),),))
             :Skeletonizer(
           enabled: c.isLoading.value,
           child: Column(

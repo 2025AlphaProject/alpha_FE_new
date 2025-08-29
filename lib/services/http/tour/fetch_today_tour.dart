@@ -12,6 +12,6 @@ Future<Map<String, dynamic>> fetchTodayTour() async {
     debugPrint('fetchTodayTour: 응답 수신 ${response.data}');
     return response.data;
   } catch (e) {
-    throw Exception("getTodayTour Error: $e");
+    rethrow;
   }
 }

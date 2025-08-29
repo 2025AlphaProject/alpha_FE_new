@@ -1,6 +1,7 @@
 import 'package:conever/controllers/home_page_controller.dart';
 import 'package:conever/pages/home_page/components/todayTrip_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -39,7 +40,55 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: const Color(0xFFFF6C57),
         body: Column(
           children: [
-            SizedBox(height: size.height * 0.4),
+            SizedBox(
+                height: size.height * 0.4,
+              child:Stack(
+                children: [
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: Padding(
+                      padding: EdgeInsets.only(top: size.height * 0.05, right: size.width * 0.05),
+                      child: SvgPicture.asset(
+                        'assets/icons/logo_text.svg',
+                        height: size.height * 0.025,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: size.height * 0.08, left: size.width * 0.05),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Center(
+                          child: SvgPicture.asset(
+                            'assets/icons/airport.svg',
+                            height: size.height * 0.2,
+                          ),
+                        ),
+                        Text(
+                          '${controller.userName.value} 님,',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: size.width * 0.06,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          '여행 준비 되셨나요?',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: size.width * 0.06,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+
+                      ],
+                    ),
+                  ),
+                ],
+                clipBehavior: Clip.none,
+              ),
+            ),
             Expanded(
               child: Container(
                 decoration: const BoxDecoration(

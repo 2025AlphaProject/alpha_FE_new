@@ -10,9 +10,15 @@ import 'package:get/get.dart';
 
 import '../helper/tour/tour_place.dart';
 import '../services/http/tour/fetch_tour_image.dart';
+import '../services/http/user/fetch_my_info.dart';
 
 /// 홈 페이지 전역 상태
 class HomePageController extends GetxController {
+
+  // 유저 정보
+  final RxString userName = ''.obs;
+  final RxString userProfile = ''.obs;
+
   // 투어 기본 정보
   final RxInt tourId = 0.obs;
   final RxString tourName = ''.obs;
@@ -69,9 +75,29 @@ class HomePageController extends GetxController {
   }
 
   Future<void> _loadInitialData() async {
+    await loadUserData();
     await loadTodayTour();
     await loadTodayCourses();
     await loadTourImages(tourId.value);
+  }
+
+  Future<void> loadUserData() async {
+    debugPrint('loadUserData: 실행 시작');
+    try {
+      isLoading.value = true;
+      errorMessage.value = '';
+      final data = await FetchMyInfo();
+
+      userName.value = data['username'] as String? ?? '';
+      userProfile.value = data['profile_image_url'] as String? ?? '';
+
+      isLoading.value = false;
+  }
+  catch (e) {
+    debugPrint('HomePageController: 유저 정보 가져오기 실패: $e');
+    isLoading.value = false;
+    errorMessage.value = '데이터 로딩 중 오류가 발생했습니다.';
+    }
   }
 
   Future<void> loadTodayTour() async {
@@ -105,6 +131,7 @@ class HomePageController extends GetxController {
 
       isLoading.value = false;
     } on DioException catch(e) {
+      debugPrint('loadTodayTour: DioException 발생: $e');
       isLoading.value = false;
       if (e.response?.statusCode == 404) {
         todayTourNotFound.value = true;
