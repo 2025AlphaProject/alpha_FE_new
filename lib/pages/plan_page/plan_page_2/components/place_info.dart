@@ -1,3 +1,4 @@
+import 'package:conever/helper/tour/category/category_match.dart';
 import 'package:conever/pages/plan_page/near_place_page/near_place_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,6 +13,7 @@ class PlaceInfo extends StatelessWidget {
   final String road_address;
   final String address;
   final String imageURL;
+  final String placeCategory;
   const PlaceInfo({
     Key? key,
     required this.place_id,
@@ -19,6 +21,7 @@ class PlaceInfo extends StatelessWidget {
     required this.road_address,
     required this.address,
     required this.imageURL,
+    required this.placeCategory
   }) : super(key: key);
 
   @override
@@ -48,11 +51,12 @@ class PlaceInfo extends StatelessWidget {
                   errorBuilder:
                       (context, error, stackTrace) => Container(
                         width: width * 0.3624,
-                        height: height * 0.1416,
-                        color: Colors.grey[300],
-                        child: Icon(
-                          Icons.image_not_supported,
-                          size: width * 0.052,
+                        height: height * 0.15,
+                        color: Color(0xFFeda696),
+                        child: Image.asset(
+                          'assets/icons/logo_white.png',
+                          width: width * 0.05,
+                          height: height * 0.025,
                         ),
                       ),
                 ),
@@ -73,7 +77,7 @@ class PlaceInfo extends StatelessWidget {
                       spacing: width * 0.01,
                       children: [
                         Icon(
-                          Icons.place,
+                          placeCat(placeCategory),
                           size: width * 0.052,
                           color: Color(0xFFD3351E),
                         ),
@@ -202,4 +206,9 @@ class PlaceInfo extends StatelessWidget {
       ),
     );
   }
+}
+
+IconData? placeCat(String place_cat) {
+  if (categoryIcons.containsKey(place_cat)) return categoryIcons[place_cat];
+  return Icons.place; // 기본 아이콘
 }

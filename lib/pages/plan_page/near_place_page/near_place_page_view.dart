@@ -31,7 +31,27 @@ class _NearPlacePageViewState extends State<NearPlacePageView> {
           ),
           title: Text("함께 가기 좋은 곳",style: TextStyle(color:Color(0xCCD3351E) ),),
         ),
-        body: Center(child: Text("없음")),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/icons/map_icon.png',
+                width: width * 0.5,
+              ),
+              SizedBox(height: height * 0.03),
+              Text(
+                '이 주변의 여행지는 준비 중이에요',
+                style: TextStyle(
+                  fontSize: width * 0.05,
+                  fontWeight: FontWeight.w900,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: height * 0.1),
+            ],
+          ),
+        )
       );
     }
 

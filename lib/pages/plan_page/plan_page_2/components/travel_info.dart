@@ -40,7 +40,7 @@ class TravelInfo extends StatelessWidget {
                 date,
                 style: TextStyle(fontSize: width * 0.034, color: Colors.white),
               ),
-              SizedBox(width: width * 0.47),
+              SizedBox(width: width * 0.45),
               IconButton(
                 onPressed: () {
                   controller.isEditMode.value = false;

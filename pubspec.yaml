@@ -53,6 +53,8 @@ flutter:
     - assets/icons/pose1_icon.png
     - assets/icons/pose2_icon.png
     - assets/icons/pose3_icon.png
+    - assets/icons/logo_white.png
+    - assets/icons/map_icon.png
 
     - assets/images/loading2_1.png
     - assets/images/loading2_2.png
