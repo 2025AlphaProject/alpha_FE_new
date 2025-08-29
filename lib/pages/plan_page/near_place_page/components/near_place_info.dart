@@ -39,7 +39,7 @@ class _NearPlaceInfoState extends State<NearPlaceInfo> {
                 ),
                 Container(
                   padding: EdgeInsets.fromLTRB(width * 0.03, 0, 0, 0),
-                  width: width * 0.67,
+                  width: width * 0.63,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

@@ -69,7 +69,7 @@ class PlanPage1 extends GetView<PlanPageController>{
                       SortByButton(),
                       SizedBox(height: height * 0.03),
                       SizedBox(
-                          height: height * 0.45,
+                          height: height * 0.5,
                           child: PageView.builder(
                             scrollDirection: Axis.horizontal,
                             physics: const ClampingScrollPhysics(),
@@ -81,7 +81,7 @@ class PlanPage1 extends GetView<PlanPageController>{
                                 child: PlanCard(
                                   title: controller.cards[index]['tour_name'] ?? '',
                                   date: controller.cards[index]['tour_date'] ?? '',
-                                  size_h: height * 0.21,
+                                  size_h: height * 0.3,
                                   size_w: width * 0.34,
                                   tour_id: controller.cards[index]['id'],
                                 ),
