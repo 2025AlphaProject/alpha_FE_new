@@ -25,6 +25,10 @@ dependencies:
   dropdown_search: ^5.0.6
   image_gallery_saver: ^2.0.3
   flutter_svg: ^2.2.0
+  logger: ^2.6.1
+  flutter_naver_map: ^1.4.1+1
+  image_picker: ^1.2.0
+  skeletonizer: ^2.1.0+1
   image_picker: ^1.0.4
   image: ^4.0.17
   path_provider: ^2.1.2
@@ -48,7 +52,6 @@ flutter_native_splash:
   ios: true
   web: false
   android_gravity: center
-
 
 dependency_overrides:
   image_gallery_saver:

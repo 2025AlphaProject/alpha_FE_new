@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:conever/controllers/plan_page_controller.dart';
+
 
 import '../../plan_page_1/components/d_day.dart';
+import '../../add_user_page/add_user_page_view.dart';
 
 class TravelInfo extends StatelessWidget {
   final String date;
@@ -16,9 +20,12 @@ class TravelInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+    final controller = Get.find<PlanPageController>();
 
     return Container(
-      padding: const EdgeInsets.fromLTRB(20,50,5,20),
+      padding: EdgeInsets.fromLTRB(width * 0.05, height * 0.06, width *0.0125, height * 0.025),
       decoration: const BoxDecoration(
         color: Color(0xFFD3351E),
       ),
@@ -28,27 +35,28 @@ class TravelInfo extends StatelessWidget {
           Row(
             children: [
               Dday(date: date),
-              SizedBox(width: 5),
+              SizedBox(width: width * 0.0116),
               Text(
                 date,
-                style: const TextStyle(fontSize: 15, color: Colors.white),
+                style: TextStyle(fontSize: width * 0.034, color: Colors.white),
               ),
-              SizedBox(width: 170,),
+              SizedBox(width: width * 0.45),
               IconButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  controller.isEditMode.value = false;
+                  Get.back();
                 },
                 icon: Icon(Icons.close, color: Color(0xFFFFFFFF),),
               )
             ],
           ),
-          SizedBox(height: 5),
+          SizedBox(height: height * 0.005),
           Row(
             children: [
-              SizedBox(width: 5),
+              SizedBox(width: width * 0.011),
               Text(
                 title,
-                style: const TextStyle(fontSize: 35, fontWeight: FontWeight.w900, color: Colors.white),
+                style: TextStyle(fontSize: width * 0.081, fontWeight: FontWeight.w900, color: Colors.white),
               ),
             ],
           ),
@@ -66,8 +74,10 @@ class Travelers extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Padding(
-      padding: EdgeInsets.all(5),
+      padding: EdgeInsets.all(width * 0.0116),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -82,37 +92,36 @@ class Travelers extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       CircleAvatar(
-                        radius: 25,
+                        radius: width *0.058,
                         backgroundImage: NetworkImage(imageUrl),
                       ),
-                      const SizedBox(height: 5),
+                      SizedBox(height: height * 0.005),
                       Text(
                         traveler['username'] ?? '',
-                        style: const TextStyle(fontSize: 12, color: Colors.white),
+                        style: TextStyle(fontSize: width *0.027, color: Colors.white),
                       ),
                     ],
                   );
                 }),
                 GestureDetector(
                   onTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('초대버튼 누름')),
-                    );},
+                    Get.to(() => addUser());
+                    },
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       CircleAvatar(
                         radius: 25,
                         backgroundColor: Color(0xaaFFFFFF),
-                        child: Icon(Icons.add, color: Color(0xFFD3351E), size: 21),
+                        child: Icon(Icons.add, color: Color(0xFFD3351E), size: width * 0.048),
                       ),
-                      SizedBox(height: 5),
-                      const SizedBox(
+                      SizedBox(height: height *0.005),
+                      SizedBox(
                         child: FittedBox(
                           fit: BoxFit.scaleDown,
                           child: Text(
                             "초대",
-                            style: TextStyle(fontSize: 12,color: Colors.white),
+                            style: TextStyle(fontSize: width * 0.027,color: Colors.white),
                           ),
                         ),
                       ),
