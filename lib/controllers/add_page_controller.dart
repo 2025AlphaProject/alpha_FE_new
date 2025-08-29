@@ -1,4 +1,3 @@
-import 'package:conever/helper/tour/get_sido_list/map_sido_to_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -8,6 +7,7 @@ import '../helper/tour/filter_ai_tour_id.dart';
 import '../helper/tour/get_sido_list/filter_area_name.dart';
 import '../helper/tour/get_sido_list/filter_sido_image.dart';
 import '../helper/tour/get_sido_list/filter_sido_name.dart';
+import '../helper/tour/get_sido_list/map_sido_to_image.dart';
 import '../helper/tour/get_sido_list/sido_code_match.dart';
 import '../helper/user/me/filter_sub.dart';
 import '../services/http/tour/get_area_list.dart';
@@ -170,6 +170,8 @@ class AddPageController extends GetxController {
       selectedIds.clear();
       userTour.clear();
       userSelectedTours.clear();
+
+      fetchAreaList();
 
       fetchedTour.clear();
       textController.clear();
