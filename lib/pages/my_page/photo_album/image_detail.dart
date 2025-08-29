@@ -2,13 +2,16 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../controllers/my_page_controller.dart';
+
 void showImageDetail(
     BuildContext context,
     List<String> paths,
     int initialIndex,
+    bool isFourCut,
     ) {
   final pageController = PageController(initialPage: initialIndex);
-
+  final controller = Get.find<MyPageController>();
   Get.dialog(
     Stack(
       children: [
@@ -21,11 +24,12 @@ void showImageDetail(
           ),
         ),
 
-        PageView.builder(
+        Obx(() => PageView.builder(
           controller: pageController,
           itemCount: paths.length,
           itemBuilder: (context, index) {
             final path = paths[index];
+            controller.selectedImagePath.value = path;
             return Center(
               child: GestureDetector(
                 onTap: () => Get.back(),
@@ -35,7 +39,7 @@ void showImageDetail(
                   maxScale: 4.0,
                   child: Hero(
                     tag: 'gallery-$index-$path',
-                    child: Image.asset(
+                    child: Image.network(
                       path,
                       width: MediaQuery.of(context).size.width,
                       fit: BoxFit.fitWidth,
@@ -45,7 +49,7 @@ void showImageDetail(
               ),
             );
           },
-        ),
+        )),
 
         Positioned(
           top: 16,
@@ -88,8 +92,10 @@ void showImageDetail(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12)
                             )
-                        ), onPressed: () {
-                          // TODO: 삭제 로직 구현
+                        ), onPressed: () async {
+                          Get.back();
+                          Get.back();
+                          isFourCut ? await controller.deleteFourCut() : controller.deleteImage();
                     }, child: Text('확인')),
                   ],
                 )
