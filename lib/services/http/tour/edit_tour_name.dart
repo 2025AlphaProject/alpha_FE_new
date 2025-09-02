@@ -1,6 +1,6 @@
 import '../../dio/authorized_dio.dart';
 
-Future<void> editTourName(int id, String editedTourName) async {
+Future<bool> editTourName(int id, String editedTourName) async {
   try {
     final dio = await getAuthorizedDio();
     final response = await dio.patch(
@@ -8,7 +8,7 @@ Future<void> editTourName(int id, String editedTourName) async {
       data: {
           'tour_name': editedTourName,
       }
-    );
+    ); return response.statusCode == 200;
   } catch (e) {
     throw Exception("deleteTourById Error: $e");
   }

@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:conever/services/http/tour/fetch_all_tours.dart';
-import 'package:conever/services/http/tour/fetch_tour_courses.dart';
-import 'package:conever/services/http/tour/edit_tour_name.dart';
-import 'package:conever/services/http/tour/delete_tour_by_id.dart';
-import 'package:conever/services/http/tour/delete_tour_place.dart';
-import 'package:conever/services/http/tour/edit_tour_date.dart';
-import 'package:conever/services/http/tour/relation_info.dart';
-import 'package:conever/services/http/user/add_user_to_tour.dart';
-import 'package:conever/services/http/user/fetch_all_users.dart';
+
+import '../services/http/tour/delete_tour_by_id.dart';
+import '../services/http/tour/delete_tour_place.dart';
+import '../services/http/tour/edit_tour_date.dart';
+import '../services/http/tour/edit_tour_name.dart';
+import '../services/http/tour/fetch_all_tours.dart';
+import '../services/http/tour/fetch_tour_courses.dart';
+import '../services/http/tour/relation_info.dart';
+import '../services/http/user/add_user_to_tour.dart';
+import '../services/http/user/fetch_all_users.dart';
 
 class PlanPageController extends GetxController{
   RxList<Map<String, dynamic>> cards = <Map<String, dynamic>>[].obs; //내 여행 정보 저장

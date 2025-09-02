@@ -10,7 +10,7 @@ Future<void> pickAndUploadImage(ImageSource source, int tourId) async {
   if (pickedFile != null) {
     final imagePath = pickedFile.path;
     try {
-      final response = await TourImageUpload(imagePath, tourId);
+      final response = await tourImageUpload(imagePath, tourId);
       // 업로드 성공 시 사용자에게 알림
       Get.snackbar("성공", "이미지 업로드 완료");
       Get.find<HomePageController>().loadTourImages(tourId);
