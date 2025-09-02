@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../components/bottom_navigation_bar/app_shell.dart';
+import '../../../../controllers/my_page_controller.dart';
 import 'save_four_cut_as_image.dart';
 
 class FourCutFrame extends StatefulWidget {
-  final List<String> imagePaths; // 길이 4
+  final List<String> imagePaths;
 
   const FourCutFrame({super.key, required this.imagePaths});
 
@@ -18,6 +19,7 @@ class _FourCutFrameState extends State<FourCutFrame> {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<MyPageController>();
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
@@ -48,7 +50,7 @@ class _FourCutFrameState extends State<FourCutFrame> {
                         childAspectRatio: 3 / 4,
                         children: List.generate(4, (i) {
                           return ClipRRect(
-                            child: Image.asset(
+                            child: Image.network(
                               widget.imagePaths[i],
                               fit: BoxFit.cover,
                             ),
@@ -73,16 +75,17 @@ class _FourCutFrameState extends State<FourCutFrame> {
             GestureDetector(
               onTap: () async {
                   try {
-                    final ok = await captureAndSave(
+                    final ok = await captureSaveAndUpload(
                         _captureKey,
                         pixelRatio: 3.0,
-                        name: 'fourcut_${DateTime.now().millisecondsSinceEpoch}'
+                        name: 'fourcut_${DateTime.now().millisecondsSinceEpoch}',
+                        tourId: controller.selectedTourId.value
                     );
 
                     if (!mounted) return;
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text(
-                          ok ? '갤러리에 저장됐어요' : '저장에 실패했어요. 다시 시도해주세요',
+                          ok ? '갤러리와 앨범에 저장됐어요' : '저장에 실패했어요. 다시 시도해주세요',
                           style: TextStyle(
                               color: Colors.black
                           )), backgroundColor: Colors.white,
@@ -134,6 +137,8 @@ class _FourCutFrameState extends State<FourCutFrame> {
             height: 60,
             child: ElevatedButton(
               onPressed: () {
+                controller.isSelectingFrame.value = false;
+                controller.selectedPaths.clear();
                 Get.offAll(() => AppShell());
               },
               style: ElevatedButton.styleFrom(

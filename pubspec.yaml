@@ -25,15 +25,40 @@ dependencies:
   dropdown_search: ^5.0.6
   image_gallery_saver: ^2.0.3
   flutter_svg: ^2.2.0
-  image_picker: ^1.2.0
+  logger: ^2.6.1
+  flutter_naver_map: ^1.4.1+1
   skeletonizer: ^2.1.0+1
   visibility_detector: ^0.4.0+2
+
+  image_picker: ^1.0.4
+  image: ^4.0.17
+  path_provider: ^2.1.2
+  path: ^1.8.3
+  firebase_core: ^4.0.0
+  firebase_messaging: ^16.0.0
+  flutter_local_notifications: ^19.4.0
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: 'assets/icons/icon.png'
+  remove_alpha_ios: true
+
+flutter_native_splash:
+  color: "#FFFFFF"
+  image: assets/icon.png
+  android: true
+  ios: true
+  web: false
+  android_gravity: center
 
 dependency_overrides:
   image_gallery_saver:
     path: lib_external/image_gallery_saver
 
 dev_dependencies:
+  flutter_native_splash: ^2.3.0
+  flutter_launcher_icons: ^0.13.1
   flutter_test:
     sdk: flutter
 
@@ -53,6 +78,7 @@ flutter:
     - assets/icons/pose3_icon.png
     - assets/icons/logo_text.svg
     - assets/icons/airport.svg
+    - assets/icons/missing_image_icon.png
 
     - assets/images/loading2_1.png
     - assets/images/loading2_2.png

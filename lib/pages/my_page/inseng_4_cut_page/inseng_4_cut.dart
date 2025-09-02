@@ -1,19 +1,27 @@
-import 'package:conever/pages/my_page/photo_album/image_detail.dart';
+import 'package:conever/controllers/my_page_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class Inseng4Cut extends StatelessWidget {
+import '../photo_album/image_detail.dart';
+
+class Inseng4Cut extends StatefulWidget {
   const Inseng4Cut({super.key});
 
-  final List<String> imagePaths = const [
-    'assets/dummy/dummy_image1.png',
-    'assets/dummy/dummy_image2.png',
-    'assets/dummy/dummy_image3.png',
-    'assets/dummy/dummy_image4.png',
-  ];
+  @override
+  State<Inseng4Cut> createState() => _Inseng4CutState();
+}
+
+class _Inseng4CutState extends State<Inseng4Cut> {
+  final controller = Get.find<MyPageController>();
 
   @override
+  void initState() {
+    super.initState();
+    controller.getFourCutImages();
+  }
+  @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Obx(() => Padding(
       padding: const EdgeInsets.symmetric(vertical: 43.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,7 +36,7 @@ class Inseng4Cut extends StatelessWidget {
                 ),
                 const SizedBox(width: 6),
                 Text(
-                  '${imagePaths.length}장',
+                  '${controller.userFourCutImage.length}장',
                   style: TextStyle(
                     fontWeight: FontWeight.w900,
                     fontSize: 15,
@@ -46,17 +54,17 @@ class Inseng4Cut extends StatelessWidget {
                 crossAxisCount: 3,
                 childAspectRatio: 1,
               ),
-              itemCount: imagePaths.length,
+              itemCount: controller.userFourCutImage.length,
               itemBuilder: (context, index) {
-                final path = imagePaths[index];
+                final path = controller.userFourCutImage[index];
                 return GestureDetector(
                   onTap: () {
-                    showImageDetail(context, imagePaths, index);
+                    showImageDetail(context, controller.userFourCutImage, index, true);
                   },
                   child: Hero(
                     tag: path,
                     child: ClipRRect(
-                      child: Image.asset(
+                      child: Image.network(
                         path,
                         fit: BoxFit.cover,
                         errorBuilder: (_, __, ___) => const ColoredBox(
@@ -72,6 +80,6 @@ class Inseng4Cut extends StatelessWidget {
           ),
         ],
       ),
-    );
+    ));
   }
 }

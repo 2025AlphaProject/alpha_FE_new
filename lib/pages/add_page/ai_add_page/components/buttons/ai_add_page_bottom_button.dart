@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../../components/bottom_navigation_bar/app_shell.dart';
+import '../../../../../controllers/add_page_controller.dart';
 import 'select_button.dart';
 
 class AiAddPageBottomButton extends StatelessWidget {
@@ -13,8 +15,8 @@ class AiAddPageBottomButton extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         ElevatedButton(onPressed: () {
-          // Get.delete<AddPageController>();
-          Get.back();
+          final controller = Get.find<AddPageController>();
+          Get.offAll(() => AppShell());
         },
             style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.white,

@@ -1,13 +1,10 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 
 import '../../dio/authorized_dio.dart';
 
 Future<Response> missionImageUpload(String imagePath, int tdpId) async {
   final dio = await getAuthorizedDio();
 
-  debugPrint('imagePath: $imagePath');
-  debugPrint('tdpId: $tdpId');
   final formData = FormData.fromMap({
     'travel_days_id': tdpId.toString(),
     'image': await MultipartFile.fromFile(imagePath),

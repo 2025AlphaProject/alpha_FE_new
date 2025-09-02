@@ -11,6 +11,7 @@ class SelectDateContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<AddPageController>();
+    final _today = DateTime.now();
     return ExpandableNotifier(
       child: Container(
         constraints: BoxConstraints(
@@ -75,7 +76,7 @@ class SelectDateContainer extends StatelessWidget {
               children: [
                 Obx(() =>
                     TableCalendar(
-                      firstDay: DateTime.now(),
+                      firstDay: _today,
                       lastDay: DateTime.utc(2030, 12, 31),
                       focusedDay: controller.focusedDay.value,
                       selectedDayPredicate: (day) => isSameDay(controller.selectedDay.value, day),

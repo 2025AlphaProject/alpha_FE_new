@@ -145,7 +145,9 @@ class SelectRegionContainer extends StatelessWidget {
                               );
                               },
                             child: Container(
-                              width: 87,
+                              constraints: BoxConstraints(
+                                minWidth: 87,
+                              ),
                               height: 55,
                               decoration: BoxDecoration(
                                 color: Color(0xFFE3E3E3),
@@ -155,22 +157,25 @@ class SelectRegionContainer extends StatelessWidget {
                                   width: 2,
                                 )
                               ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Obx(() =>
-                                      Text(
-                                        controller.selectedBigPlace.value,
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                        ),
-                                      )
-                                  ),
-                                  Icon(
-                                      Icons.edit_outlined,
-                                    size: 16,
-                                  )
-                                ],
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Obx(() =>
+                                        Text(
+                                          controller.selectedBigPlace.value,
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                          ),
+                                        )
+                                    ),
+                                    Icon(
+                                        Icons.edit_outlined,
+                                      size: 16,
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ),
