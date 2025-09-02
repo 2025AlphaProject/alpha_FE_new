@@ -22,16 +22,20 @@ class PlaceCard extends StatelessWidget {
             aspectRatio: 1,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(size.width * 0.02),
-              child: imageUrl != ''
-                  ? Image.network(imageUrl, fit: BoxFit.cover)
-                  :Container(
-                width: double.infinity,
-                color: Colors.grey.shade300,
-                child: Icon(
-                  Icons.image,
-                  size: size.width * 0.08,
-                  color: Colors.white,
-                ),
+              child: Image.network(
+                imageUrl,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    width: double.infinity,
+                    color: Colors.grey.shade300,
+                    child: Icon(
+                      Icons.image,
+                      size: size.width * 0.08,
+                      color: Colors.white,
+                    ),
+                  );
+                },
               ),
             ),
           ),

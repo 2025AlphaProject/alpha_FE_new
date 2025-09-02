@@ -20,6 +20,17 @@ class TodayTripCard extends StatelessWidget {
               permanent: true,
             );
 
+    // 컨트롤러 상태에서 표시용 데이터 계산
+    final String title =
+    c.tourName.value.isNotEmpty ? c.tourName.value : '여행 제목';
+    final String dateText = c.tourDate.value ?? '';
+    final String participantText = '${c.userCount.value}명';
+    final String regionText = _regionFromPlaces(c.places);
+    final int total = c.placeCount.value;
+    final int done = c.imageCount.value;
+    final double progress = total > 0 ? (done / total) : 0.0;
+    final int percent = (progress * 100).round();
+
     return Container(
       padding: EdgeInsets.symmetric(
         vertical: size.height * 0.02,
@@ -38,105 +49,97 @@ class TodayTripCard extends StatelessWidget {
           ),
         ],
       ),
-      child: Obx(() {
-        // 컨트롤러 상태에서 표시용 데이터 계산
-        final String title =
-            c.tourName.value.isNotEmpty ? c.tourName.value : '여행 제목';
-        final String dateText = c.tourDate.value ?? '';
-        final String participantText = '${c.userCount.value}명';
-        final String regionText = _regionFromPlaces(c.places);
-        final int total = c.placeCount.value;
-        final int done = c.imageCount.value;
-        final double progress = total > 0 ? (done / total) : 0.0;
-        final int percent = (progress * 100).round();
+      child: Obx((){
+        return c.todayTourNotFound.value
+            ? SizedBox(height: size.height * 0.2,child: Center(child: Text('새 여행을 추가해 보세요!', style: TextStyle(color: const Color(0xFF707070)),),))
+            :Skeletonizer(
+          enabled: c.isLoading.value,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
 
-          return Skeletonizer(
-            enabled: c.isLoading.value,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // 태그 리스트(현재는 더미로 유지)
-                Wrap(
-                  spacing: 8,
-                  children:
-                  c.categories
-                      .skip(1)
-                      .map((cat) => TagChip(cat, context))
-                      .toList(),
+              Wrap(
+                spacing: 8,
+                children:
+                c.categories
+                    .skip(1)
+                    .map((cat) => TagChip(cat, context))
+                    .toList(),
+              ),
+
+              // 태그와 제목 사이 여백
+              SizedBox(height: size.height * 0.012),
+
+              // 여행 제목
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: size.width * 0.055,
+                  fontWeight: FontWeight.bold,
                 ),
+              ),
 
-                // 태그와 제목 사이 여백
-                SizedBox(height: size.height * 0.012),
+              // 제목과 메타정보 사이 여백
+              SizedBox(height: size.height * 0.025),
 
-                // 여행 제목
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: size.width * 0.055,
-                    fontWeight: FontWeight.bold,
+              // 지역/날짜/인원 정보
+              Row(
+                children: [
+                  const Icon(
+                    Icons.location_on,
+                    size: 16,
+                    color: Color(0xFF9A9A9A),
                   ),
-                ),
+                  const SizedBox(width: 4),
+                  Text(
+                    regionText,
+                    style: TextStyle(
+                      fontSize: size.width * 0.03,
+                      color: const Color(0xFF707070),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  const Icon(
+                    Icons.calendar_today,
+                    size: 16,
+                    color: Color(0xFF9A9A9A),
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    dateText,
+                    style: TextStyle(
+                      fontSize: size.width * 0.03,
+                      color: const Color(0xFF707070),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  const Icon(Icons.person, size: 16, color: Color(0xFF9A9A9A)),
+                  const SizedBox(width: 4),
+                  Text(
+                    participantText,
+                    style: TextStyle(
+                      fontSize: size.width * 0.03,
+                      color: const Color(0xFF707070),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
 
-                // 제목과 메타정보 사이 여백
-                SizedBox(height: size.height * 0.025),
+              // 메타정보와 진행도 사이 여백
+              SizedBox(height: size.height * 0.035),
 
-                // 지역/날짜/인원 정보
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.location_on,
-                      size: 16,
-                      color: Color(0xFF9A9A9A),
-                    ),
-                    const SizedBox(width: 4),
-                    Text(
-                      regionText,
-                      style: TextStyle(
-                        fontSize: size.width * 0.03,
-                        color: const Color(0xFF707070),
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    const Icon(
-                      Icons.calendar_today,
-                      size: 16,
-                      color: Color(0xFF9A9A9A),
-                    ),
-                    const SizedBox(width: 4),
-                    Text(
-                      dateText,
-                      style: TextStyle(
-                        fontSize: size.width * 0.03,
-                        color: const Color(0xFF707070),
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    const Icon(Icons.person, size: 16, color: Color(0xFF9A9A9A)),
-                    const SizedBox(width: 4),
-                    Text(
-                      participantText,
-                      style: TextStyle(
-                        fontSize: size.width * 0.03,
-                        color: const Color(0xFF707070),
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
+              // 진행도 표시
+              const TripProgressBar(),
+            ],
+          ),
 
-                // 메타정보와 진행도 사이 여백
-                SizedBox(height: size.height * 0.035),
 
-                // 진행도 표시
-                buildProgressBar(context, progress, done, total),
-              ],
-            ),
-          );
-        }
-      ),
+        );
+      })
     );
   }
 

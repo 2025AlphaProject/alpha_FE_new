@@ -1,61 +1,132 @@
 import 'package:conever/controllers/home_page_controller.dart';
 import 'package:conever/pages/home_page/components/todayTrip_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 import 'todayTrip_detail_page/todayTrip_detail_page.dart';
 
-class HomePage extends GetView<HomePageController> {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
 
 
   @override
-  Widget build(BuildContext context) {
-    Future.microtask((){
-      Get.find<HomePageController>().loadTodayTour();
-    });
+  void initState() {
+    super.initState();
+  }
 
+
+  final controller = Get.find<HomePageController>();
+
+  @override
+  Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFFF6C57), // 상단 배경 색상
-      body: Column(
-        children: [
-          SizedBox(height: size.height * 0.4), // 로고 영역 (나중에 앱바 등으로 대체 가능)
-          // 흰색 배경 본문
-          Expanded(
-            child: Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+    return VisibilityDetector(
+      key: const Key('home-page'),
+      onVisibilityChanged: (info) {
+        if (info.visibleFraction > 0) {
+          controller.loadTodayTour();
+        }
+      },
+      child: Scaffold(
+        backgroundColor: const Color(0xFFFF6C57),
+        body: Column(
+          children: [
+            SizedBox(
+                height: size.height * 0.4,
+              child:Stack(
+                children: [
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: Padding(
+                      padding: EdgeInsets.only(top: size.height * 0.05, right: size.width * 0.05),
+                      child: SvgPicture.asset(
+                        'assets/icons/logo_text.svg',
+                        height: size.height * 0.025,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: size.height * 0.08, left: size.width * 0.05),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Center(
+                          child: SvgPicture.asset(
+                            'assets/icons/airport.svg',
+                            height: size.height * 0.2,
+                          ),
+                        ),
+                        Text(
+                          '${controller.userName.value} 님,',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: size.width * 0.06,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          '여행 준비 되셨나요?',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: size.width * 0.06,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+
+                      ],
+                    ),
+                  ),
+                ],
+                clipBehavior: Clip.none,
               ),
-              child: Padding(
-                padding: EdgeInsets.all(size.width * 0.05),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildTitleSection(context),
-                    const SizedBox(height: 16),
-                    const TodayTripCard(),
-                  ],
+            ),
+            Expanded(
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(size.width * 0.05),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildTitleSection(context),
+                      const SizedBox(height: 16),
+                      const TodayTripCard(),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildTitleSection(BuildContext context) {
     return GestureDetector(
-      onTap: () => Get.to(TodayTripDetail()),
+      onTap: () => {
+        controller.todayTourNotFound.value
+        ? (){}
+        : Get.to(TodayTripDetail())
+      },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            '오늘의 여행은?',
+          Text( controller.todayTourNotFound.value
+              ? '오늘의 일정이 없어요'
+            :'오늘의 여행은?',
             style: TextStyle(
               fontSize: MediaQuery.of(context).size.width * 0.045,
               fontWeight: FontWeight.bold,

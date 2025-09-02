@@ -28,6 +28,8 @@ dependencies:
   logger: ^2.6.1
   flutter_naver_map: ^1.4.1+1
   skeletonizer: ^2.1.0+1
+  visibility_detector: ^0.4.0+2
+
   image_picker: ^1.0.4
   image: ^4.0.17
   path_provider: ^2.1.2
@@ -74,6 +76,8 @@ flutter:
     - assets/icons/pose1_icon.png
     - assets/icons/pose2_icon.png
     - assets/icons/pose3_icon.png
+    - assets/icons/logo_text.svg
+    - assets/icons/airport.svg
     - assets/icons/missing_image_icon.png
 
     - assets/images/loading2_1.png
