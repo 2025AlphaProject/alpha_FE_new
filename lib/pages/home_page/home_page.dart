@@ -65,14 +65,14 @@ class _HomePageState extends State<HomePage> {
                             height: size.height * 0.2,
                           ),
                         ),
-                        Text(
+                        Obx(() => Text(
                           '${controller.userName.value} 님,',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: size.width * 0.06,
                             fontWeight: FontWeight.bold,
                           ),
-                        ),
+                        )),
                         Text(
                           '여행 준비 되셨나요?',
                           style: TextStyle(

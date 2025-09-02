@@ -69,16 +69,21 @@ flutter:
 
     - assets/buttons/kakao_login_button.png
 
-    - assets/icons/icon.png
+    - assets/icons/airport.svg
     - assets/icons/ask_add_page_icon.png
+    - assets/icons/delete_tour_page_icon.png
     - assets/icons/final_add_page_icon.png
+    - assets/icons/icon.png
     - assets/icons/image_icon.png
+    - assets/icons/logo_text.svg
+    - assets/icons/logo_white.png
+    - assets/icons/map_icon.png
+    - assets/icons/missing_image_icon.png
+    - assets/icons/plan_card_icon.png
+    - assets/icons/plan_page_1_icon.png
     - assets/icons/pose1_icon.png
     - assets/icons/pose2_icon.png
     - assets/icons/pose3_icon.png
-    - assets/icons/logo_text.svg
-    - assets/icons/airport.svg
-    - assets/icons/missing_image_icon.png
 
     - assets/images/loading2_1.png
     - assets/images/loading2_2.png

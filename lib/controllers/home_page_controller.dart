@@ -1,4 +1,3 @@
-import 'package:conever/helper/tour/get_tour_images.dart';
 import 'package:conever/services/http/tour/fetch_today_tour.dart';
 import 'package:conever/services/http/tour/fetch_tour_pose.dart';
 import 'package:dio/dio.dart';
@@ -10,7 +9,7 @@ import 'package:get/get.dart';
 
 import '../helper/tour/tour_place.dart';
 import '../services/http/tour/fetch_tour_image.dart';
-import '../services/http/user/fetch_my_info.dart';
+import '../services/http/user/me.dart';
 
 /// 홈 페이지 전역 상태
 class HomePageController extends GetxController {
@@ -86,7 +85,7 @@ class HomePageController extends GetxController {
     try {
       isLoading.value = true;
       errorMessage.value = '';
-      final data = await FetchMyInfo();
+      final data = await userMe();
 
       userName.value = data['username'] as String? ?? '';
       userProfile.value = data['profile_image_url'] as String? ?? '';
