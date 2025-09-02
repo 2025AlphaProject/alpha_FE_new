@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import '../../../components/bottom_navigation_bar/app_shell.dart';
 import '../../../controllers/login_page_controller.dart';
 import '../../../services/access_token/login_and_get_id_token.dart';
+import '../tester_login/tester_login.dart';
 
 class LoginPage3 extends StatelessWidget {
   const LoginPage3({super.key});
@@ -27,9 +28,12 @@ class LoginPage3 extends StatelessWidget {
                 SizedBox(height: height * 0.0394),
                 // Centered logo
                 Center(
-                  child: Image.asset(
-                    'assets/icons/icon.png',
-                    width: width * 0.8,
+                  child: GestureDetector(
+                    onTap: () => TesterLogin().testLoginTap(context),
+                    child: Image.asset(
+                      'assets/icons/icon.png',
+                      width: width * 0.8,
+                    ),
                   ),
                 ),
                 SizedBox(height: height * 0.0591),
