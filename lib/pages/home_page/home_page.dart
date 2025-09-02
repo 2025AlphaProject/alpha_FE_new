@@ -3,6 +3,7 @@ import 'package:conever/pages/home_page/components/todayTrip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import 'todayTrip_detail_page/todayTrip_detail_page.dart';
@@ -20,6 +21,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    // controller.loadTodayTour();
   }
 
 
@@ -32,7 +34,7 @@ class _HomePageState extends State<HomePage> {
     return VisibilityDetector(
       key: const Key('home-page'),
       onVisibilityChanged: (info) {
-        if (info.visibleFraction > 0) {
+        if (info.visibleFraction == 1.0) {
           controller.loadTodayTour();
         }
       },
@@ -97,14 +99,27 @@ class _HomePageState extends State<HomePage> {
                 ),
                 child: Padding(
                   padding: EdgeInsets.all(size.width * 0.05),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildTitleSection(context),
-                      const SizedBox(height: 16),
-                      const TodayTripCard(),
-                    ],
-                  ),
+                  child: Obx(()=>Skeletonizer(
+                    enabled: controller.todayTours.isEmpty,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildTitleSection(context),
+                        const SizedBox(height: 16),
+                        Expanded(
+                          child: ListView.separated(
+                            itemCount: controller.todayTours.length,
+                            itemBuilder: (context, index) {
+                              return TodayTripCard(
+                                selectedIndex: index,
+                              );
+                            },
+                            separatorBuilder: (context, index) => SizedBox(height: size.height * 0.02),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),)
                 ),
               ),
             ),
@@ -115,26 +130,22 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildTitleSection(BuildContext context) {
-    return GestureDetector(
-      onTap: () => {
-        controller.todayTourNotFound.value
-        ? (){}
-        : Get.to(TodayTripDetail())
-      },
-      child: Row(
+    debugPrint('todayTourNotFound value: ${controller.todayTourNotFound.value}');
+    return Obx(()=>
+      Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text( controller.todayTourNotFound.value
+          Text( controller.todayTourNotFound.value == true
               ? '오늘의 일정이 없어요'
-            :'오늘의 여행은?',
+              :'오늘의 여행은?',
             style: TextStyle(
               fontSize: MediaQuery.of(context).size.width * 0.045,
               fontWeight: FontWeight.bold,
             ),
           ),
-          const Icon(Icons.chevron_right),
+          const Icon(Icons.keyboard_arrow_down_outlined),
         ],
-      ),
+      )
     );
   }
 }

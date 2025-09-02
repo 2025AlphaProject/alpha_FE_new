@@ -22,7 +22,7 @@ Future<void> postSnapshot(Uint8List pngBytes, int tourId) async {
 
   try {
     await dio.post(
-      'http://3.34.125.36/tour/snapshot/',
+      'http://3.34.44.187:80/tour/snapshot/',
       data: formData,
       options: Options(headers: {'Content-Type': 'multipart/form-data'}),
     );

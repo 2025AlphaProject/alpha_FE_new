@@ -4,7 +4,8 @@ import 'package:get/get.dart';
 import 'package:conever/controllers/home_page_controller.dart';
 
 class TripProgressBar extends StatelessWidget {
-  const TripProgressBar({super.key});
+  final int selectedIndex;
+  const TripProgressBar({super.key, required this.selectedIndex});
 
   @override
   Widget build(BuildContext context) {
@@ -14,9 +15,7 @@ class TripProgressBar extends StatelessWidget {
         ? Get.find<HomePageController>()
         : Get.put<HomePageController>(HomePageController(), permanent: true);
     return Obx(() {
-      final int total = c.placeCount.value;
-      final int done = c.imageCount.value;
-      double progress = total > 0 ? (done / total) : 0.0;
+      double progress = c.todayTours[selectedIndex].placeCnt > 0 ? (c.todayTours[selectedIndex].imageCnt / c.todayTours[selectedIndex].imageCnt) : 0.0;
       // 진행 값 보정
       double p = progress.isNaN || !progress.isFinite ? 0.0 : progress;
       if (p < 0) p = 0;
@@ -70,7 +69,7 @@ class TripProgressBar extends StatelessWidget {
                   right: 0,
                   top: headerHeight,
                   child: Text(
-                    '$done / $total',
+                    '${c.todayTours[selectedIndex].imageCnt} / ${c.todayTours[selectedIndex].placeCnt}',
                     style: TextStyle(
                       fontSize: size.width * 0.035,
                       fontWeight: FontWeight.bold,

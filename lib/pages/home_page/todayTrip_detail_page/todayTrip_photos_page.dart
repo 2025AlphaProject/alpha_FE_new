@@ -6,7 +6,8 @@ import 'dart:ui';
 import '../../../controllers/home_page_controller.dart';
 
 class TodayTripPhotosPage extends StatelessWidget {
-  const TodayTripPhotosPage({super.key});
+  final int selectedIndex;
+  const TodayTripPhotosPage({super.key, required this.selectedIndex});
 
   @override
   Widget build(BuildContext context) {
@@ -24,17 +25,23 @@ class TodayTripPhotosPage extends StatelessWidget {
 
     return Obx(() {
       if (c.isLoading.value) {
-        return Center(
-          child: CircularProgressIndicator(),
+        return Container(
+          color: Color(0xFFF4F4F4),
+          child: Center(
+            child: CircularProgressIndicator(),
+          ),
         );
       }
       if (photos.isEmpty) {
-        return Center(
-          child: Text(
-            '업로드한 사진이 없습니다',
-            style: TextStyle(
-              fontSize: size.width * 0.04,
-              fontWeight: FontWeight.w500,
+        return Container(
+          color: Color(0xFFF4F4F4),
+          child: Center(
+            child: Text(
+              '업로드한 사진이 없습니다',
+              style: TextStyle(
+                fontSize: size.width * 0.04,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
         );
@@ -56,6 +63,7 @@ class TodayTripPhotosPage extends StatelessWidget {
               onTap: () {
                 Get.dialog(
                   todayTripPhotoDetailPage(
+                    selectedIndex: selectedIndex,
                     imageUrl: photos[index]['image'],
                     imageId: photos[index]['id'],
                   ),

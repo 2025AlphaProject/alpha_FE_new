@@ -6,10 +6,11 @@ import '../../../controllers/home_page_controller.dart';
 import '../../../services/http/tour/delete_tour_image.dart';
 
 class todayTripPhotoDetailPage extends StatelessWidget {
+  final int selectedIndex;
   final String imageUrl;
   final int imageId;
 
-  const todayTripPhotoDetailPage({super.key, required this.imageUrl, required this.imageId});
+  const todayTripPhotoDetailPage({super.key, required this.imageUrl, required this.imageId, required this.selectedIndex});
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +86,7 @@ class todayTripPhotoDetailPage extends StatelessWidget {
                                 )
                             ), onPressed: () async {
                           await deleteTourImage(imageId);
-                          Get.find<HomePageController>().loadTourImages(Get.find<HomePageController>().tourId.value);
+                          Get.find<HomePageController>().loadTourImages(Get.find<HomePageController>().todayTours[selectedIndex].tourId);
                           Get.close(2);
                         }, child: Text('확인')),
                       ],

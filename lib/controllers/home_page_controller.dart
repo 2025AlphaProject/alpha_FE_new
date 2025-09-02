@@ -1,3 +1,4 @@
+import 'package:conever/helper/tour/tour_today_info.dart';
 import 'package:conever/services/http/tour/fetch_today_tour.dart';
 import 'package:conever/services/http/tour/fetch_tour_pose.dart';
 import 'package:dio/dio.dart';
@@ -19,21 +20,7 @@ class HomePageController extends GetxController {
   final RxString userProfile = ''.obs;
 
   // 투어 기본 정보
-  final RxInt tourId = 0.obs;
-  final RxString tourName = ''.obs;
-  final RxString tourDate = ''.obs; // 서버 문자열 그대로 저장
-
-  // 사용자 수
-  final RxInt userCount = 0.obs;
-
-  // 업로드 한 이미지 수
-  final RxInt imageCount = 0.obs;
-
-  // 총 장소 개수
-  final RxInt placeCount = 0.obs;
-
-  // 여행 지역
-  final RxString region = ''.obs;
+  final RxList<TourTodayInfo> todayTours = <TourTodayInfo>[].obs;
 
   // 장소 목록
   final RxList<TourPlace> places = <TourPlace>[].obs;
@@ -44,7 +31,6 @@ class HomePageController extends GetxController {
   final RxBool todayTourNotFound = false.obs;
 
   // 카테고리 전역 상태
-  final RxList<String> categories = <String>[].obs; // ['전체', '관광지', '숙박', ...]
   final RxString selectedCategory = '전체'.obs; // 현재 선택된 카테고리
 
   // 선택된 카테고리에 따른 필터 결과
@@ -75,9 +61,7 @@ class HomePageController extends GetxController {
 
   Future<void> _loadInitialData() async {
     await loadUserData();
-    await loadTodayTour();
-    await loadTodayCourses();
-    await loadTourImages(tourId.value);
+    // await loadTodayTour();
   }
 
   Future<void> loadUserData() async {
@@ -85,6 +69,7 @@ class HomePageController extends GetxController {
     try {
       isLoading.value = true;
       errorMessage.value = '';
+      todayTourNotFound.value = false;
       final data = await userMe();
 
       userName.value = data['username'] as String? ?? '';
@@ -103,50 +88,34 @@ class HomePageController extends GetxController {
     debugPrint('loadTodayTour: 실행 시작');
     try {
       debugPrint('loadTodayTour: try 구문 진입');
-
       isLoading.value = true;
       errorMessage.value = '';
-
       debugPrint('loadTodayTour: fetchTodayTour 진입');
-      final tourData = await fetchTodayTour();
+      final tourDataList = await fetchTodayTour();
 
-      // 카테고리 id와 일치하는 카테고리명 삽입
-      final list = <String>[];
-      for (final pid in tourData['category_list']) {
-        list.add(getCategoryName(pid.toString()));
-      }
-      categories.assignAll(['전체', ...list]);
-
-      tourId.value = tourData['tour_id'] as int? ?? 0;
-      tourName.value = tourData['tour_name'] as String? ?? '';
-      tourDate.value = tourData['tour_date'] as String? ?? '';
-      userCount.value = tourData['people_cnt'] as int? ?? 0;
-      imageCount.value = tourData['image_cnt'] as int? ?? 0;
-      placeCount.value = tourData['place_cnt'] as int? ?? 0;
-      region.value = tourData['tour_area_info'].isNotEmpty ? tourData['tour_area_info'][0] as String : '';
-
-      debugPrint('loadTodayTour: 실행 완료, imageCount: ${imageCount.value}');
-
-
+      todayTours.clear();
+      todayTours.addAll(
+        (tourDataList as List)
+            .map((e) => TourTodayInfo.fromJson(e as Map<String, dynamic>))
+            .toList(),
+      );
       isLoading.value = false;
-    } on DioException catch(e) {
+    } on DioException catch (e) {
       debugPrint('loadTodayTour: DioException 발생: $e');
       isLoading.value = false;
       if (e.response?.statusCode == 404) {
         todayTourNotFound.value = true;
       }
-    }
-    catch (e) {
+    } catch (e) {
       debugPrint('HomePageController: 오늘의 여행 정보 가져오기 실패: $e');
       isLoading.value = false;
       errorMessage.value = '데이터 로딩 중 오류가 발생했습니다.';
     }
-
   }
 
-  Future<void> loadTodayCourses() async {
+  Future<void> loadTodayCourses(int tourId) async {
     isLoading.value = true;
-    getTodayTourCourse(tourId.value);
+    await getTodayTourCourse(tourId);
 
     isLoading.value = false;
   }

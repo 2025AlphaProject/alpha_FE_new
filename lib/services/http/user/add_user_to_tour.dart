@@ -7,7 +7,7 @@ Future<bool> addUserToTour({
   try {
     final dio = await getAuthorizedDio();
     final response = await dio.post(
-      'http://3.34.125.36:80/tour/add_traveler/',
+      'http://3.34.44.187:80/tour/add_traveler/',
       data: {
         'add_traveler_sub': sub,
         'travel_id': tourId,

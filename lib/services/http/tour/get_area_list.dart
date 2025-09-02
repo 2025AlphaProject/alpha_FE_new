@@ -3,7 +3,7 @@ import '../../dio/unauthorized_dio.dart';
 Future<Map<String, dynamic>> tourGetAreaList() async {
   final dio = await getUnauthorizedDio();
   try {
-    final response = await dio.get('http://3.34.125.36/tour/get_area_list/');
+    final response = await dio.get('http://3.34.44.187:80/tour/get_area_list/');
     return response.data;
   } catch (e) {
     throw Exception("getSidoList Error: $e");

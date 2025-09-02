@@ -9,7 +9,7 @@ Future<void> getAccessAndRefreshToken(OAuthToken token) async {
     final formData = FormData.fromMap({'id_token': token.idToken});
 
     final response = await dio.post(
-      'http://3.34.125.36:80/auth/login/',
+      'http://3.34.44.187:80/auth/login/',
       data: formData,
       options: Options(headers: {'Accept': 'application/json'}),
     );
