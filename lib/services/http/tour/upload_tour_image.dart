@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 import '../../dio/authorized_dio.dart';
 
-Future<Map<String, dynamic>> TourImageUpload(String imagePath, int id) async {
+Future<Map<String, dynamic>> tourImageUpload(String imagePath, int id) async {
   final dio = await getAuthorizedDio();
 
   debugPrint('imagePath: $imagePath');

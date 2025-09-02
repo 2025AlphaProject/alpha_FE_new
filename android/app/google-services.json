@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "698149285555",
+    "project_id": "alpha2025-7c62d",
+    "storage_bucket": "alpha2025-7c62d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:698149285555:android:57a317f4f1d85bcbd08ac6",
+        "android_client_info": {
+          "package_name": "com.example.conever"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3XnViDGczI9qEnHEhQE2TTSXmxROLIh4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:698149285555:android:78c85196cfa94238d08ac6",
+        "android_client_info": {
+          "package_name": "com.example.notification_mock_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3XnViDGczI9qEnHEhQE2TTSXmxROLIh4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
