@@ -1,3 +1,4 @@
+import 'package:conever/controllers/home_page_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -36,6 +37,7 @@ class FinalAddPage extends StatelessWidget {
             child: ElevatedButton(onPressed: () {
               final controller = Get.find<NavigationController>();
               controller.tabIndex.value = 0;  // 홈 페이지 이동
+              Get.find<HomePageController>().todayTourNotFound.value = false;
               Get.offAll(() => AppShell());
             },
                 style: ElevatedButton.styleFrom(

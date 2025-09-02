@@ -5,7 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../../controllers/home_page_controller.dart';
 import '../../../helper/image_upload_from_device.dart';
 
-Widget buildImageUploadFAB(BuildContext context) {
+Widget buildImageUploadFAB(BuildContext context, int selectedIndex) {
 
   final c =
   Get.isRegistered<HomePageController>()
@@ -33,7 +33,7 @@ Widget buildImageUploadFAB(BuildContext context) {
                 title: const Text("카메라로 촬영"),
                 onTap: () async {
                   Get.back();
-                  pickAndUploadImage(ImageSource.camera, c.tourId.value);
+                  pickAndUploadImage(ImageSource.camera, c.todayTours[selectedIndex].tourId);
                 },
               ),
               ListTile(
@@ -41,7 +41,7 @@ Widget buildImageUploadFAB(BuildContext context) {
                 title: const Text("갤러리에서 선택"),
                 onTap: () async {
                   Get.back();
-                  pickAndUploadImage(ImageSource.gallery, c.tourId.value);
+                  pickAndUploadImage(ImageSource.gallery, c.todayTours[selectedIndex].tourId);
                 },
               ),
             ],

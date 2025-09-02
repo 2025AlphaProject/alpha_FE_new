@@ -6,7 +6,7 @@ Future<void> deleteTourImage (int imageId) async {
   try {
     final dio = await getAuthorizedDio();
     await dio.delete(
-      'http://3.34.125.36:80/tour/image/$imageId/'
+      'http://3.34.44.187:80/tour/image/$imageId/'
     );
     Get.snackbar("성공", "이미지 삭제 완료");
   }

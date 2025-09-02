@@ -8,7 +8,7 @@ Future<void> postTour({
 }) async {
   final dio = await getAuthorizedDio();
   try {
-    await dio.post('http://3.34.125.36/tour/', data:
+    await dio.post('http://3.34.44.187:80/tour/', data:
       {
         'tour_name': tourName,
         'tour_date': tourDate,

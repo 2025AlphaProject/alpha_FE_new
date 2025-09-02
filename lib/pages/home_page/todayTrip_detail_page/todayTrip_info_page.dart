@@ -8,7 +8,11 @@ import '../components/category_build_tag.dart';
 import '../components/todayTrip_place_card.dart';
 
 class TodayTripInfoPage extends StatelessWidget {
-  const TodayTripInfoPage({super.key});
+  final int selectedIndex;
+
+  const TodayTripInfoPage({super.key, required this.selectedIndex});
+
+
 
 
 
@@ -65,7 +69,7 @@ class TodayTripInfoPage extends StatelessWidget {
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Obx(() {
-                        final cats = c.categories;
+                        final cats = c.todayTours[selectedIndex].categoryList;
                         return Row(
                           children: [
                             for (int i = 0; i < cats.length; i++) ...[
@@ -122,7 +126,7 @@ class TodayTripInfoPage extends StatelessWidget {
                                   Get.to(
                                     () =>
 
-                                      const TodayTripPlaceDetailPage()
+                                      TodayTripPlaceDetailPage(selectedIndex: selectedIndex,)
                                     ,
                                     arguments: {
                                       'title': p.name,

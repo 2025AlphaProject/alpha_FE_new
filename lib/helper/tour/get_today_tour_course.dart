@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 
 
 
-void getTodayTourCourse(int id) async {
+Future<void> getTodayTourCourse(int id) async {
 
   debugPrint('loadTodayTour: 실행 시작');
   final controller = Get.find<HomePageController>();

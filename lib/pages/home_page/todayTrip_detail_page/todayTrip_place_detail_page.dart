@@ -6,7 +6,8 @@ import '../../../helper/image_upload_from_device.dart';
 
 
 class TodayTripPlaceDetailPage extends StatelessWidget {
-  const TodayTripPlaceDetailPage({super.key});
+  final int selectedIndex;
+  const TodayTripPlaceDetailPage({super.key, required this.selectedIndex});
 
   @override
   Widget build(BuildContext context) {
@@ -234,7 +235,7 @@ class TodayTripPlaceDetailPage extends StatelessWidget {
                           title: const Text('사진 업로드'),
                           onTap: () {
                             Navigator.pop(context);
-                            pickAndUploadImage(ImageSource.gallery, c.tourId.value);
+                            pickAndUploadImage(ImageSource.gallery, c.todayTours[selectedIndex].tourId);
                           },
                         ),
                         ListTile(
@@ -242,7 +243,7 @@ class TodayTripPlaceDetailPage extends StatelessWidget {
                           title: const Text('촬영 후 업로드'),
                           onTap: () {
                             Navigator.pop(context);
-                            pickAndUploadImage(ImageSource.camera, c.tourId.value);
+                            pickAndUploadImage(ImageSource.camera, c.todayTours[selectedIndex].tourId);
                           },
                         ),
                       ],

@@ -18,7 +18,7 @@ Future<void> postImage(File imageFile, int tourId) async {
 
   try {
     final response = await dio.post(
-      'http://3.34.125.36/tour/image/',
+      'http://3.34.44.187:80/tour/image/',
       data: formData,
       options: Options(
         headers: {
