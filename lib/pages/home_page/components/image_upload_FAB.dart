@@ -29,7 +29,7 @@ Widget buildImageUploadFAB(BuildContext context, int selectedIndex) {
             mainAxisSize: MainAxisSize.min,
             children: [
               ListTile(
-                leading: const Icon(Icons.camera_alt),
+                leading: const Icon(Icons.camera_alt,color: const Color(0xFFFF6C57)),
                 title: const Text("카메라로 촬영"),
                 onTap: () async {
                   Get.back();
@@ -37,7 +37,7 @@ Widget buildImageUploadFAB(BuildContext context, int selectedIndex) {
                 },
               ),
               ListTile(
-                leading: const Icon(Icons.photo),
+                leading: const Icon(Icons.photo, color: const Color(0xFFFF6C57)),
                 title: const Text("갤러리에서 선택"),
                 onTap: () async {
                   Get.back();

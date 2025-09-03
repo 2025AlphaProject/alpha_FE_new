@@ -51,7 +51,7 @@ class TodayTripCard extends StatelessWidget {
           return c.todayTourNotFound.value == true
               ? SizedBox(height: size.height * 0.2,child: Center(child: Text('새 여행을 추가해 보세요!', style: TextStyle(color: const Color(0xFF707070)),),))
               :Skeletonizer(
-            enabled: c.isLoading.value,
+            enabled: c.isTodayTourLoading.value,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,

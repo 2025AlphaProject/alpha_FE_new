@@ -93,7 +93,7 @@ class TodayTripInfoPage extends StatelessWidget {
                     // 그리드
                     Expanded(
                       child: Obx(() {
-                        if (c.isLoading.value) {
+                        if (c.isTourCourseLoading.value) {
                           return const Center(
                             child: CircularProgressIndicator(),
                           );
@@ -106,7 +106,7 @@ class TodayTripInfoPage extends StatelessWidget {
                           return const Center(child: Text('해당 카테고리 장소가 없습니다'));
                         }
                         return Skeletonizer(
-                          enabled: c.isLoading.value,
+                          enabled: c.isTourCourseLoading.value,
                           child: GridView.builder(
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(

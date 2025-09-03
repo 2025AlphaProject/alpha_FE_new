@@ -100,7 +100,7 @@ class _HomePageState extends State<HomePage> {
                 child: Padding(
                   padding: EdgeInsets.all(size.width * 0.05),
                   child: Obx(()=>Skeletonizer(
-                    enabled: controller.todayTours.isEmpty,
+                    enabled: controller.isTodayTourLoading.value,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

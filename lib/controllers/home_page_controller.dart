@@ -26,8 +26,14 @@ class HomePageController extends GetxController {
   final RxList<TourPlace> places = <TourPlace>[].obs;
 
   // 로딩/에러 상태
-  final RxBool isLoading = false.obs;
+  final RxBool isUserDataLoading = false.obs;
+  final RxBool isTodayTourLoading = false.obs;
+  final RxBool isTourCourseLoading = false.obs;
+  final RxBool isTourPoseLoading = false.obs;
+  final RxBool isTourImageLoading = false.obs;
+
   final RxString errorMessage = ''.obs;
+
   final RxBool todayTourNotFound = false.obs;
 
   // 카테고리 전역 상태
@@ -67,7 +73,7 @@ class HomePageController extends GetxController {
   Future<void> loadUserData() async {
     debugPrint('loadUserData: 실행 시작');
     try {
-      isLoading.value = true;
+      isUserDataLoading.value = true;
       errorMessage.value = '';
       todayTourNotFound.value = false;
       final data = await userMe();
@@ -75,11 +81,11 @@ class HomePageController extends GetxController {
       userName.value = data['username'] as String? ?? '';
       userProfile.value = data['profile_image_url'] as String? ?? '';
 
-      isLoading.value = false;
+      isUserDataLoading.value = false;
   }
   catch (e) {
     debugPrint('HomePageController: 유저 정보 가져오기 실패: $e');
-    isLoading.value = false;
+    isUserDataLoading.value = false;
     errorMessage.value = '데이터 로딩 중 오류가 발생했습니다.';
     }
   }
@@ -88,7 +94,7 @@ class HomePageController extends GetxController {
     debugPrint('loadTodayTour: 실행 시작');
     try {
       debugPrint('loadTodayTour: try 구문 진입');
-      isLoading.value = true;
+      isTodayTourLoading.value = true;
       errorMessage.value = '';
       debugPrint('loadTodayTour: fetchTodayTour 진입');
       final tourDataList = await fetchTodayTour();
@@ -99,46 +105,46 @@ class HomePageController extends GetxController {
             .map((e) => TourTodayInfo.fromJson(e as Map<String, dynamic>))
             .toList(),
       );
-      isLoading.value = false;
+      isTodayTourLoading.value = false;
     } on DioException catch (e) {
       debugPrint('loadTodayTour: DioException 발생: $e');
-      isLoading.value = false;
+      isTodayTourLoading.value = false;
       if (e.response?.statusCode == 404) {
         todayTourNotFound.value = true;
       }
     } catch (e) {
       debugPrint('HomePageController: 오늘의 여행 정보 가져오기 실패: $e');
-      isLoading.value = false;
+      isTodayTourLoading.value = false;
       errorMessage.value = '데이터 로딩 중 오류가 발생했습니다.';
     }
   }
 
   Future<void> loadTodayCourses(int tourId) async {
-    isLoading.value = true;
+    isTourCourseLoading.value = true;
     await getTodayTourCourse(tourId);
 
-    isLoading.value = false;
+    isTourCourseLoading.value = false;
   }
 
   Future<void> loadTourPoses(int place_id) async {
     debugPrint('loadTourPoses: 실행 시작');
-    isLoading.value = true;
+    isTourPoseLoading.value = true;
 
     final data = await fetchTourPose(place_id);
     poses.value = List<String>.from(data['poses'] ?? []);
     poseImages.value = List<String>.from(data['images'] ?? []);
 
-    isLoading.value = false;
+    isTourPoseLoading.value = false;
   }
 
   Future<void> loadTourImages(int tour_id) async {
     debugPrint('loadTourImages: 실행 시작');
-    isLoading.value = true;
+    isTourImageLoading.value = true;
 
     final data = await fetchTourImages(tour_id);
     debugPrint('loadTourImages: 실행 완료, data: $data');
     tourImages.value = data;
 
-    isLoading.value = false;
+    isTourImageLoading.value = false;
   }
 }

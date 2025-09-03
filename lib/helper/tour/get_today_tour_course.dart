@@ -12,7 +12,7 @@ Future<void> getTodayTourCourse(int id) async {
   final controller = Get.find<HomePageController>();
 
   try {
-    controller.isLoading.value = true;
+    controller.isTourCourseLoading.value = true;
     controller.errorMessage.value = '';
 
     final tourData = await fetchTourCourses(id);
@@ -37,7 +37,7 @@ Future<void> getTodayTourCourse(int id) async {
     debugPrint('getTodayTourCourse: 오늘의 여행 정보 가져오기 실패: $e');
     controller.errorMessage.value = '데이터 로딩 중 오류가 발생했습니다.';
   } finally {
-    controller.isLoading.value = false;
+    controller.isTourCourseLoading.value = false;
   }
 
 }
