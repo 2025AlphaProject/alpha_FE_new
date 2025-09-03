@@ -33,14 +33,17 @@ class TravelInfo extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Dday(date: date),
-              SizedBox(width: width * 0.0116),
-              Text(
-                date,
-                style: TextStyle(fontSize: width * 0.034, color: Colors.white),
+              Row(
+                children: [
+                  Dday(date: date),
+                  Text(
+                    date,
+                    style: TextStyle(fontSize: width * 0.034, color: Colors.white),
+                  ),
+                ],
               ),
-              SizedBox(width: width * 0.45),
               IconButton(
                 onPressed: () {
                   controller.isEditMode.value = false;
