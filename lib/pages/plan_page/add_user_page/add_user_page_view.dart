@@ -34,7 +34,10 @@ class _addUserState extends State<addUser> {
       appBar: AppBar(
         backgroundColor: Color(0xFFFFFFFF),
         leading: IconButton(
-            onPressed: (){Get.back();},
+            onPressed: (){
+              controller.tourCourse(controller.course['id']); // 상태 새로고침
+              Get.back();
+              },
             icon: Icon(Icons.arrow_back_ios_outlined,color: Color(0xCCD3351E),)
         ),
         title: Text("동행자 추가",style: TextStyle(color:Color(0xCCD3351E) ),),

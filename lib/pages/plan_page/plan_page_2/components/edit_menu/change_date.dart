@@ -100,9 +100,8 @@ void showDateEditBottomSheet(BuildContext context) {
                                         final editDate = DateFormat('yyyy-MM-dd').format(_selectedDay!).toString();
                                         final response = await controller.editDate(controller.course['id'], editDate);
                                         if(response){
-                                          final naviController = Get.find<NavigationController>();
-                                          naviController.tabIndex.value = 0;  // 계획 페이지 이동
-                                          Get.offAll(() => AppShell());
+                                          controller.tourCourse(controller.course['id']);
+                                          Get.back();
                                         }
 
                                       },
