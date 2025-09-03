@@ -107,7 +107,9 @@ class _HomePageState extends State<HomePage> {
                         _buildTitleSection(context),
                         const SizedBox(height: 16),
                         Expanded(
-                          child: ListView.separated(
+                          child: controller.todayTourNotFound.value
+                          ? Center(child: Text('하단의 추가 버튼을 눌러 새 여행을 만들어 보세요!', style: TextStyle(color: Colors.grey),),)
+                          : ListView.separated(
                             itemCount: controller.todayTours.length,
                             itemBuilder: (context, index) {
                               return TodayTripCard(
