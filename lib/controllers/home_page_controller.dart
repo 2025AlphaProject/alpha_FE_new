@@ -2,6 +2,7 @@ import 'package:conever/helper/tour/tour_today_info.dart';
 import 'package:conever/services/http/tour/fetch_today_tour.dart';
 import 'package:conever/services/http/tour/fetch_tour_pose.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 
 import '../helper/tour/get_today_tour_course.dart';
 import '../helper/tour/category/category_match.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import '../helper/tour/tour_place.dart';
+import '../services/exception.dart';
 import '../services/http/tour/fetch_tour_image.dart';
 import '../services/http/user/me.dart';
 
@@ -40,6 +42,9 @@ class HomePageController extends GetxController {
     return places.where((p) => p.categoryName == sel).toList();
   }
 
+  // 네트워크 오류 발생 방지
+  String? _pendingNetworkError;
+
   // 카테고리 선택 변경
   void setCategory(String category) {
     selectedCategory.value = category;
@@ -55,8 +60,20 @@ class HomePageController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    _loadInitialData();
-    debugPrint('HomePageController: 컨트롤러 등록 완료');
+    try {
+      _loadInitialData();
+    } on NetworkException catch (e) {
+      _pendingNetworkError = e.message;
+    }
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    if (_pendingNetworkError != null) {
+      _showNetworkDialog(_pendingNetworkError!);
+      _pendingNetworkError = null;
+    }
   }
 
   Future<void> _loadInitialData() async {
@@ -140,5 +157,22 @@ class HomePageController extends GetxController {
     tourImages.value = data;
 
     isLoading.value = false;
+  }
+
+  void _showNetworkDialog(String msg) {
+    Get.dialog(
+      AlertDialog(
+        title: const Text('네트워크 오류'),
+        content: Text(msg),
+        actions: [
+          TextButton(onPressed: () => Get.back(), child: const Text('확인')),
+          TextButton(onPressed: () {
+            Get.back();
+            _loadInitialData();
+          }, child: const Text('다시 시도')),
+        ],
+      ),
+      barrierDismissible: false,
+    );
   }
 }
