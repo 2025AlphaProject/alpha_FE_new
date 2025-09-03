@@ -46,11 +46,10 @@ flutter_icons:
 
 flutter_native_splash:
   color: "#FFFFFF"
-  image: assets/icon.png
+  image: assets/icons/icon.png
   android: true
   ios: true
   web: false
-  android_gravity: center
 
 dependency_overrides:
   image_gallery_saver:

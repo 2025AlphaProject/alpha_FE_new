@@ -29,7 +29,12 @@ class _NearPlacePageViewState extends State<NearPlacePageView> {
               onPressed: (){Get.back();},
               icon: Icon(Icons.arrow_back_ios_outlined,color: Color(0xCCD3351E),)
           ),
-          title: Text("함께 가기 좋은 곳",style: TextStyle(color:Color(0xCCD3351E) ),),
+          title: Text(
+            "함께 가기 좋은 곳",
+            style: TextStyle(
+              color: Color(0xCCD3351E),
+              fontWeight: FontWeight.bold,
+            ),),
         ),
         body: Center(
           child: Column(
@@ -54,16 +59,20 @@ class _NearPlacePageViewState extends State<NearPlacePageView> {
         )
       );
     }
-
     return Scaffold(
       backgroundColor: Color(0xFFFFFFFF),
       appBar: AppBar(
         backgroundColor: Color(0xFFFFFFFF),
+        surfaceTintColor: Colors.white,
         leading: IconButton(
             onPressed: (){Get.back();},
             icon: Icon(Icons.arrow_back_ios_outlined,color: Color(0xCCD3351E),)
         ),
-        title: Text("함께 가기 좋은 곳",style: TextStyle(color:Color(0xCCD3351E) ),),
+        title: Text("함께 가기 좋은 곳",
+          style: TextStyle(
+            color:Color(0xCCD3351E),
+            fontWeight: FontWeight.bold,
+          )),
       ),
       body: Padding(
         padding: EdgeInsets.all(width * 0.018),

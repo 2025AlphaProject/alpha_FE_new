@@ -53,6 +53,7 @@ class _PlanPage2State extends State<PlanPage2> {
                 Container(
                   padding: EdgeInsets.fromLTRB(width * 0.034, height * 0.01, 0, 0),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         '나의 여행지',
@@ -61,7 +62,6 @@ class _PlanPage2State extends State<PlanPage2> {
                           fontWeight: FontWeight.w900,
                         ),
                       ),
-                      SizedBox(width: width * 0.55),
                       Obx(() => IconButton(
                         icon: Icon( controller.isEditMode.value ? Icons.check : Icons.edit, color: const Color(0xFFD3351E)),
                         onPressed: () {
