@@ -20,6 +20,7 @@ import 'components/bottom_navigation_bar/navigation_binding.dart';
 import 'init_controllers.dart';
 import 'pages/login_page/login_page_indicator.dart';
 import 'services/access_token/test_access_token.dart';
+import 'services/http/user/fcm.dart';
 
 // ================== 전역: 로거 / 로컬 알림 플러그인 / 채널 ==================
 final logger = Logger();
@@ -175,7 +176,7 @@ class _MyAppState extends State<MyApp> {
   Future<void> _initMessaging() async {
     // 디바이스 토큰
     final token = await FirebaseMessaging.instance.getToken();
-    debugPrint('FCM Token: $token');
+    await postFCMToken(token);
 
     // (1) 포그라운드 수신 → 로컬 알림(헤드업)
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
