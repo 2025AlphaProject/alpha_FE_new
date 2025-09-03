@@ -6,10 +6,18 @@ import 'components/sort_by_button.dart';
 import 'components/plan_card.dart';
 import 'components/plan_indicator.dart';
 
-class PlanPage1 extends GetView<PlanPageController>{
+class PlanPage1 extends StatefulWidget{
   const PlanPage1({super.key});
   @override
+  State<PlanPage1> createState() => _PlanPage1State();
+}
+
+class _PlanPage1State extends State<PlanPage1> {
+  final controller = Get.find<PlanPageController>();
+
+  @override
   Widget build(BuildContext context){
+    controller.loadTours();
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 

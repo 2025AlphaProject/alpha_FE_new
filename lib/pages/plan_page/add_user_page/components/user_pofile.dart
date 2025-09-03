@@ -57,12 +57,13 @@ class UserPofile extends StatelessWidget {
                       ),
                       TextButton( //추가 버튼
                           onPressed: (){
+                            Get.back();
                             final response = controller.addUser(sub, controller.course['id']); // 유저 추가
-                            if(response == true){
-                              final naviController = Get.find<NavigationController>();
-                              naviController.tabIndex.value = 0;  // 계획 페이지 이동
-                              Get.offAll(() => AppShell());
-                            }
+                            // if(response == true){
+                            //   final naviController = Get.find<NavigationController>();
+                            //   naviController.tabIndex.value = 0;  // 계획 페이지 이동
+                            //   Get.offAll(() => AppShell());
+                            // }
                           },
                           style: TextButton.styleFrom(
                               backgroundColor: Color(0xffD3351E)

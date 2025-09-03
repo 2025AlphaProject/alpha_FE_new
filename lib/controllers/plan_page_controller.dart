@@ -45,6 +45,7 @@ class PlanPageController extends GetxController{
       course.assignAll(parsed);
       _userList();
       selectedDay.value = _parseDate(course['tour_date']);
+
     } catch (e) {
       print('특정 여행정보 에러 : $e');
     }

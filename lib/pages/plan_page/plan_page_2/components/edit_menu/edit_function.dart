@@ -36,9 +36,8 @@ class EditFunction{
             onPressed: () async {
               final response = await controller.deletePlace(controller.course['id'], place_id);
               if(response){
-                final naviController = Get.find<NavigationController>();
-                naviController.tabIndex.value = 0;  // 계획 페이지 이동
-                Get.offAll(() => AppShell());
+                controller.tourCourse(controller.course['id']);
+                Get.back();
               }
             },
             style: TextButton.styleFrom(backgroundColor: Color(0xffD3351E),),
@@ -76,10 +75,8 @@ class EditFunction{
                 onPressed: () async {
                   final response = await controller.editName(controller.course['id'], _titleEditController.text);
                   if(response){
-
-                    final naviController = Get.find<NavigationController>();
-                    naviController.tabIndex.value = 0;  // 계획 페이지 이동
-                    Get.offAll(() => AppShell());
+                    controller.tourCourse(controller.course['id']);
+                    Get.back();
                   }
                 },
                 style: TextButton.styleFrom(

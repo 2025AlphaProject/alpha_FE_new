@@ -6,9 +6,16 @@ import 'components/place_info.dart';
 import 'components/travel_info.dart';
 import 'components/edit_menu/edit_menu.dart';
 
-class PlanPage2 extends GetView<PlanPageController> {
+class PlanPage2 extends StatefulWidget {
   final int tour_id;
   const PlanPage2({super.key, required this.tour_id});
+
+  @override
+  State<PlanPage2> createState() => _PlanPage2State();
+}
+
+class _PlanPage2State extends State<PlanPage2> {
+  final controller = Get.find<PlanPageController>();
 
   @override
   Widget build(BuildContext context) {
