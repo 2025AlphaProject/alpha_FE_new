@@ -24,7 +24,7 @@ class TodayTripPhotosPage extends StatelessWidget {
     final List<Map<String, dynamic>> photos = c.tourImages;
 
     return Obx(() {
-      if (c.isLoading.value) {
+      if (c.isTourImageLoading.value) {
         return Container(
           color: Color(0xFFF4F4F4),
           child: Center(

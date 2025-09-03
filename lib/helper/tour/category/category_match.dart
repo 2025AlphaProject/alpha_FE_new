@@ -11,7 +11,7 @@ final Map<String, String> categoryNames = {
 };
 
 String getCategoryName(String id) {
-  return categoryNames[id] ?? "알 수 없는 카테고리";
+  return categoryNames[id] ?? "미분류";
 }
 
 String getCategoryId(String name) {

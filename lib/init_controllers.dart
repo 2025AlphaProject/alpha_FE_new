@@ -1,5 +1,5 @@
 import 'package:conever/controllers/home_page_controller.dart';
-import 'package:conever/controllers/search_place_page_controller.dart';
+import 'package:conever/controllers/user_add_page_controller.dart';
 import 'package:conever/controllers/plan_page_controller.dart';
 import 'package:get/get.dart';
 
@@ -12,6 +12,6 @@ void initControllers() {
   Get.put(AddPageController());
   Get.put(MyPageController());
   Get.put(HomePageController());
-  Get.put(SearchPlaceController());
+  Get.put(UserAddPageController());
   Get.put(PlanPageController());
 }
