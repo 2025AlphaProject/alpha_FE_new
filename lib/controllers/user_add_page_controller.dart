@@ -35,6 +35,7 @@ class UserAddPageController extends GetxController {
 
   final addedPlaces = <AddedPlace>[].obs;
 
+
   // 서울 필터 및 텍스트 치환을 포함한 키워드 검색
 
   Future<List<Map<String, dynamic>>> searchPlace(String query) async {
@@ -89,6 +90,32 @@ class UserAddPageController extends GetxController {
             double.parse(place['x'].toString()),
           ),
         );
+
+        // 마커 탭 이벤트 리스너
+        marker.setOnTapListener((overlay) {
+          // 1. 해당 마커의 장소를 선택 상태로 갱신
+          selectPlace(place);
+
+          // 2. 장소 리스트 BottomSheet 열기
+          openListSheet(context);
+
+          // 3. 지도 카메라 이동 (scroll + zoom)
+          final lat = double.tryParse(place['y'] ?? '');
+          final lng = double.tryParse(place['x'] ?? '');
+          if (lat != null && lng != null) {
+            try {
+              mapController.updateCamera(
+                NCameraUpdate.scrollAndZoomTo(
+                  target: NLatLng(lat, lng),
+                  zoom: width > 500 ? 14 : 15, // 웹은 살짝 덜 확대
+                ),
+              );
+            } catch (e) {
+              debugPrint("카메라 이동 실패: $e");
+            }
+          }
+        });
+
         mapController.addOverlay(marker);
         markers.add(marker);
       }
@@ -155,6 +182,8 @@ class UserAddPageController extends GetxController {
       isScrollControlled: true,
       ignoreSafeArea: false,
       backgroundColor: Colors.transparent,
+      isDismissible: true,
+      enableDrag: true,
     );
   }
 

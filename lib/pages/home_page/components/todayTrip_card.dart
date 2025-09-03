@@ -25,7 +25,9 @@ class TodayTripCard extends StatelessWidget {
 
     return GestureDetector(
       onTap: (){
-        Get.to(
+        c.todayTours[selectedIndex].placeCnt == 0
+        ? () {}
+        : Get.to(
           () => TodayTripDetail(selectedIndex: selectedIndex),
         );
       },
@@ -48,8 +50,8 @@ class TodayTripCard extends StatelessWidget {
           ],
         ),
         child: Obx((){
-          return c.todayTourNotFound.value == true
-              ? SizedBox(height: size.height * 0.2,child: Center(child: Text('새 여행을 추가해 보세요!', style: TextStyle(color: const Color(0xFF707070)),),))
+          return c.todayTours[selectedIndex].placeCnt == 0
+              ? SizedBox(height: size.height * 0.2,child: Center(child: Text('이런! ${c.todayTours[selectedIndex].tourName} 여행에 장소가 없어요', style: TextStyle(color: const Color(0xFF707070)),),))
               :Skeletonizer(
             enabled: c.isTodayTourLoading.value,
             child: Column(
@@ -57,14 +59,16 @@ class TodayTripCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
 
-                Wrap(
-                  spacing: 8,
-                  children:
-                  c.todayTours[selectedIndex].categoryList
-                      .skip(1)
-                      .map((cat) => TagChip(cat, context))
-                      .toList(),
-                ),
+                c.todayTours[selectedIndex].categoryList.isEmpty
+                    ? SizedBox.shrink()
+                    : Wrap(
+                        spacing: 8,
+                        children: c.todayTours[selectedIndex]
+                            .categoryList
+                            .skip(1)
+                            .map((cat) => TagChip(cat, context))
+                            .toList(),
+                      ),
 
                 // 태그와 제목 사이 여백
                 SizedBox(height: size.height * 0.012),
@@ -91,7 +95,9 @@ class TodayTripCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 4),
                     Text(
-                      c.todayTours[selectedIndex].tourAreaInfo[0],
+                      c.todayTours[selectedIndex].tourAreaInfo.isNotEmpty
+                          ? c.todayTours[selectedIndex].tourAreaInfo[0]
+                          : '지역 정보 없음',
                       style: TextStyle(
                         fontSize: size.width * 0.03,
                         color: const Color(0xFF707070),

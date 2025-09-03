@@ -133,11 +133,12 @@ class AddPageController extends GetxController {
   void postTours() async {
     final filteredIds = filterAiTourId(userTour);
     String filteredDate = DateFormat('yyyy-MM-dd').format(selectedDay.value);
+    final customPlaces = List<Map<String, dynamic>>.from(userSelectedTours);
     postTour(
         tourName: selectedName.value,
         tourDate: filteredDate,
         aiTourPlaceIds: filteredIds,
-        userTourPlaces: userSelectedTours
+        userTourPlaces: customPlaces
     );
   }
 

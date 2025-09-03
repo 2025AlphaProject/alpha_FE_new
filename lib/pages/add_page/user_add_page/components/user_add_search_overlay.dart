@@ -1,3 +1,5 @@
+import 'package:conever/controllers/add_page_controller.dart';
+import 'package:conever/pages/add_page/final_add_page/final_loading_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,6 +12,7 @@ class UserAddSearchOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<UserAddPageController>();
+    final addPageController = Get.find<AddPageController>();
 
     double width = MediaQuery.of(context).size.width;
     if (kIsWeb) width = 430;
@@ -46,11 +49,28 @@ class UserAddSearchOverlay extends StatelessWidget {
 
                       },
                     child: const Icon(Icons.chevron_left,
-                        color: Colors.black, size: 28),
+                        color: Color(0xFFD3351E), size: 28),
                   ),
                   const Spacer(),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      final List<Map<String, dynamic>> maps =
+                      controller.addedPlaces.map((place) => place.toMap()).toList();
+                      if (maps.isNotEmpty) {
+                        debugPrint('maps: $maps');
+                        addPageController.userSelectedTours.value = maps;
+                        debugPrint('userSelectedTours: ${addPageController.userSelectedTours}');
+
+                        controller.addedPlaces.clear();
+                        controller.places.clear();
+                        controller.searchController.clear();
+
+                        Get.to(() => FinalLoadingPage());
+                      }
+                      else {
+                        Get.snackbar('안내', '최소 한 개의 장소를 추가해야 합니다');
+                      }
+                    },
                     child: const Text(
                       '완료',
                       style: TextStyle(
@@ -91,7 +111,12 @@ class UserAddSearchOverlay extends StatelessWidget {
                         FocusScope.of(context).unfocus();
                         await controller.searchPlace(
                             controller.searchController.text);
-                        await controller.updateMarkers(context);
+                        if (controller.places.isNotEmpty) {
+                          await controller.updateMarkers(context);
+                        }
+                        else{
+                          Get.snackbar('안내', '검색 결과가 없습니다');
+                        }
                       },
                     ),
                     border: OutlineInputBorder(

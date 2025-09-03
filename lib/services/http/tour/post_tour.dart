@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import '../../dio/authorized_dio.dart';
 
 Future<void> postTour({
@@ -8,6 +10,17 @@ Future<void> postTour({
 }) async {
   final dio = await getAuthorizedDio();
   try {
+    debugPrint('data: ${
+        {
+          'tour_name': tourName,
+          'tour_date': tourDate,
+          'places': {
+            'place_ids': aiTourPlaceIds,
+            'additional_info': [],
+            'custom_places': userTourPlaces
+          }
+        }
+    }');
     await dio.post('http://3.34.44.187:80/tour/', data:
       {
         'tour_name': tourName,
