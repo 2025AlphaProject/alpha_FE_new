@@ -315,10 +315,35 @@ Widget PoseItem(
                 )
                 : Image.network(
                   imgPath,
-                  height: size.height * 0.45,
+                  height: size.height * 0.47,
                   width: double.infinity,
                   alignment: Alignment.topCenter,
                   fit: BoxFit.cover,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) {
+                      return child;
+                    }
+                    return SizedBox(
+                      height: size.height * 0.47,
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                  (loadingProgress.expectedTotalBytes ?? 1)
+                              : null,
+                        ),
+                      ),
+                    );
+                  },
+                  errorBuilder: (context, error, stackTrace) => Container(
+                    width: double.infinity,
+                    color: Colors.grey.shade300,
+                    child: Icon(
+                      Icons.image,
+                      size: size.width * 0.08,
+                      color: Colors.white,
+                    ),
+                  )
                 ),
       ),
 
