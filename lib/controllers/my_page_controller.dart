@@ -13,8 +13,11 @@ import '../services/http/tour/get_snapshot.dart';
 import '../services/http/tour/get_tour.dart';
 import '../services/http/tour/get_image.dart';
 import '../services/http/tour/post_image.dart';
+import '../services/http/user/me.dart';
 
 class MyPageController extends GetxController {
+  RxString username = ''.obs;
+
   RxList<String> userFourCutImage = <String>[].obs;
   RxMap<String, int> fourCutImageWithId = <String, int>{}.obs;
 
@@ -96,5 +99,10 @@ class MyPageController extends GetxController {
   Future<void> deleteAllTour() async {
     await deleteTour(selectedTourId.value);
     await getUserTours();
+  }
+
+  Future<void> fetchUsername() async {
+    final rawData = await userMe();
+    username.value = rawData['username'];
   }
 }
