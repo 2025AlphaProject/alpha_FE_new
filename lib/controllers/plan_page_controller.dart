@@ -26,6 +26,12 @@ class PlanPageController extends GetxController{
   void onInit(){
     super.onInit();
     pageController = PageController(viewportFraction: 0.85);
+
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
     loadTours();
   }
 

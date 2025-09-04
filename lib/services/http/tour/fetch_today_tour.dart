@@ -31,9 +31,9 @@ Future<List<Map<String, dynamic>>> fetchTodayTour() async {
         barrierDismissible: false,
       );
     }
-    throw Exception("fetchTodayTour Error: $e");
+    rethrow;
   }
   catch (e) {
-    rethrow;
+    throw Exception("fetchTodayTour Error: $e");
   }
 }
