@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    // controller.loadTodayTour();
+    controller.loadUserData();
   }
 
 
@@ -58,33 +58,35 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: size.height * 0.08, left: size.width * 0.05),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Center(
-                          child: SvgPicture.asset(
-                            'assets/icons/airport.svg',
-                            height: size.height * 0.2,
+                    child: Obx(
+                      () => Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Center(
+                            child: SvgPicture.asset(
+                              'assets/icons/airport.svg',
+                              height: size.height * 0.2,
+                            ),
                           ),
-                        ),
-                        Obx(() => Text(
-                          '${controller.userName.value} 님,',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: size.width * 0.06,
-                            fontWeight: FontWeight.bold,
+                          Text(
+                            '${controller.userName.value} 님,',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: size.width * 0.06,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        )),
-                        Text(
-                          '여행 준비 되셨나요?',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: size.width * 0.06,
-                            fontWeight: FontWeight.bold,
+                          Text(
+                            '여행 준비 되셨나요?',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: size.width * 0.06,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
 
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ],

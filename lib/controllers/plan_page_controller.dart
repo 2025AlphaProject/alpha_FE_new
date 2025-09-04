@@ -185,6 +185,11 @@ class PlanPageController extends GetxController{
     }
     cards.assignAll(sorted);
     int now = _findClosestDateIndex(cards);
-    pageController.jumpToPage(now);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (pageController.hasClients) {
+        pageController.jumpToPage(now);
+      }
+    });
   }
 }
