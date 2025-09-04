@@ -1,3 +1,4 @@
+import 'package:conever/pages/home_page/components/image_upload_FAB.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -220,39 +221,7 @@ class TodayTripPlaceDetailPage extends StatelessWidget {
           Positioned(
             bottom: size.height * 0.03,
             right: size.width * 0.05,
-            child: FloatingActionButton(
-              shape: const CircleBorder(),
-              backgroundColor: const Color(0xFFFF6C57),
-              onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        ListTile(
-                          leading: const Icon(Icons.photo_library),
-                          title: const Text('사진 업로드'),
-                          onTap: () {
-                            Navigator.pop(context);
-                            pickAndUploadImage(ImageSource.gallery, c.todayTours[selectedIndex].tourId);
-                          },
-                        ),
-                        ListTile(
-                          leading: const Icon(Icons.camera_alt),
-                          title: const Text('촬영 후 업로드'),
-                          onTap: () {
-                            Navigator.pop(context);
-                            pickAndUploadImage(ImageSource.camera, c.todayTours[selectedIndex].tourId);
-                          },
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-              child: const Icon(Icons.add, color: Colors.white),
-            ),
+            child: buildImageUploadFAB(context, selectedIndex)
           ),
     ]
       ),
@@ -346,9 +315,35 @@ Widget PoseItem(
                 )
                 : Image.network(
                   imgPath,
-                  height: size.height * 0.24,
+                  height: size.height * 0.47,
                   width: double.infinity,
+                  alignment: Alignment.topCenter,
                   fit: BoxFit.cover,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) {
+                      return child;
+                    }
+                    return SizedBox(
+                      height: size.height * 0.47,
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                  (loadingProgress.expectedTotalBytes ?? 1)
+                              : null,
+                        ),
+                      ),
+                    );
+                  },
+                  errorBuilder: (context, error, stackTrace) => Container(
+                    width: double.infinity,
+                    color: Colors.grey.shade300,
+                    child: Icon(
+                      Icons.image,
+                      size: size.width * 0.08,
+                      color: Colors.white,
+                    ),
+                  )
                 ),
       ),
 
