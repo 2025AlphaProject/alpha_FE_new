@@ -43,26 +43,11 @@ class UserAddPageController extends GetxController {
     final dio = await getKakaoAuthorizedDio();
     try {
       final response = await dio.get(url, queryParameters: {'query': query});
-      final docs = response.data['documents'] as List<dynamic>;
+      final docs = (response.data['documents'] as List<dynamic>).cast<Map<String, dynamic>>();
 
-      // 서울 주소만 허용하고 '서울' → '서울특별시' 치환
-
-      final seoulDocs = docs.where((doc) {
-        final addr = doc['road_address_name'] ?? '';
-        return addr.startsWith('서울');
-      }).map((e) {
-        final modified = Map<String, dynamic>.from(e);
-        if (modified['road_address_name'] != null &&
-            modified['road_address_name'].toString().startsWith('서울')) {
-          modified['road_address_name'] =
-              modified['road_address_name'].toString().replaceFirst('서울', '서울특별시');
-        }
-        return modified;
-      }).toList();
-
-      places.assignAll(seoulDocs);
+      places.assignAll(docs);
       selectedPlace.value = null;
-      return seoulDocs;
+      return docs;
     } catch (e) {
       logger.e('장소 검색 실패: $e');
       rethrow;
