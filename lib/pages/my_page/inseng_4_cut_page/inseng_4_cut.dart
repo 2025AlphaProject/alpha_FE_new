@@ -18,6 +18,7 @@ class _Inseng4CutState extends State<Inseng4Cut> {
   void initState() {
     super.initState();
     controller.getFourCutImages();
+    controller.fetchUsername();
   }
   @override
   Widget build(BuildContext context) {
@@ -29,11 +30,13 @@ class _Inseng4CutState extends State<Inseng4Cut> {
           Padding(
             padding: const EdgeInsets.only(left: 25.0),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.alphabetic,
               children: [
-                const Text(
-                  '동언님의 아카이브',
+                Obx(() => Text(
+                  '${controller.username.value}님의 아카이브',
                   style: TextStyle(fontWeight: FontWeight.w900, fontSize: 20),
-                ),
+                )),
                 const SizedBox(width: 6),
                 Text(
                   '${controller.userFourCutImage.length}장',

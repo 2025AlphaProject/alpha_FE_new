@@ -19,12 +19,17 @@ Future<List<Map<String, dynamic>>> fetchTodayTour() async {
     if (status != null && status >= 500 && status < 600) {
       Get.dialog(
         AlertDialog(
-          title: const Text('서버 오류'),
-          content: const Text('서버에 오류가 발생했습니다. 잠시 후 다시 시도해주세요.'),
+          backgroundColor: Colors.white,
+          title: const Text('서버 오류', style: TextStyle(fontWeight: FontWeight.bold),),
+          content: const Text('서버에 오류가 발생했습니다.\n잠시 후 다시 시도해주세요.'),
           actions: [
-            TextButton(
-              onPressed: () => Get.back(), // 닫기
-              child: const Text('확인'),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                foregroundColor: Colors.white,
+                backgroundColor: Color(0xFFD3351E),
+              ),
+                onPressed: () => Get.back(),
+                child: Text('확인')
             ),
           ],
         ),

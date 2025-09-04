@@ -186,7 +186,7 @@ class SelectRegionContainer extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.only(left: 20.0),
                               child: SizedBox(
-                                width: 145,
+                                width: 160,
                                 height: 60,
                                 child: DropdownPlaces(),
                               ),

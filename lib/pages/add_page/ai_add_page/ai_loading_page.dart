@@ -40,7 +40,7 @@ class _AiLoadingPageState extends State<AiLoadingPage> {
             Padding(
               padding: const EdgeInsets.only(top: 20.0),
               child: Text(
-                "AI 경로 생성 중...",
+                "AI 여행 생성 중...",
                 style: TextStyle(
                   fontWeight: FontWeight.w900,
                   fontSize: width * 0.076,

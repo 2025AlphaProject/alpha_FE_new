@@ -102,8 +102,23 @@ class EditFunction{
     Get.dialog(
         AlertDialog(
           backgroundColor: Colors.white,
-          title: Text("여행 삭제",style: TextStyle(fontSize: width*0.05,color: Color(0xccD3351E)),),
-          content: Text("'${controller.course['tour_name']}'을 삭제하시겠습니까?",style: TextStyle(fontSize: width*0.04)),
+          title: Text("여행 삭제",style: TextStyle(fontSize: width*0.05,color: Color(0xccD3351E), fontWeight: FontWeight.bold),),
+          content: RichText(
+            text: TextSpan(
+              text: '${controller.course['tour_name']}',
+              style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
+              children: [
+                TextSpan(
+                  text: '을 삭제하시겠습니까?\n',
+                  style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.normal),
+                ),
+                TextSpan(
+                  text: '여행을 삭제하실 경우, 인생네컷도 앨범에서 삭제됩니다!',
+                  style: TextStyle(color: Colors.grey[500], fontSize: 14, fontWeight: FontWeight.normal),
+                )
+              ],
+            ),
+          ),
           actions: [
             TextButton( //취소버튼
                 onPressed: (){Get.back();},

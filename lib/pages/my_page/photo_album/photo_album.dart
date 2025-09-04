@@ -13,7 +13,7 @@ class PhotoAlbum extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.find<MyPageController>();
     final width = MediaQuery.of(context).size.width;
-
+    print(controller.selectedTourName);
     return Obx(() => Padding(
       padding: const EdgeInsets.fromLTRB(29, 63, 28, 0),
       child: controller.groupedUserTour.isEmpty
@@ -76,12 +76,17 @@ class PhotoAlbum extends StatelessWidget {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  Text(
-                                    "${tour['tour_date']} | ${tour['area_info']}",
-                                    style: TextStyle(
-                                      fontSize: width * 0.035,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.grey[500],
+                                  SizedBox(
+                                    width: width * 0.5,
+                                    child: Text(
+                                      "${tour['tour_date']} | ${tour['area_info']}",
+                                      style: TextStyle(
+                                        fontSize: width * 0.035,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey[500],
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
                                 ],
