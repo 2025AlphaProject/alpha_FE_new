@@ -15,7 +15,7 @@ class TripProgressBar extends StatelessWidget {
         ? Get.find<HomePageController>()
         : Get.put<HomePageController>(HomePageController(), permanent: true);
     return Obx(() {
-      double progress = c.todayTours[selectedIndex].placeCnt > 0 ? (c.todayTours[selectedIndex].imageCnt / c.todayTours[selectedIndex].imageCnt) : 0.0;
+      double progress = c.todayTours[selectedIndex].placeCnt > 0 ? (c.todayTours[selectedIndex].imageCnt / c.todayTours[selectedIndex].placeCnt) : 0.0;
       // 진행 값 보정
       double p = progress.isNaN || !progress.isFinite ? 0.0 : progress;
       if (p < 0) p = 0;
