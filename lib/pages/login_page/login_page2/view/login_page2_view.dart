@@ -29,8 +29,8 @@ class LoginPage2View extends StatelessWidget {
                     iconPath: 'assets/images/loading2_${i + 1}.png',
                     text: [
                       'AI 추천 여행 경로 생성',
-                      '여행지 별 사진 미션 진행',
-                      '일정 및 주변행사 모아보기',
+                      '나만의 인생네컷 여행사진',
+                      '일정 및 주변장소 모아보기',
                     ][i],
                     width: width,
                     height: height,
