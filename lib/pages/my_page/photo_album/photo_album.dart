@@ -13,7 +13,6 @@ class PhotoAlbum extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.find<MyPageController>();
     final width = MediaQuery.of(context).size.width;
-    print(controller.selectedTourName);
     return Obx(() => Padding(
       padding: const EdgeInsets.fromLTRB(29, 63, 28, 0),
       child: controller.groupedUserTour.isEmpty
