@@ -11,6 +11,7 @@ class LoginPageController extends GetxController {
   RxInt loginTapCount =0.obs;
   DateTime? lastTapTime;
   String testLoginPW = '224306';
+  RxBool isTesterPrivacyAgreed = false.obs;
 
   @override
   void onInit() {
