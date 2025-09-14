@@ -1,5 +1,8 @@
 import 'dart:io';
 
+import 'package:conever/controllers/my_page_controller.dart';
+import 'package:conever/helper/tour/group_user_tour/regroup_user_tour.dart';
+import 'package:conever/services/http/tour/get_one_tour.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,6 +22,7 @@ import 'components/bottom_navigation_bar/app_shell.dart';
 import 'components/bottom_navigation_bar/navigation_binding.dart';
 import 'init_controllers.dart';
 import 'pages/login_page/login_page_indicator.dart';
+import 'pages/my_page/photo_album/photo_display_loading_page.dart';
 import 'services/access_token/test_access_token.dart';
 import 'services/http/user/fcm.dart';
 
@@ -291,10 +295,15 @@ String? _extractSnapshotId(Uri uri) {
 // ===== 실제 이동부 (Get.to만 사용) =====
 
 // 스냅샷 ID로 진입: AppShell로 넘기고 내부에서 처리하도록 설계
-void _navigateToSnapshotId(String id) {
-  // AppShell에서 Get.arguments를 읽어 탭/상세 이동 처리
-  // 예: if (args?['route']=='snapshot') { final id=args?['id']; ... }
-  Get.to(() => const AppShell(), arguments: {'route': 'snapshot', 'id': id});
+Future<void> _navigateToSnapshotId(String id) async {
+  final controller = Get.find<MyPageController>();
+  final rawData = await getOneTour(id);
+
+  controller.selectedTourId.value = rawData.first['id'];
+  controller.selectedTourArea.value = rawData.first['area_info'];
+  controller.selectedTourName.value = rawData.first['tour_name'];
+  controller.selectedTourDate.value = rawData.first['tour_date'];
+  Get.to(() => PhotoDisplayLoadingPage());
 }
 
 // ID 없이 스냅샷 진입
