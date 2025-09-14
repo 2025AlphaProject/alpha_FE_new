@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../../controllers/login_page_controller.dart';
 import '../../../components/bottom_navigation_bar/app_shell.dart';
+import '../privacy_agree_page/privacy_agreement_page.dart';
 
 class TesterLogin{
   final controller = Get.find<LoginPageController>();
@@ -120,7 +121,19 @@ class TesterLogin{
                                 Get.back();
                                 final success = await controller.loginTester(); //관리자 로그인
                                 if (success) {
-                                  Get.offAll(() => AppShell());
+
+                                  // 테스터 계정 개인정보 동의 여부 확인
+                                  if (!controller.isTesterPrivacyAgreed.value) {
+                                    final result = await Get.to(() => PrivacyAgreementPage());
+                                    if (result) {
+                                      controller.isTesterPrivacyAgreed.value = true;
+                                      Get.offAll(() => AppShell());
+                                    }
+                                  }
+                                  else{
+                                    Get.offAll(() => AppShell());
+                                  }
+
                                 } else {
                                   Get.snackbar('오류 발생', '오류가 발생했습니다!');
                                 }
