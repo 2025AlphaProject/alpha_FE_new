@@ -1,3 +1,4 @@
+import 'package:conever/pages/login_page/privacy_agree_page/privacy_agreement_page.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import '../../../components/bottom_navigation_bar/app_shell.dart';
 import '../../../controllers/login_page_controller.dart';
 import '../../../main.dart';
 import '../../../services/access_token/login_and_get_id_token.dart';
+import '../../../services/access_token/save_access_and_refresh_token.dart';
 import '../../../services/http/user/fcm.dart';
 import '../tester_login/tester_login.dart';
 
@@ -98,8 +100,21 @@ class LoginPage3 extends StatelessWidget {
                           jsKey: controller.kakaoJavaScriptAppKey.value
                       );
                         if (success) {
+                          final agreed = await getPrivacyAgreement();
+
+                          if (!agreed) {
+                            final result = await Get.to(() => const PrivacyAgreementPage());
+                            if (result == true) {
+                              await savePrivacyAgreement(true);
+                              _initMessaging();
+                              Get.offAll(() => const AppShell());
+                            }
+                            return;
+                          }
+
                           _initMessaging();
-                          Get.offAll(() => AppShell());
+                          Get.offAll(() => const AppShell());
+
                         } else {
                           Get.snackbar('오류 발생', '오류가 발생했습니다!');
                         }

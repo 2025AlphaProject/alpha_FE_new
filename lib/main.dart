@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:conever/controllers/my_page_controller.dart';
 import 'package:conever/helper/tour/group_user_tour/regroup_user_tour.dart';
 import 'package:conever/services/http/tour/get_one_tour.dart';
+import 'package:conever/splash_router.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,6 +24,7 @@ import 'components/bottom_navigation_bar/navigation_binding.dart';
 import 'init_controllers.dart';
 import 'pages/login_page/login_page_indicator.dart';
 import 'pages/my_page/photo_album/photo_display_loading_page.dart';
+import 'services/access_token/save_access_and_refresh_token.dart';
 import 'services/access_token/test_access_token.dart';
 import 'services/http/user/fcm.dart';
 
@@ -156,14 +158,21 @@ Future<void> main() async {
   // 컨트롤러 초기화
   initControllers();
 
+  // 개인정보 수집 동의여부 확인
+  final bool privacyAgreement = await getPrivacyAgreement();
+
+  debugPrint('accessTokenValid: $accessTokenValid');
+  debugPrint('privacyAgreement: $privacyAgreement');
+
   // 앱 시작
-  runApp(MyApp(accessTokenValid: accessTokenValid));
+  runApp(MyApp(accessTokenValid: accessTokenValid, privacyAgreement: privacyAgreement));
 }
 
 // ================== 앱 위젯 ==================
 class MyApp extends StatefulWidget {
   final bool accessTokenValid;
-  const MyApp({super.key, required this.accessTokenValid});
+  final bool privacyAgreement;
+  const MyApp({super.key, required this.accessTokenValid, required this.privacyAgreement});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -248,9 +257,7 @@ class _MyAppState extends State<MyApp> {
       initialBinding: NavigationBinding(),
       debugShowCheckedModeBanner: false,
       locale: const Locale('ko', 'KR'),
-      home: widget.accessTokenValid
-          ? const AppShell()
-          : const LoginPageIndicator(),
+      home: SplashRouter(accessTokenValid: widget.accessTokenValid, privacyAgreement: widget.privacyAgreement)
     );
   }
 }

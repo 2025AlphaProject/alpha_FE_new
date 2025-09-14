@@ -12,6 +12,7 @@ Future<void> getAccessTokenFromRefreshToken() async {
         'refresh_token': refreshToken,
       },
     );
+    print('access token: ${response.data['access_token']}');
     saveAccessToken(response.data['access_token']);
     saveRefreshToken(response.data['refresh_token']);
   } catch (e) {

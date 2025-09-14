@@ -15,6 +15,7 @@ Future<void> getAccessAndRefreshToken(OAuthToken token) async {
     );
     await saveAccessToken(response.data['tokens']['access_token']);
     await saveRefreshToken(response.data['tokens']['refresh_token']);
+    await savePrivacyAgreement(response.data['user']['privacy_policy_agree']);
 
   } catch (e) {
     throw Exception("getAccessAndRefreshToken error: $e");

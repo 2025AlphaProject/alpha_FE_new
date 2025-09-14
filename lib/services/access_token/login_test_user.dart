@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:get/get.dart' hide FormData;
+import '../../controllers/login_page_controller.dart';
 import 'save_access_and_refresh_token.dart';
 
 Future<void> loginTestUser() async {
@@ -14,6 +16,10 @@ Future<void> loginTestUser() async {
     await saveAccessToken(response.data['tokens']['access_token']);
     await saveRefreshToken(response.data['tokens']['refresh_token']);
     print('ac:${response.data['tokens']['access_token']}');
+
+    if (response.data['user']['privacy_policy_agree']) {
+      Get.find<LoginPageController>().isTesterPrivacyAgreed.value = true;
+    }
 
   } catch (e) {
     throw Exception("loginTestUser error: $e");
