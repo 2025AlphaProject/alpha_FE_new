@@ -1,3 +1,4 @@
+import 'package:conever/services/access_token/save_access_and_refresh_token.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -127,6 +128,7 @@ class TesterLogin{
                                     final result = await Get.to(() => PrivacyAgreementPage());
                                     if (result) {
                                       controller.isTesterPrivacyAgreed.value = true;
+                                      await savePrivacyAgreement(true);
                                       Get.offAll(() => AppShell());
                                     }
                                   }
