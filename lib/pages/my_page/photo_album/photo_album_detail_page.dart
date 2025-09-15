@@ -33,7 +33,9 @@ class PhotoAlbumDetailPage extends StatelessWidget {
                       fontSize: 20,
                     ),
                   ),
-                  Padding(
+                  controller.selectedTourArea.value == ""
+                      ? SizedBox.shrink()
+                      : Padding(
                     padding: const EdgeInsets.only(top: 10.0),
                     child: Text(
                       controller.selectedTourArea.value,

@@ -7,7 +7,7 @@ import 'package:path_provider/path_provider.dart';
 
 import '../../dio/authorized_dio.dart';
 
-Future<void> postSnapshot(Uint8List pngBytes, int tourId) async {
+Future<bool> postSnapshot(Uint8List pngBytes, int tourId) async {
   final tempDir = await getTemporaryDirectory();
   final filePath = join(tempDir.path, 'upload_${DateTime.now().millisecondsSinceEpoch}.jpg');
 
@@ -21,11 +21,13 @@ Future<void> postSnapshot(Uint8List pngBytes, int tourId) async {
   });
 
   try {
-    await dio.post(
+    final response = await dio.post(
       'http://3.34.44.187:80/tour/snapshot/',
       data: formData,
       options: Options(headers: {'Content-Type': 'multipart/form-data'}),
     );
+
+    return response.statusCode == 201;
   } catch (e) {
     throw Exception('uploadPngToServer Error: $e');
   }

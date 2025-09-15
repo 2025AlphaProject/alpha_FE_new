@@ -42,10 +42,10 @@ class PhotoAlbum extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 20.0),
                 child: GestureDetector(
                   onTap: () {
-                    controller.selectedTourId.value = tour['id'];
-                    controller.selectedTourName.value = tour['tour_name'];
-                    controller.selectedTourDate.value = tour['tour_date'];
-                    controller.selectedTourArea.value = tour['area_info'];
+                    controller.selectedTourId.value = tour['id'] ?? "";
+                    controller.selectedTourName.value = tour['tour_name'] ?? "";
+                    controller.selectedTourDate.value = tour['tour_date'] ?? "";
+                    controller.selectedTourArea.value = tour['area_info'] ?? "";
                     Get.to(() => PhotoDisplayLoadingPage());
                   },
                   child: Row(
@@ -78,7 +78,9 @@ class PhotoAlbum extends StatelessWidget {
                                   SizedBox(
                                     width: width * 0.5,
                                     child: Text(
-                                      "${tour['tour_date']} | ${tour['area_info']}",
+                                      tour['area_info'] == null
+                                          ? "${tour['tour_date']}"
+                                          : "${tour['tour_date']} | ${tour['area_info']}",
                                       style: TextStyle(
                                         fontSize: width * 0.035,
                                         fontWeight: FontWeight.bold,

@@ -75,7 +75,7 @@ class _FourCutFrameState extends State<FourCutFrame> {
             GestureDetector(
               onTap: () async {
                   try {
-                    final ok = await captureSaveAndUpload(
+                    final ok = await captureSave(
                         _captureKey,
                         pixelRatio: 3.0,
                         name: 'fourcut_${DateTime.now().millisecondsSinceEpoch}',
@@ -85,7 +85,7 @@ class _FourCutFrameState extends State<FourCutFrame> {
                     if (!mounted) return;
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text(
-                          ok ? '갤러리와 앨범에 저장됐어요' : '저장에 실패했어요. 다시 시도해주세요',
+                          ok ? '갤러리에 저장됐어요' : '저장에 실패했어요. 다시 시도해주세요',
                           style: TextStyle(
                               color: Colors.black
                           )), backgroundColor: Colors.white,
@@ -117,7 +117,7 @@ class _FourCutFrameState extends State<FourCutFrame> {
                     Padding(
                       padding: const EdgeInsets.only(left: 5.0),
                       child: Text(
-                          '사진 저장하기',
+                          '디바이스에 저장하기',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 15
@@ -132,30 +132,66 @@ class _FourCutFrameState extends State<FourCutFrame> {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 20),
-          child: SizedBox(
-            width: double.infinity,
-            height: 60,
-            child: ElevatedButton(
-              onPressed: () {
-                controller.isSelectingFrame.value = false;
-                controller.selectedPaths.clear();
-                Get.offAll(() => AppShell());
-              },
-              style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.white,
-                backgroundColor: Color(0xFFD3351E),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(
+                width: width * 0.4,
+                height: 60,
+                child: ElevatedButton(
+                  onPressed: () {
+                    controller.isSelectingFrame.value = false;
+                    controller.selectedPaths.clear();
+                    Get.offAll(() => AppShell());
+                  },
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: Colors.grey[500],
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: const Text(
+                      "취소",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
-              child: const Text(
-                  "완료",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+              SizedBox(
+                width: width * 0.45,
+                height: 60,
+                child: ElevatedButton(
+                  onPressed: () async {
+                      await captureUpload(
+                          _captureKey,
+                          pixelRatio: 3.0,
+                          name: 'fourcut_${DateTime.now().millisecondsSinceEpoch}',
+                          tourId: controller.selectedTourId.value
+                      );
+                    controller.isSelectingFrame.value = false;
+                    controller.selectedPaths.clear();
+                    Get.offAll(() => AppShell());
+                  },
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: Color(0xFFD3351E),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: Text(
+                    "아카이브에 저장",
+                    style: TextStyle(
+                      fontSize: width * 0.04,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
-            ),
+            ],
           ),
         ),
       ],

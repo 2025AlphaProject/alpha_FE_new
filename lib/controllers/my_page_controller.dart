@@ -59,7 +59,6 @@ class MyPageController extends GetxController {
   Future<void> getUserTours() async {
     final userTour = await getTour();
     groupedUserTour.value = regroupUserTour(userTour);
-    print("groupedUserTour: $groupedUserTour");
   }
 
   Future<void> getUserDetailTours() async {

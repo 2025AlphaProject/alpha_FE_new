@@ -37,7 +37,7 @@ Future<bool> savePngBytesToGallery(Uint8List pngBytes, {String? name}) async {
   return false;
 }
 
-Future<bool> captureSaveAndUpload(
+Future<bool> captureSave(
     GlobalKey repaintKey, {
       required int tourId,
       double pixelRatio = 3.0,
@@ -49,6 +49,18 @@ Future<bool> captureSaveAndUpload(
   );
 
   final saved = await savePngBytesToGallery(pngBytes, name: name);
-  await postSnapshot(pngBytes, tourId);
   return saved;
+}
+
+Future<bool> captureUpload(GlobalKey repaintKey, {
+  required int tourId,
+  double pixelRatio = 3.0,
+  String? name,
+}) async {
+  final pngBytes = await capturePngFromRepaintBoundary(
+    repaintKey,
+    pixelRatio: pixelRatio,
+  );
+  final response = await postSnapshot(pngBytes, tourId);
+  return response;
 }

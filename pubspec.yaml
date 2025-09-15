@@ -88,8 +88,3 @@ flutter:
     - assets/images/loading2_2.png
     - assets/images/loading2_3.png
     - assets/images/seoul_image.jpg
-
-    - assets/dummy/dummy_image1.png
-    - assets/dummy/dummy_image2.png
-    - assets/dummy/dummy_image3.png
-    - assets/dummy/dummy_image4.png

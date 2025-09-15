@@ -20,7 +20,7 @@ class UserAddPlaceListTile extends StatelessWidget {
     if (kIsWeb) width = 430;
     final titleSize = width * 0.038;
     final subSize = width * 0.034;
-    final iconSize = width * 0.06;
+    final iconSize = width * 0.07;
     final kakaoId = doc['id'].toString();
 
     return Obx(() {
@@ -116,7 +116,7 @@ class UserAddPlaceListTile extends StatelessWidget {
                   alignment: Alignment.center,
                   child: Icon(
                     added ? Icons.check : Icons.add,
-                    size: iconSize * 0.8,
+                    size: iconSize,
                     color: added ? Colors.white : const Color(0xFFD3351E),
                   ),
                 ),
