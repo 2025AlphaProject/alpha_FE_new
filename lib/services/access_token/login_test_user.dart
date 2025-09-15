@@ -19,6 +19,7 @@ Future<void> loginTestUser() async {
 
     if (response.data['user']['privacy_policy_agree']) {
       Get.find<LoginPageController>().isTesterPrivacyAgreed.value = true;
+      await savePrivacyAgreement(true);
     }
 
   } catch (e) {
