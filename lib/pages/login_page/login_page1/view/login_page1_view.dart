@@ -42,7 +42,7 @@ class LoginPage1View extends StatelessWidget {
                             AnimatedOpacity(
                               opacity: currentTextIndex >= 0 ? 1.0 : 0.0,duration: const Duration(milliseconds: 500),
                               child: Text(
-                                "어디로 떠날지가 고민이시나요?",
+                                "어디로 떠날지가 고민이신가요?",
                                 style: TextStyle(fontSize: width * 0.05, fontWeight: FontWeight.bold),
                               ),
                             ),
@@ -50,7 +50,7 @@ class LoginPage1View extends StatelessWidget {
                               opacity: currentTextIndex >= 1 ? 1.0 : 0.0,
                               duration: const Duration(milliseconds: 500),
                               child: Text(
-                                "AI가 추천하는 일정을 확인하고,",
+                                "AI가 추천하는 여행지를 확인하고,",
                                 style: TextStyle(fontSize: width * 0.05, fontWeight: FontWeight.bold),
                               ),
                             ),
