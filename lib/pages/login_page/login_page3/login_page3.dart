@@ -26,108 +26,106 @@ class LoginPage3 extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: width * 0.064),
-            child: Column(
-              children: [
-                SizedBox(height: height * 0.0394),
-                // Centered logo
-                Center(
-                  child: GestureDetector(
-                    onTap: () => TesterLogin().testLoginTap(context),
-                    child: Image.asset(
-                      'assets/icons/icon.png',
-                      width: width * 0.8,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: width * 0.064),
+          child: Column(
+            children: [
+              SizedBox(height: height * 0.03),
+              // Centered logo
+              Center(
+                child: GestureDetector(
+                  onTap: () => TesterLogin().testLoginTap(context),
+                  child: Image.asset(
+                    'assets/icons/icon.png',
+                    width: width * 0.7,
+                  ),
+                ),
+              ),
+              SizedBox(height: height * 0.05),
+              RichText(
+                textAlign: TextAlign.start,
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: '지금,\n',
+                      style: TextStyle(
+                        fontSize: width * 0.12,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.grey.shade600,
+                      ),
                     ),
-                  ),
+                    TextSpan(
+                      text: '커네버',
+                      style: TextStyle(
+                        fontSize: width * 0.12,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.black,
+                      ),
+                    ),
+                    TextSpan(
+                      text: '에서\n',
+                      style: TextStyle(
+                        fontSize: width * 0.12,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.grey.shade600,
+                      ),
+                    ),
+                    TextSpan(
+                      text: '시작',
+                      style: TextStyle(
+                        fontSize: width * 0.12,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.black,
+                      ),
+                    ),
+                    TextSpan(
+                      text: '하기',
+                      style: TextStyle(
+                        fontSize: width * 0.12,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.grey.shade600,
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(height: height * 0.0591),
-                RichText(
-                  textAlign: TextAlign.start,
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: '지금,\n',
-                        style: TextStyle(
-                          fontSize: width * 0.12,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.grey.shade600,
-                        ),
-                      ),
-                      TextSpan(
-                        text: '커네버',
-                        style: TextStyle(
-                          fontSize: width * 0.12,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.black,
-                        ),
-                      ),
-                      TextSpan(
-                        text: '에서\n',
-                        style: TextStyle(
-                          fontSize: width * 0.12,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.grey.shade600,
-                        ),
-                      ),
-                      TextSpan(
-                        text: '시작',
-                        style: TextStyle(
-                          fontSize: width * 0.12,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.black,
-                        ),
-                      ),
-                      TextSpan(
-                        text: '하기',
-                        style: TextStyle(
-                          fontSize: width * 0.12,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.grey.shade600,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: height * 0.1),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(width*0.0533, 0, width*0.0533, height*0.0394),
-                  child: GestureDetector(
-                    onTap: () async {
-                      final success = await KakaoLoginService.login(
-                          nativeKey: controller.kakaoNativeAppKey.value,
-                          jsKey: controller.kakaoJavaScriptAppKey.value
-                      );
-                        if (success) {
-                          final agreed = await getPrivacyAgreement();
+              ),
+              SizedBox(height: height * 0.07),
+              Padding(
+                padding: EdgeInsets.fromLTRB(width*0.0533, 0, width*0.0533, height*0.0394),
+                child: GestureDetector(
+                  onTap: () async {
+                    final success = await KakaoLoginService.login(
+                        nativeKey: controller.kakaoNativeAppKey.value,
+                        jsKey: controller.kakaoJavaScriptAppKey.value
+                    );
+                      if (success) {
+                        final agreed = await getPrivacyAgreement();
 
-                          if (!agreed) {
-                            final result = await Get.to(() => const PrivacyAgreementPage());
-                            if (result == true) {
-                              await savePrivacyAgreement(true);
-                              _initMessaging();
-                              Get.offAll(() => const AppShell());
-                            }
-                            return;
+                        if (!agreed) {
+                          final result = await Get.to(() => const PrivacyAgreementPage());
+                          if (result == true) {
+                            await savePrivacyAgreement(true);
+                            _initMessaging();
+                            Get.offAll(() => const AppShell());
                           }
-
-                          _initMessaging();
-                          Get.offAll(() => const AppShell());
-
-                        } else {
-                          Get.snackbar('오류 발생', '오류가 발생했습니다!');
+                          return;
                         }
-                    },
-                    child: Image.asset(
-                      'assets/buttons/kakao_login_button.png',
-                      width: double.infinity,
-                      fit: BoxFit.contain,
-                    ),
+
+                        _initMessaging();
+                        Get.offAll(() => const AppShell());
+
+                      } else {
+                        Get.snackbar('오류 발생', '오류가 발생했습니다!');
+                      }
+                  },
+                  child: Image.asset(
+                    'assets/buttons/kakao_login_button.png',
+                    width: double.infinity,
+                    fit: BoxFit.contain,
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

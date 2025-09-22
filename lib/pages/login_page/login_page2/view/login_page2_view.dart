@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+
 class LoginPage2View extends StatelessWidget {
   final List<bool> visibleList;
 
@@ -15,31 +16,28 @@ class LoginPage2View extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Column(
-            children: [
-              const SizedBox(height: 60),
-              _buildTitle(),
-              SizedBox(height: height * 0.1),
-              ...List.generate(3, (i) => Column(
-                children: [
-                  _buildAnimatedIconText(
-                    index: i,
-                    iconPath: 'assets/images/loading2_${i + 1}.png',
-                    text: [
-                      'AI 추천 여행 경로 생성',
-                      '나만의 인생네컷 여행사진',
-                      '일정 및 주변장소 모아보기',
-                    ][i],
-                    width: width,
-                    height: height,
-                  ),
-                  SizedBox(height: height * 0.0246),
-                ],
-              )),
-            ],
-          ),
+        child: Column(
+          children: [
+            SizedBox(height: height * 0.06),
+            _buildTitle(),
+            SizedBox(height: height * 0.07),
+            ...List.generate(3, (i) => Column(
+              children: [
+                _buildAnimatedIconText(
+                  index: i,
+                  iconPath: 'assets/images/loading2_${i + 1}.png',
+                  text: [
+                    'AI 추천 여행 경로 생성',
+                    '나만의 인생네컷 여행사진',
+                    '일정 및 주변장소 모아보기',
+                  ][i],
+                  width: width,
+                  height: height,
+                ),
+                SizedBox(height: height * 0.024),
+              ],
+            )),
+          ],
         ),
       ),
     );
