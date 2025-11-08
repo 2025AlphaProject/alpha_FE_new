@@ -3,7 +3,7 @@ import '../../dio/authorized_dio.dart';
 Future<List<dynamic>> getTour() async {
   final dio = await getAuthorizedDio();
   try {
-    final response = await dio.get('http://3.34.44.187:80/tour/');
+    final response = await dio.get('http://13.125.50.220/tour/');
     return response.data;
   } catch (e) {
     throw Exception("getTour Error: $e");

@@ -3,7 +3,7 @@ import '../../dio/unauthorized_dio.dart';
 Future<List<dynamic>> tourGetSidoList() async {
   final dio = await getUnauthorizedDio();
   try {
-    final response = await dio.get('http://3.34.44.187:80/tour/get_sido_list/');
+    final response = await dio.get('http://13.125.50.220/tour/get_sido_list/');
     return response.data;
   } catch (e) {
     throw Exception("getSidoList Error: $e");

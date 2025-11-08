@@ -4,7 +4,7 @@ Future<bool> editTourName(int id, String editedTourName) async {
   try {
     final dio = await getAuthorizedDio();
     final response = await dio.patch(
-        'http://3.34.44.187:80/tour/$id/',
+        'http://13.125.50.220/tour/$id/',
       data: {
           'tour_name': editedTourName,
       }

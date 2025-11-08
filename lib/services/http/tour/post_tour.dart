@@ -21,7 +21,7 @@ Future<void> postTour({
           }
         }
     }');
-    await dio.post('http://3.34.44.187:80/tour/', data:
+    await dio.post('http://13.125.50.220/tour/', data:
       {
         'tour_name': tourName,
         'tour_date': tourDate,

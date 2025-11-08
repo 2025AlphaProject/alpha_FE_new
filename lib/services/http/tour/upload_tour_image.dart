@@ -15,7 +15,7 @@ Future<Map<String, dynamic>> tourImageUpload(String imagePath, int id) async {
 
   try {
     final response = await dio.post(
-      'http://3.34.44.187:80/tour/image/',
+      'http://13.125.50.220/tour/image/',
       data: formData,
     );
     return response.data;

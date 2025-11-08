@@ -4,7 +4,7 @@ Future<void> deleteSnapshot(int tourId) async {
   final dio = await getAuthorizedDio();
   try {
     final response = await dio.delete(
-      'http://3.34.44.187:80/tour/snapshot/$tourId/',
+      'http://13.125.50.220/tour/snapshot/$tourId/',
     );
   } catch (e) {
     throw Exception("deleteSnapshotImage Error: $e");

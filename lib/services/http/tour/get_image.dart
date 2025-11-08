@@ -4,7 +4,7 @@ Future<List<dynamic>> getTourImage(int tourId) async {
   final dio = await getAuthorizedDio();
   try {
     final response = await dio.get(
-        'http://3.34.44.187:80/tour/image/',
+        'http://13.125.50.220/tour/image/',
       queryParameters: {
           'tour': tourId,
       }

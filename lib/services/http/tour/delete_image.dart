@@ -4,7 +4,7 @@ Future<void> deleteTourImage(int tourId) async {
   final dio = await getAuthorizedDio();
   try {
     final response = await dio.delete(
-        'http://3.34.44.187:80/tour/image/$tourId/',
+        'http://13.125.50.220/tour/image/$tourId/',
     );
   } catch (e) {
     throw Exception("deleteTourImage Error: $e");

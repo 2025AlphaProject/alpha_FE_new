@@ -9,7 +9,7 @@ Future<List<Map<String, dynamic>>> fetchTodayTour() async {
 
   try {
     final dio = await getAuthorizedDio();
-    final response = await dio.get('http://3.34.44.187:80/tour/today/');
+    final response = await dio.get('http://13.125.50.220/tour/today/');
 
     final List<dynamic> data = response.data;
     final tours = data.map((e) => e as Map<String, dynamic>).toList();

@@ -20,7 +20,7 @@ class ShowTourCourseWebsocket {
       areaName = '';
     }
     String categoryList = categoryNumber.join(',');
-    final wsUrl = 'ws://3.34.44.187:80/tour/recommend/?user_id=$userId&areaCode=$areaCode&sigunguName=$areaName&unique_code=$uniqueCode&categoryName=$categoryList';
+    final wsUrl = 'ws://13.125.50.220/tour/recommend/?user_id=$userId&areaCode=$areaCode&sigunguName=$areaName&unique_code=$uniqueCode&categoryName=$categoryList';
 
     _channel = WebSocketChannel.connect(Uri.parse(wsUrl));
 

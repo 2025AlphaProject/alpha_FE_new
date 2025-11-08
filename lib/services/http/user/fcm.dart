@@ -4,7 +4,7 @@ Future<void> postFCMToken(fcmToken) async {
   try {
     final dio = await getAuthorizedDio();
     await dio.post(
-        'http://3.34.44.187:80/user/fcm/',
+        'http://13.125.50.220/user/fcm/',
       data: {'fcm_token': fcmToken}
     );
   } catch (e) {
