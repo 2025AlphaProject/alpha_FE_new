@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../components/default_app_bar/default_app_bar.dart';
 import '../../../controllers/my_page_controller.dart';
 import '../create_inseng_4_cut/create_inseng_4_cut_loading.dart';
 import 'photo_display.dart';
@@ -11,13 +12,13 @@ class PhotoAlbumDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<MyPageController>();
+
+    final tourDate = DateTime.parse(controller.selectedTourDate.value);
+    final isPast = DateTime.now().difference(tourDate).inDays > 3;
+
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-      ),
+      appBar: DefaultAppBar(),
         body: Column(
           children: [
             Padding(
@@ -26,16 +27,18 @@ class PhotoAlbumDetailPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                      '8월의 충남 아산 여행',
+                      controller.selectedTourName.value,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
                     ),
                   ),
-                  Padding(
+                  controller.selectedTourArea.value == ""
+                      ? SizedBox.shrink()
+                      : Padding(
                     padding: const EdgeInsets.only(top: 10.0),
                     child: Text(
-                      '충청남도 아산시',
+                      controller.selectedTourArea.value,
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
@@ -44,7 +47,7 @@ class PhotoAlbumDetailPage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '2025년 1월 1일',
+                    controller.selectedTourDate.value,
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
@@ -71,14 +74,14 @@ class PhotoAlbumDetailPage extends StatelessWidget {
                             ),
                             Padding(
                               padding: const EdgeInsets.only(left: 4.0),
-                              child: Text(
-                                '4장',
+                              child: Obx(() => Text(
+                                '${controller.userDetailTourImage.length}장',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 15,
                                     color: Colors.grey[500]
                                 ),
-                              ),
+                              )),
                             ),
                           ],
                         ),
@@ -150,7 +153,53 @@ class PhotoAlbumDetailPage extends StatelessWidget {
           ))
         ),
       )
-      : SizedBox.shrink())
+      : Padding(
+        padding: const EdgeInsets.all(25.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Material(
+              elevation: 5,
+              shape: const CircleBorder(),
+              shadowColor: Colors.grey,
+              child: GestureDetector(
+                onTap: () {
+                  if (isPast) {
+                    Get.dialog(
+                        AlertDialog(
+                          backgroundColor: Colors.white,
+                          title: const Text(
+                            "사진 저장 불가",
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+                          content: const Text(
+                            "사진은 여행 후 3일 까지만\n업로드 가능합니다!",
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+                        )
+                    );
+                  } else {
+                    controller.pickAndUploadImage();
+                  }
+                },
+                child: CircleAvatar(
+                  backgroundColor: isPast ? Color(0xFFDBDBDB) : Color(0xFFFF6C57),
+                  radius: 40,
+                  child: Icon(
+                    Icons.add,
+                    color: Colors.white,
+                    size: 50,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ))
     );
   }
 }

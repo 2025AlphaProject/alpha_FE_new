@@ -7,11 +7,12 @@ Future<void> getAccessTokenFromRefreshToken() async {
   try {
     final dio = await getUnauthorizedDio();
     final response = await dio.post(
-      'http://3.34.125.36:80/auth/refresh/',
+      'http://13.125.50.220/auth/refresh/',
       data: {
         'refresh_token': refreshToken,
       },
     );
+    print('access token: ${response.data['access_token']}');
     saveAccessToken(response.data['access_token']);
     saveRefreshToken(response.data['refresh_token']);
   } catch (e) {

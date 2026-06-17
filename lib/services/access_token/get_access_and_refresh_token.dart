@@ -9,12 +9,13 @@ Future<void> getAccessAndRefreshToken(OAuthToken token) async {
     final formData = FormData.fromMap({'id_token': token.idToken});
 
     final response = await dio.post(
-      'http://3.34.125.36:80/auth/login/',
+      'http://13.125.50.220/auth/login/',
       data: formData,
       options: Options(headers: {'Accept': 'application/json'}),
     );
     await saveAccessToken(response.data['tokens']['access_token']);
     await saveRefreshToken(response.data['tokens']['refresh_token']);
+    await savePrivacyAgreement(response.data['user']['privacy_policy_agree']);
 
   } catch (e) {
     throw Exception("getAccessAndRefreshToken error: $e");

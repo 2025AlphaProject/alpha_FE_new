@@ -8,15 +8,19 @@ class ShowTourCourseWebsocket {
   StreamSubscription? _subscription;
 
   void connect({
-    required int userId,
+    required String userId,
+    required String areaCode,
     required String areaName,
-    required int days,
+    required List<String> categoryNumber,
     required Function(dynamic data) onData,
     required Function onError,
   }) {
     final uniqueCode = Random().nextInt(1 << 31);
-    final wsUrl =
-        'ws://3.34.125.36:80/tour/recommend/?user_id=$userId&areaCode=1&sigunguName=$areaName&unique_code=$uniqueCode&days=$days';
+    if (areaName == '선택 X') {
+      areaName = '';
+    }
+    String categoryList = categoryNumber.join(',');
+    final wsUrl = 'ws://13.125.50.220/tour/recommend/?user_id=$userId&areaCode=$areaCode&sigunguName=$areaName&unique_code=$uniqueCode&categoryName=$categoryList';
 
     _channel = WebSocketChannel.connect(Uri.parse(wsUrl));
 

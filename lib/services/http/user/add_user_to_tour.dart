@@ -1,13 +1,13 @@
 import '../../dio/authorized_dio.dart';
 
 Future<bool> addUserToTour({
-  required String sub,
+  required int sub,
   required int tourId,
 }) async {
   try {
     final dio = await getAuthorizedDio();
     final response = await dio.post(
-      'http://3.34.125.36:80/tour/add_traveler/',
+      'http://13.125.50.220/tour/add_traveler/',
       data: {
         'add_traveler_sub': sub,
         'travel_id': tourId,

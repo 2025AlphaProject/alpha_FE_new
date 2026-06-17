@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import '../../dio/authorized_dio.dart';
 
 class RecommendPlaceService {
-  static const _baseUrl = 'http://3.34.125.36:80';
+  static const _baseUrl = 'http://13.125.50.220';
 
   static Future<int?> fetchUserId() async {
     final dio = await getAuthorizedDio();

@@ -29,179 +29,189 @@ class SelectRegionContainer extends StatelessWidget {
               )
             ]
         ),
-        child: ExpandablePanel(
-          theme: ExpandableThemeData(
-            hasIcon: false,
-            tapBodyToExpand: false,
-            tapBodyToCollapse: false,
-            headerAlignment: ExpandablePanelHeaderAlignment.center,
-          ),
-          header: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      '지역 · 카테고리',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 23,
-                      ),
-                    ),
-                    Icon(
-                      Icons.map_outlined,
-                      size: 30,
-                    ),
-                  ],
-                ),
-                Obx(() =>
-                    Row(
-                      children: [
-                            Text(
-                            controller.selectedBigPlace.value,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12,
-                              color: Colors.grey
-                          ),
-                        ),
-                            Text(
-                            " · ${controller.selectedSmallPlace.value}",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12,
-                              color: Colors.grey
-                          ),
-                        ),
-                        controller.selectedCategory.isNotEmpty
-                            ? Expanded(
-                              child: Row(
-                                children: [
-                                  Text(
-                                      ' · ',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 12,
-                                        color: Colors.grey
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: RichText(
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                      text: TextSpan(
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 12,
-                                            color: Colors.grey
-                                        ),
-                                        children: _buildCategoryList(controller.selectedCategory),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ) : SizedBox.shrink(),
-                      ],
-                    ),
-                )
-              ],
+        child: Material(
+          color: Colors.transparent,
+          borderRadius: BorderRadius.circular(20), // BoxDecoration의 Radius와 맞출 것
+          clipBehavior: Clip.antiAlias,
+          child: ExpandablePanel(
+            theme: ExpandableThemeData(
+              hasIcon: false,
+              tapBodyToExpand: false,
+              tapBodyToCollapse: false,
+              headerAlignment: ExpandablePanelHeaderAlignment.center,
             ),
-          ),
-          expanded: Padding(
-            padding: const EdgeInsets.only(bottom: 16.0),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 22.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+            header: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: Text(
-                            '지역',
-                          style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                          ),
+                      Text(
+                        '지역 · 카테고리',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 23,
                         ),
                       ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              Get.bottomSheet(
-                                RegionBottomSheet(),
-                                isScrollControlled: true,
-                                backgroundColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                                ),
-                              );
-                              },
-                            child: Container(
-                              width: 87,
-                              height: 55,
-                              decoration: BoxDecoration(
-                                color: Color(0xFFE3E3E3),
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(
-                                  color: Color(0xFFD9D9D9),
-                                  width: 2,
-                                )
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Obx(() =>
-                                      Text(
-                                        controller.selectedBigPlace.value,
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                        ),
-                                      )
-                                  ),
-                                  Icon(
-                                      Icons.edit_outlined,
-                                    size: 16,
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 20.0),
-                            child: SizedBox(
-                              width: 145,
-                              height: 60,
-                              child: DropdownPlaces(),
-                            ),
-                          ),
-                        ],
+                      Icon(
+                        Icons.map_outlined,
+                        size: 30,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Text(
-                          '카테고리',
-                          style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      CategoryButton(),
                     ],
                   ),
-                ),
-              ],
+                  Obx(() =>
+                      Row(
+                        children: [
+                              Text(
+                              controller.selectedBigPlace.value,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12,
+                                color: Colors.grey
+                            ),
+                          ),
+                              Text(
+                              " · ${controller.selectedSmallPlace.value}",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12,
+                                color: Colors.grey
+                            ),
+                          ),
+                          controller.selectedCategory.isNotEmpty
+                              ? Expanded(
+                                child: Row(
+                                  children: [
+                                    Text(
+                                        ' · ',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 12,
+                                          color: Colors.grey
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: RichText(
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                        text: TextSpan(
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 12,
+                                              color: Colors.grey
+                                          ),
+                                          children: _buildCategoryList(controller.selectedCategory),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ) : SizedBox.shrink(),
+                        ],
+                      ),
+                  )
+                ],
+              ),
             ),
+            expanded: Padding(
+              padding: const EdgeInsets.only(bottom: 16.0),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 22.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: Text(
+                              '지역',
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Get.bottomSheet(
+                                  RegionBottomSheet(),
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                                  ),
+                                );
+                                },
+                              child: Container(
+                                constraints: BoxConstraints(
+                                  minWidth: 87,
+                                ),
+                                height: 55,
+                                decoration: BoxDecoration(
+                                  color: Color(0xFFE3E3E3),
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(
+                                    color: Color(0xFFD9D9D9),
+                                    width: 2,
+                                  )
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Obx(() =>
+                                          Text(
+                                            controller.selectedBigPlace.value,
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                            ),
+                                          )
+                                      ),
+                                      Icon(
+                                          Icons.edit_outlined,
+                                        size: 16,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 20.0),
+                              child: SizedBox(
+                                width: 160,
+                                height: 60,
+                                child: DropdownPlaces(),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Text(
+                            '카테고리',
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        CategoryButton(),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            collapsed: SizedBox.shrink(),
           ),
-          collapsed: SizedBox.shrink(),
         ),
       ),
     );

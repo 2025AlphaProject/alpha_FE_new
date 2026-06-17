@@ -13,7 +13,7 @@ class RecommendPlaceRepository {
     final uniqueCode = Random().nextInt(1 << 31);
 
     final uri =
-        'ws://3.34.125.36:80/tour/recommend/?user_id=$userId&areaCode=1&sigunguName=$randomDistrict&unique_code=$uniqueCode&days=1';
+        'ws://13.125.50.220/tour/recommend/?user_id=$userId&areaCode=1&sigunguName=$randomDistrict&unique_code=$uniqueCode&days=1';
 
     final channel = WebSocketManager.connect(uri);
     return (channel, userId, randomDistrict);

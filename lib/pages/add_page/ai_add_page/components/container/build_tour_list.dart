@@ -82,7 +82,7 @@ class _BuildTourListState extends State<BuildTourList> {
                               width: double.infinity,
                               height: 180,
                               color: Colors.grey[300],
-                              child: const Icon(Icons.broken_image, size: 50),
+                              child: Center(child: const Text('제공된 이미지가 없습니다')),
                             ),
                           ),
                         ),

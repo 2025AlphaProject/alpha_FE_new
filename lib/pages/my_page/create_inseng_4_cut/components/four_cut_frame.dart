@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../components/bottom_navigation_bar/app_shell.dart';
+import '../../../../controllers/my_page_controller.dart';
 import 'save_four_cut_as_image.dart';
 
 class FourCutFrame extends StatefulWidget {
-  final List<String> imagePaths; // 길이 4
+  final List<String> imagePaths;
 
   const FourCutFrame({super.key, required this.imagePaths});
 
@@ -18,6 +19,7 @@ class _FourCutFrameState extends State<FourCutFrame> {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<MyPageController>();
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
@@ -48,7 +50,7 @@ class _FourCutFrameState extends State<FourCutFrame> {
                         childAspectRatio: 3 / 4,
                         children: List.generate(4, (i) {
                           return ClipRRect(
-                            child: Image.asset(
+                            child: Image.network(
                               widget.imagePaths[i],
                               fit: BoxFit.cover,
                             ),
@@ -73,10 +75,11 @@ class _FourCutFrameState extends State<FourCutFrame> {
             GestureDetector(
               onTap: () async {
                   try {
-                    final ok = await captureAndSave(
+                    final ok = await captureSave(
                         _captureKey,
                         pixelRatio: 3.0,
-                        name: 'fourcut_${DateTime.now().millisecondsSinceEpoch}'
+                        name: 'fourcut_${DateTime.now().millisecondsSinceEpoch}',
+                        tourId: controller.selectedTourId.value
                     );
 
                     if (!mounted) return;
@@ -114,7 +117,7 @@ class _FourCutFrameState extends State<FourCutFrame> {
                     Padding(
                       padding: const EdgeInsets.only(left: 5.0),
                       child: Text(
-                          '사진 저장하기',
+                          '디바이스에 저장하기',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 15
@@ -129,28 +132,66 @@ class _FourCutFrameState extends State<FourCutFrame> {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 20),
-          child: SizedBox(
-            width: double.infinity,
-            height: 60,
-            child: ElevatedButton(
-              onPressed: () {
-                Get.offAll(() => AppShell());
-              },
-              style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.white,
-                backgroundColor: Color(0xFFD3351E),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(
+                width: width * 0.4,
+                height: 60,
+                child: ElevatedButton(
+                  onPressed: () {
+                    controller.isSelectingFrame.value = false;
+                    controller.selectedPaths.clear();
+                    Get.offAll(() => AppShell());
+                  },
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: Colors.grey[500],
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: const Text(
+                      "취소",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
-              child: const Text(
-                  "완료",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+              SizedBox(
+                width: width * 0.45,
+                height: 60,
+                child: ElevatedButton(
+                  onPressed: () async {
+                      await captureUpload(
+                          _captureKey,
+                          pixelRatio: 3.0,
+                          name: 'fourcut_${DateTime.now().millisecondsSinceEpoch}',
+                          tourId: controller.selectedTourId.value
+                      );
+                    controller.isSelectingFrame.value = false;
+                    controller.selectedPaths.clear();
+                    Get.offAll(() => AppShell());
+                  },
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: Color(0xFFD3351E),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: Text(
+                    "아카이브에 저장",
+                    style: TextStyle(
+                      fontSize: width * 0.04,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
-            ),
+            ],
           ),
         ),
       ],

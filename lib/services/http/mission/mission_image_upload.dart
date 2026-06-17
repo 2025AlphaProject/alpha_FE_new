@@ -12,7 +12,7 @@ Future<Response> missionImageUpload(String imagePath, int tdpId) async {
 
   try {
     final response = await dio.post(
-      'http://3.34.125.36:80/mission/image_upload/',
+      'http://13.125.50.220/mission/image_upload/',
       data: formData,
     );
     return response;

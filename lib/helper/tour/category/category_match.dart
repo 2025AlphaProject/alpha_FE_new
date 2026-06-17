@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 final Map<String, String> categoryNames = {
   "12": "관광지",
   "14": "문화시설",
-  "15": "축제공연행사",
+  "15": "축제/공연/행사",
   "28": "레포츠",
   "32": "숙박",
   "38": "쇼핑",
@@ -11,7 +11,12 @@ final Map<String, String> categoryNames = {
 };
 
 String getCategoryName(String id) {
-  return categoryNames[id] ?? "알 수 없는 카테고리";
+  return categoryNames[id] ?? "미분류";
+}
+
+String getCategoryId(String name) {
+  return categoryNames.entries
+      .firstWhere((entry) => entry.value == name, orElse: () => const MapEntry("", "")).key;
 }
 
 final Map<String, IconData> categoryIcons = {
